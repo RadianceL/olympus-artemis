@@ -1,0 +1,32 @@
+{
+  "groups": [
+    {
+      "name": "spring.el-util",
+      "type": "com.el.utils.auto.configuration.ElApplicationConfiguration",
+      "sourceType": "com.el.utils.auto.configuration.ElApplicationConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.el-util.enable-auto-config",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.el.utils.auto.configuration.ElApplicationConfiguration",
+      "defaultValue": false
+    }
+  ],
+  "hints": [
+    {
+      "name": "spring.el-util.enable-auto-config",
+      "values": [
+        {
+          "value": "true",
+          "description": "开启."
+        },
+        {
+          "value": false,
+          "description": "关闭."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+spring:
+  el-util:
+    enable-auto-config: true
