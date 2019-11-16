@@ -21,14 +21,12 @@
 
     <distributionManagement>
         <repository>
-            <id>releases</id>
-            <name>Releases</name>
-            <url>http://47.96.29.8:8081/repository/maven-releases/</url>
+            <id>rdc-releases</id>
+            <url>https://repo.rdc.aliyun.com/repository/106172-release-7FQRMe/</url>
         </repository>
         <snapshotRepository>
-            <id>snapshots</id>
-            <name>Snapshot</name>
-            <url>http://47.96.29.8:8081/repository/maven-snapshots/</url>
+            <id>rdc-snapshots</id>
+            <url>https://repo.rdc.aliyun.com/repository/106172-snapshot-Ty5suM/</url>
         </snapshotRepository>
     </distributionManagement>
 
