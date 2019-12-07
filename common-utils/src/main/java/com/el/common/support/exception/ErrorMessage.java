@@ -52,18 +52,8 @@ public class ErrorMessage {
      */
     private String errorMessage;
 
-    /**
-     * 自适配错误码 （为将来其他服务配置多语言预留）
-     */
-    private String readableErrorCode;
-
-    public ErrorMessage(String errorCode, String errorMessage) {
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-    }
-
     public static ErrorMessage of(String errorCode, Object... args){
-        String message = getMessage(errorCode, Local.CHINA, args);
+        String message = getMessage(errorCode, Local.CN, args);
         return new ErrorMessage(errorCode, message);
     }
 
@@ -73,8 +63,8 @@ public class ErrorMessage {
     }
 
     private static String getMessage(String errorCode, Local local, Object... args){
-        if (Local.CHINA.equals(local)){
-            Map<String, String> defaultProperties = PROPERTIES.get(Local.CHINA.getLocalName());
+        if (Local.CN.equals(local)){
+            Map<String, String> defaultProperties = PROPERTIES.get(Local.CN.getLocalName());
             String messagePattern = defaultProperties.get(errorCode);
             if (StringUtils.isNotBlank(messagePattern)){
                 return MessageFormatter.format(messagePattern, args).getMessage();
@@ -89,11 +79,6 @@ public class ErrorMessage {
         }else {
             return Constant.EMPTY_STRING;
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(ErrorMessage.of("P-000-000-0001", "123"));
-        System.out.println(ErrorMessage.of("P-000-000-0001", Local.UK, "123"));
     }
 
 }

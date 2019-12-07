@@ -21,15 +21,19 @@ public enum  Local {
     /**
      * 中国
      */
-    CHINA(100L, "CHINA", Local.AREA_TYPE_COUNTRY),
+    CN(100L, "CN", Local.AREA_TYPE_COUNTRY),
+    /**
+     * 俄罗斯
+     */
+    RU(101L, "RU", Local.AREA_TYPE_COUNTRY),
     /**
      * 美国
      */
-    US(101L, "US", Local.AREA_TYPE_COUNTRY),
+    US(102L, "US", Local.AREA_TYPE_COUNTRY),
     /**
      * 英国
      */
-    UK(102L, "UK", Local.AREA_TYPE_COUNTRY);
+    UK(103L, "UK", Local.AREA_TYPE_COUNTRY);
 
     /**
      * 地区类型 国家
@@ -69,7 +73,7 @@ public enum  Local {
         for (Local e : values()){
             String fileNameUpperCase = fileName.toUpperCase();
             if (fileNameUpperCase.contains(DEFAULT_LOCAL_NAME)){
-                return Local.CHINA.getLocalName();
+                return Local.CN.getLocalName();
             }
             if (fileNameUpperCase.contains(e.getLocalName())){
                 return e.getLocalName();
