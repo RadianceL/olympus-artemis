@@ -1,6 +1,9 @@
 package com.el.common.io.local;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 文件读取工具类
@@ -56,6 +59,34 @@ public class FileUtil {
                 }
                 return bos.toByteArray();
             }
+        }
+    }
+
+    public static List<String> getFiles(String path){
+        List<String> files = new ArrayList<>();
+        getFiles(files, path);
+        return files;
+    }
+
+    private static void getFiles(List<String> fileList, String path){
+        try {
+            File file = new File(path);
+            if(file.isDirectory()){
+                File[] files = file.listFiles();
+                if (Objects.isNull(files)){
+                    return;
+                }
+                for(File fileIndex : files){
+                    //如果这个文件是目录，则进行递归搜索
+                    if(fileIndex.isDirectory()){
+                        getFiles(fileList,fileIndex.getPath());
+                    }else {
+                        //如果文件是普通文件，则将文件句柄放入集合中
+                        fileList.add(fileIndex.getName());
+                    }
+                }
+            }
+        }catch (Exception ignored){
         }
     }
 }
