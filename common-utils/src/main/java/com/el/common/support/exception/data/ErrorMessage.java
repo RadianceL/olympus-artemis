@@ -1,4 +1,4 @@
-package com.el.common.support.exception;
+package com.el.common.support.exception.data;
 
 import com.el.common.io.local.FileUtil;
 import com.el.common.io.local.PropertiesReadUtil;
@@ -28,6 +28,8 @@ import java.util.Objects;
 public class ErrorMessage {
 
     private static final Map<String, Map<String,String>> PROPERTIES;
+
+    public static final ErrorMessage EMPTY_ERROR_MESSAGE = new ErrorMessage("ZERO", "EMPTY_ERROR_MESSAGE");
 
     static {
         PROPERTIES = new HashMap<>();
