@@ -1,4 +1,4 @@
-package com.el.common.support;
+package com.el.common.support.bean;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;

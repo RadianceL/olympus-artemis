@@ -1,4 +1,4 @@
-package com.el.common.support;
+package com.el.common.encryption;
 
 import javax.crypto.Cipher;
 import javax.crypto.Mac;

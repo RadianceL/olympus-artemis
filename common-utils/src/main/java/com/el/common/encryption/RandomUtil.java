@@ -1,4 +1,4 @@
-package com.el.common.support;
+package com.el.common.encryption;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
