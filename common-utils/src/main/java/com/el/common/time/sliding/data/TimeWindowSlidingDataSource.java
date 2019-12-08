@@ -2,7 +2,6 @@ package com.el.common.time.sliding.data;
 
 import com.el.common.time.sliding.exception.TimeWindowSlidingDataSourceException;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
