@@ -28,7 +28,7 @@ public class TimeWindowSliding {
     /** 最小每个时间片的时长，以毫秒为单位 */
     private static final int MIN_TIME_MILLIS_PER_SLICE = 50;
 
-    /** 123 */
+    /** 最小窗口数量 */
     private static final int DEFAULT_WINDOW_SIZE = 5;
 
     private TimeWindowSlidingDataSource timeWindowSlidingDataSource;
