@@ -35,9 +35,10 @@ public interface TimeWindowSlidingDataSource {
      * 将fromIndex~toIndex之间的时间片计数清零
      * @param fromIndex     起始索引
      * @param toIndex       结束索引
+     * @param totalLength   窗口数量
      * @throws TimeWindowSlidingDataSourceException     时间分片数据源操作异常
      */
-    void clearBetween(int fromIndex, int toIndex) throws TimeWindowSlidingDataSourceException;
+    void clearBetween(int fromIndex, int toIndex, int totalLength) throws TimeWindowSlidingDataSourceException;
 
     /**
      * 将index时间片计数清零
@@ -81,9 +82,16 @@ public interface TimeWindowSlidingDataSource {
             }
 
             @Override
-            public void clearBetween(int fromIndex, int toIndex) throws TimeWindowSlidingDataSourceException {
+            public void clearBetween(int fromIndex, int toIndex, int totalLength) throws TimeWindowSlidingDataSourceException {
+                if (fromIndex >= toIndex){
+                    toIndex += totalLength;
+                }
+                System.out.println("from - " + fromIndex + " - to - " + toIndex);
                 while (fromIndex <= toIndex) {
-                    timeWindowSlidingMap.get(String.valueOf(fromIndex)).clear();
+                    Map<String, Integer> timeWindowSlidingScopeMap = timeWindowSlidingMap.get(String.valueOf(fromIndex));
+                    if (!Objects.isNull(timeWindowSlidingScopeMap) && timeWindowSlidingScopeMap.size() > 0){
+                        timeWindowSlidingScopeMap.clear();
+                    }
                     fromIndex++;
                 }
             }
