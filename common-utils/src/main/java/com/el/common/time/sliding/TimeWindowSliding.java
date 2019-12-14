@@ -31,6 +31,7 @@ public class TimeWindowSliding {
     /** 最小窗口数量 */
     private static final int DEFAULT_WINDOW_SIZE = 5;
 
+    /** 数据存储 */
     private TimeWindowSlidingDataSource timeWindowSlidingDataSource;
 
     public TimeWindowSliding(TimeWindowSlidingDataSource timeWindowSlidingDataSource, int windowSize, int timeMillisPerSlice, int threshold){
@@ -54,12 +55,12 @@ public class TimeWindowSliding {
 
     public static void main(String[] args) {
         //0.2秒一个时间片，窗口共5个
-        TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 10,200,  1);
+        TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 10,200,  5);
         for (int i = 0; i < 1000; i++) {
             int allow = window.allowNotLimit("a1");
             System.out.println(allow);
             try {
-                Thread.sleep(90);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
