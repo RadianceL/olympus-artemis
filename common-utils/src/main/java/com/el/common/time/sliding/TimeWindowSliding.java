@@ -25,6 +25,8 @@ public class TimeWindowSliding {
     /** 在一个完整窗口期内允许通过的最大阈值 */
     private int threshold;
 
+    private int windowSize;
+
     /** 最小每个时间片的时长，以毫秒为单位 */
     private static final int MIN_TIME_MILLIS_PER_SLICE = 50;
 
@@ -38,10 +40,8 @@ public class TimeWindowSliding {
         this.timeWindowSlidingDataSource = timeWindowSlidingDataSource;
         this.timeMillisPerSlice = timeMillisPerSlice;
         this.threshold = threshold;
-        if (windowSize < DEFAULT_WINDOW_SIZE) {
-            windowSize = DEFAULT_WINDOW_SIZE;
-        }
-        this.timeSliceSize = windowSize * 2 + 1;
+        this.windowSize = Math.max(windowSize, DEFAULT_WINDOW_SIZE);
+        this.timeSliceSize = this.windowSize * 2 + 1;
         timeWindowSlidingDataSource.initTimeSlices();
         this.verifier();
     }
@@ -57,7 +57,7 @@ public class TimeWindowSliding {
         //0.2秒一个时间片，窗口共5个
         TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 10,200,  5);
         for (int i = 0; i < 1000; i++) {
-            int allow = window.allowNotLimit("a1");
+            int allow = window.allowNotLimitPerMin("a1");
             System.out.println(allow);
             try {
                 Thread.sleep(10);
@@ -95,6 +95,34 @@ public class TimeWindowSliding {
     /**
      * 返回每秒登陆次数
      */
+    public int allowNotLimitPerMin(String key) {
+        int index = locationIndex();
+        int sum = 0;
+        int nextIndex = index + 1;
+        this.timeWindowSlidingDataSource.clearSingle(nextIndex);
+        int from = index;
+        int to = index;
+        if (index < windowSize) {
+            from += windowSize + 1;
+            to += 2 * windowSize;
+        }else {
+            from = index - windowSize + 1;
+        }
+        while (from <= to){
+            int targetIndex = from;
+            if (from >= timeSliceSize) {
+                targetIndex = from - 2 * windowSize;
+            }
+            sum += timeWindowSlidingDataSource.getAllocAdoptRecordTimes(targetIndex, key);
+            from ++;
+        }
+        this.timeWindowSlidingDataSource.allocAdoptRecord(index, key);
+        return (sum + 1) / windowSize;
+    }
+
+    /**
+     * 返回每秒登陆次数
+     */
     public int allowNotLimit(String key) {
         int index = locationIndex();
         int sum = 0;
@@ -110,6 +138,7 @@ public class TimeWindowSliding {
         this.timeWindowSlidingDataSource.allocAdoptRecord(index, key);
         return sum + 1;
     }
+
 
     /**
      * <p>将fromIndex~toIndex之间的时间片计数都清零

@@ -86,7 +86,6 @@ public interface TimeWindowSlidingDataSource {
                 if (fromIndex >= toIndex){
                     toIndex += totalLength;
                 }
-                System.out.println("from - " + fromIndex + " - to - " + toIndex);
                 while (fromIndex <= toIndex) {
                     Map<String, Integer> timeWindowSlidingScopeMap = timeWindowSlidingMap.get(String.valueOf(fromIndex));
                     if (!Objects.isNull(timeWindowSlidingScopeMap) && timeWindowSlidingScopeMap.size() > 0){
@@ -98,7 +97,10 @@ public interface TimeWindowSlidingDataSource {
 
             @Override
             public void clearSingle(int index) throws TimeWindowSlidingDataSourceException {
-                timeWindowSlidingMap.get(String.valueOf(index)).clear();
+                Map<String, Integer> timeWindowSlidingScopeMap = timeWindowSlidingMap.get(String.valueOf(index));
+                if (!Objects.isNull(timeWindowSlidingScopeMap) && timeWindowSlidingScopeMap.size() > 0){
+                    timeWindowSlidingScopeMap.clear();
+                }
             }
         };
     }
