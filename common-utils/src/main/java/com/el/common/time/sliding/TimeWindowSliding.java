@@ -40,9 +40,13 @@ public class TimeWindowSliding {
         this.timeWindowSlidingDataSource = timeWindowSlidingDataSource;
         this.timeMillisPerSlice = timeMillisPerSlice;
         this.threshold = threshold;
+        /* 低于一定窗口个数会丢失精准度 */
         this.windowSize = Math.max(windowSize, DEFAULT_WINDOW_SIZE);
+        /* 保证每个时间窗至少有2个窗口存储 不会重叠 */
         this.timeSliceSize = this.windowSize * 2 + 1;
+        /* 可以忽略这个操作 数据存储结构中定义的生命周期函数 如果接口有实现会调用 没有实现走默认实现直接return */
         timeWindowSlidingDataSource.initTimeSlices();
+        /* 初始化参数校验 */
         this.verifier();
     }
 
@@ -93,15 +97,14 @@ public class TimeWindowSliding {
     }
 
     /**
-     * 返回每秒登陆次数
+     * 返回平均每秒访问次数
      */
     public int allowNotLimitPerMin(String key) {
         int index = locationIndex();
         int sum = 0;
         int nextIndex = index + 1;
         this.timeWindowSlidingDataSource.clearSingle(nextIndex);
-        int from = index;
-        int to = index;
+        int from = index, to  = index;
         if (index < windowSize) {
             from += windowSize + 1;
             to += 2 * windowSize;
@@ -121,7 +124,7 @@ public class TimeWindowSliding {
     }
 
     /**
-     * 返回每秒登陆次数
+     * 返回每秒访问次数
      */
     public int allowNotLimit(String key) {
         int index = locationIndex();
@@ -143,11 +146,6 @@ public class TimeWindowSliding {
     /**
      * <p>将fromIndex~toIndex之间的时间片计数都清零
      * <p>极端情况下，当循环队列已经走了超过1个timeSliceSize以上，这里的清零并不能如期望的进行
-     *
-     * @param fromIndex
-     *         不包含
-     * @param toIndex
-     *         不包含
      */
     private void clearBetween(int fromIndex, int toIndex) {
         this.timeWindowSlidingDataSource.clearBetween(fromIndex, toIndex, timeSliceSize);
