@@ -54,6 +54,16 @@ public class ErrorMessage {
      */
     private String errorMessage;
 
+    /**
+     * 不建议这么使用
+     * @param errorCode
+     * @param errorMessage
+     * @return
+     */
+    public static ErrorMessage of(String errorCode, String errorMessage) {
+        return new ErrorMessage(errorCode, errorMessage);
+    }
+
     public static ErrorMessage of(String errorCode, Object... args){
         String message = getMessage(errorCode, Local.CN, args);
         return new ErrorMessage(errorCode, message);
