@@ -1,7 +1,7 @@
 package com.el.common.thread.model.action;
 
 /**
- * 无返回值的工作
+ * 无返回值的任务
  * 2019-01-18
  *
  * @author eddielee

@@ -36,11 +36,6 @@ public class ExecutorPool<T, V> implements LifeCycle {
     private static final int FACTOR = 5;
 
     /**
-     * 线程池名字
-     */
-    private volatile transient String threadName;
-
-    /**
      * 私有构造函数
      * @param threadTotal   核心线程数
      * @param poolName      线程池名称
@@ -51,19 +46,13 @@ public class ExecutorPool<T, V> implements LifeCycle {
         this.service = new ThreadPoolExecutor(threadTotal, availableProcessors * FACTOR, 5L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingDeque<>(256), factory, new ThreadPoolExecutor.AbortPolicy());
         //初始化信号量
-        this.setThreadName(poolName);
         this.semaphore = new Semaphore(threadTotal);
     }
 
     /**
-     *
-     * @param action    lambda表达式，要做的工作
-     */
-    /**
      * 执行工作
-     * @param action
-     * @param source
-     * @return
+     * @param action    lambda表达式 -> 任务
+     * @param source    任务内容
      */
     public void executeWork(WorkAction<T> action, T source) {
         try {
@@ -102,7 +91,7 @@ public class ExecutorPool<T, V> implements LifeCycle {
     }
 
     /**
-     * 关闭一个线程池
+     * 关闭线程池
      */
     @Override
     public void shutDown(){
@@ -126,22 +115,6 @@ public class ExecutorPool<T, V> implements LifeCycle {
     @Override
     public LifeCycleStatus getStatus() {
         return service.isShutdown() ? LifeCycleStatus.STOPED : LifeCycleStatus.RUNNING;
-    }
-
-    /**
-     * 设置线程池名称
-     * @param threadName
-     */
-    private void setThreadName(String threadName) {
-        this.threadName = threadName;
-    }
-
-    /**
-     * 获取线程池名称
-     * @return
-     */
-    public String getThreadName() {
-        return this.threadName;
     }
 
     @Override

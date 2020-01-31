@@ -1,7 +1,7 @@
 package com.el.common.thread.model.action;
 
 /**
- * 有返回值的工作
+ * 有返回值的任务
  * 2019/10/7
  *
  * @author eddielee
