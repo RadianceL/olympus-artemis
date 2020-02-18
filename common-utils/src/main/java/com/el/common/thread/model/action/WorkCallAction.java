@@ -7,12 +7,13 @@ package com.el.common.thread.model.action;
  * @author eddielee
  */
 @FunctionalInterface
-public interface WorkCallAction<T, V> {
+public interface WorkCallAction {
 
     /**
      * 执行工作 有返回值
-     * @param source    参数
-     * @return          定义的返回对象
+     *
+     * @param source 参数
+     * @return 定义的返回对象
      */
-    V execute(T source);
+    Object execute(Object source);
 }

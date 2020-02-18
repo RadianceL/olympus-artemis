@@ -38,7 +38,7 @@ public enum LifeCycleStatus {
      */
     private int code;
 
-    LifeCycleStatus(String desc, int code){
+    LifeCycleStatus(String desc, int code) {
         this.desc = desc;
         this.code = code;
     }
@@ -54,8 +54,8 @@ public enum LifeCycleStatus {
     /**
      * 标识编码获取标识描述
      *
-     * @param code  标识编码
-     * @return      标识描述
+     * @param code 标识编码
+     * @return 标识描述
      */
     public static String getCode(int code) {
         for (LifeCycleStatus e : values()) {

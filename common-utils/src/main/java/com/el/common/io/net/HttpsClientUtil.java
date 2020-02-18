@@ -59,10 +59,11 @@ public class HttpsClientUtil {
 
     /**
      * 双向Https Get请求
-     * @param requestUrl        请求Url
-     * @param headerMap         请求头
-     * @param paramMap          请求参数
-     * @return                  返回值
+     *
+     * @param requestUrl 请求Url
+     * @param headerMap  请求头
+     * @param paramMap   请求参数
+     * @return 返回值
      * @throws Exception
      */
     public static String httpsGetRequest(String requestUrl, Map<String, String> headerMap, Map<String, String> paramMap) throws Exception {
@@ -77,9 +78,10 @@ public class HttpsClientUtil {
 
     /**
      * 双向Https Get请求
-     * @param requestUrl        请求Url
-     * @param paramMap          请求参数
-     * @return                  返回值
+     *
+     * @param requestUrl 请求Url
+     * @param paramMap   请求参数
+     * @return 返回值
      * @throws Exception
      */
     public static String httpsGetRequest(String requestUrl, Map<String, String> paramMap) throws Exception {
@@ -89,29 +91,32 @@ public class HttpsClientUtil {
 
     /**
      * 双向Https Post请求
-     * @param requestUrl        请求Url
-     * @param requestBody       请求体
-     * @return                  返回值
+     *
+     * @param requestUrl  请求Url
+     * @param requestBody 请求体
+     * @return 返回值
      * @throws Exception
      */
     public static String httpsPostRequest(String requestUrl, String requestBody) throws Exception {
-        return httpsPostRequest(requestUrl,null, requestBody, StandardCharsets.UTF_8);
+        return httpsPostRequest(requestUrl, null, requestBody, StandardCharsets.UTF_8);
     }
 
     /**
      * 双向Https Post请求
-     * @param requestUrl        请求Url
-     * @param requestBody       请求体
-     * @param charset           字符集编码
-     * @return                  返回值
+     *
+     * @param requestUrl  请求Url
+     * @param requestBody 请求体
+     * @param charset     字符集编码
+     * @return 返回值
      * @throws Exception
      */
     public static String httpsPostRequest(String requestUrl, String requestBody, String charset) throws Exception {
-        return httpsPostRequest(requestUrl,null, requestBody,  Charset.forName(charset));
+        return httpsPostRequest(requestUrl, null, requestBody, Charset.forName(charset));
     }
 
     /**
      * 双向Https Post请求
+     *
      * @param requestUrl
      * @param headerMap
      * @param requestBody
@@ -133,6 +138,7 @@ public class HttpsClientUtil {
 
     /**
      * 单向Http Get请求
+     *
      * @param requestUrl
      * @param paramMap
      * @return
@@ -144,6 +150,7 @@ public class HttpsClientUtil {
 
     /**
      * 单向Https Get请求
+     *
      * @param requestUrl
      * @param headerMap
      * @param paramMap
@@ -162,6 +169,7 @@ public class HttpsClientUtil {
 
     /**
      * 单向Https Post请求
+     *
      * @param requestUrl
      * @param headerMap
      * @param param
@@ -187,6 +195,7 @@ public class HttpsClientUtil {
 
     /**
      * 单向Https Post请求
+     *
      * @param requestUrl
      * @param params
      * @param charSet
@@ -218,6 +227,7 @@ public class HttpsClientUtil {
 
     /**
      * 获取Http Get请求体
+     *
      * @param requestUrl
      * @param headerMap
      * @param paramMap
@@ -236,7 +246,7 @@ public class HttpsClientUtil {
             for (String key : headerMap.keySet()) {
                 httpGet.addHeader(key, headerMap.get(key));
             }
-        }else {
+        } else {
             httpGet.addHeader("Content-Type", "application/json");
         }
         return httpGet;
@@ -244,6 +254,7 @@ public class HttpsClientUtil {
 
     /**
      * 获取Http Post请求体
+     *
      * @param requestUrl
      * @param headerMap
      * @return
@@ -261,6 +272,7 @@ public class HttpsClientUtil {
 
     /**
      * 发送请求
+     *
      * @param response
      * @return
      * @throws IOException
@@ -283,13 +295,14 @@ public class HttpsClientUtil {
                 throw new RuntimeException("network response error at HttpsClientUtil send()");
             }
             return resultMsg;
-        }finally {
+        } finally {
             response.close();
         }
     }
 
     /**
      * 双向https
+     *
      * @return
      */
     private static SSLConnectionSocketFactory initConfig() throws Exception {
@@ -315,6 +328,7 @@ public class HttpsClientUtil {
 
     /**
      * http && 单向https
+     *
      * @return
      */
     private static CloseableHttpClient getSingletonHttpsClient() {

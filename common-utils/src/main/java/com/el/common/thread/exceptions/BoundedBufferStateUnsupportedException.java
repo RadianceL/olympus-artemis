@@ -5,7 +5,7 @@ package com.el.common.thread.exceptions;
  * @createTime 2019-05-30
  * @description 当前状态不允许更改
  */
-public class BoundedBufferStateUnsupportedException extends BasicBoundedBufferException{
+public class BoundedBufferStateUnsupportedException extends BasicBoundedBufferException {
 
     public BoundedBufferStateUnsupportedException() {
     }

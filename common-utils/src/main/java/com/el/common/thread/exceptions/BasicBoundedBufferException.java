@@ -9,7 +9,7 @@ import org.slf4j.helpers.MessageFormatter;
  * @description 生产者消费者基础异常
  */
 @Slf4j
-public class BasicBoundedBufferException extends RuntimeException{
+public class BasicBoundedBufferException extends RuntimeException {
 
     public BasicBoundedBufferException() {
         super();

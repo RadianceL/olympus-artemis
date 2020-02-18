@@ -18,12 +18,13 @@ public class MoneyComputeUtil {
 
     /**
      * 加法运算
-     * @param sourceAmount      加数
-     * @param targetAmount      加数
-     * @return                  和
+     *
+     * @param sourceAmount 加数
+     * @param targetAmount 加数
+     * @return 和
      */
-    public static BigDecimal add(String sourceAmount, String targetAmount){
-        if (checkIsNotMoney(sourceAmount) || checkIsNotMoney(targetAmount)){
+    public static BigDecimal add(String sourceAmount, String targetAmount) {
+        if (checkIsNotMoney(sourceAmount) || checkIsNotMoney(targetAmount)) {
             throw new IllegalArgumentException("参数中含有非金额数值");
         }
         BigDecimal sourceBigDecimal = new BigDecimal(sourceAmount);
@@ -33,22 +34,24 @@ public class MoneyComputeUtil {
 
     /**
      * 加法运算
-     * @param sourceAmount      加数
-     * @param targetAmount      加数
-     * @return                  和
+     *
+     * @param sourceAmount 加数
+     * @param targetAmount 加数
+     * @return 和
      */
-    public static BigDecimal add(BigDecimal sourceAmount, BigDecimal targetAmount){
+    public static BigDecimal add(BigDecimal sourceAmount, BigDecimal targetAmount) {
         return sourceAmount.add(targetAmount, MathContext.UNLIMITED);
     }
 
     /**
      * 减法运算
-     * @param sourceAmount      减数
-     * @param targetAmount      被减数
-     * @return                  差
+     *
+     * @param sourceAmount 减数
+     * @param targetAmount 被减数
+     * @return 差
      */
-    public static BigDecimal subtract(String sourceAmount, String targetAmount){
-        if (checkIsNotMoney(sourceAmount) || checkIsNotMoney(targetAmount)){
+    public static BigDecimal subtract(String sourceAmount, String targetAmount) {
+        if (checkIsNotMoney(sourceAmount) || checkIsNotMoney(targetAmount)) {
             throw new IllegalArgumentException("参数中含有非金额数值");
         }
         BigDecimal sourceBigDecimal = new BigDecimal(sourceAmount);
@@ -58,22 +61,24 @@ public class MoneyComputeUtil {
 
     /**
      * 减法运算
-     * @param sourceAmount      减数
-     * @param targetAmount      被减数
-     * @return                  差
+     *
+     * @param sourceAmount 减数
+     * @param targetAmount 被减数
+     * @return 差
      */
-    public static BigDecimal subtract(BigDecimal sourceAmount, BigDecimal targetAmount){
+    public static BigDecimal subtract(BigDecimal sourceAmount, BigDecimal targetAmount) {
         return sourceAmount.subtract(targetAmount, MathContext.UNLIMITED);
     }
 
     /**
      * 乘法运算
-     * @param sourceAmount          乘数
-     * @param targetAmount          乘数
-     * @return                      积
+     *
+     * @param sourceAmount 乘数
+     * @param targetAmount 乘数
+     * @return 积
      */
-    public static BigDecimal multiply(String sourceAmount, String targetAmount){
-        if (checkIsNotMoney(sourceAmount) || checkIsNotMoney(targetAmount)){
+    public static BigDecimal multiply(String sourceAmount, String targetAmount) {
+        if (checkIsNotMoney(sourceAmount) || checkIsNotMoney(targetAmount)) {
             throw new IllegalArgumentException("参数中含有非金额数值");
         }
         BigDecimal sourceBigDecimal = new BigDecimal(sourceAmount);
@@ -83,23 +88,25 @@ public class MoneyComputeUtil {
 
     /**
      * 乘法运算
-     * @param sourceAmount          乘数
-     * @param targetAmount          乘数
-     * @return                      积
+     *
+     * @param sourceAmount 乘数
+     * @param targetAmount 乘数
+     * @return 积
      */
-    public static BigDecimal multiply(BigDecimal sourceAmount, BigDecimal targetAmount){
+    public static BigDecimal multiply(BigDecimal sourceAmount, BigDecimal targetAmount) {
         return sourceAmount.multiply(targetAmount, MathContext.UNLIMITED);
     }
 
     /**
      * 除法运算
-     * @param sourceAmount      被除数
-     * @param targetAmount      除数
-     * @param scale             小数点后精度
-     * @return                  商
+     *
+     * @param sourceAmount 被除数
+     * @param targetAmount 除数
+     * @param scale        小数点后精度
+     * @return 商
      */
-    public static BigDecimal divide(String sourceAmount, String targetAmount, Integer scale){
-        if (checkIsNotMoney(sourceAmount) || checkIsNotMoney(targetAmount)){
+    public static BigDecimal divide(String sourceAmount, String targetAmount, Integer scale) {
+        if (checkIsNotMoney(sourceAmount) || checkIsNotMoney(targetAmount)) {
             throw new IllegalArgumentException("参数中含有非金额数值");
         }
         BigDecimal sourceBigDecimal = new BigDecimal(sourceAmount);
@@ -109,13 +116,14 @@ public class MoneyComputeUtil {
 
     /**
      * 除法运算
-     * @param sourceAmount      被除数
-     * @param targetAmount      除数
-     * @param scale             小数点后精度
-     * @return                  商
+     *
+     * @param sourceAmount 被除数
+     * @param targetAmount 除数
+     * @param scale        小数点后精度
+     * @return 商
      */
-    public static BigDecimal divide(BigDecimal sourceAmount, BigDecimal targetAmount, Integer scale){
-        if (Objects.isNull(scale) || scale == 0){
+    public static BigDecimal divide(BigDecimal sourceAmount, BigDecimal targetAmount, Integer scale) {
+        if (Objects.isNull(scale) || scale == 0) {
             scale = DEFAULT_SCALE;
         }
         return sourceAmount.divide(targetAmount, scale, BigDecimal.ROUND_HALF_UP).setScale(scale, BigDecimal.ROUND_HALF_UP);
@@ -123,12 +131,13 @@ public class MoneyComputeUtil {
 
     /**
      * 四舍五入保留小数点后#{scale}个
+     *
      * @param sourceAmount
      * @param scale
      * @return
      */
-    public static BigDecimal roundHalfUp(String sourceAmount, Integer scale){
-        if (checkIsNotMoney(sourceAmount)){
+    public static BigDecimal roundHalfUp(String sourceAmount, Integer scale) {
+        if (checkIsNotMoney(sourceAmount)) {
             throw new IllegalArgumentException("参数中含有非金额数值");
         }
 
@@ -137,12 +146,13 @@ public class MoneyComputeUtil {
 
     /**
      * 四舍五入保留小数点后#{scale}个
+     *
      * @param sourceAmount
      * @param scale
      * @return
      */
-    public static BigDecimal roundHalfUp(BigDecimal sourceAmount, Integer scale){
-        if (Objects.isNull(scale) || scale == 0){
+    public static BigDecimal roundHalfUp(BigDecimal sourceAmount, Integer scale) {
+        if (Objects.isNull(scale) || scale == 0) {
             scale = DEFAULT_SCALE;
         }
         return sourceAmount.setScale(scale, BigDecimal.ROUND_HALF_UP);
@@ -150,11 +160,12 @@ public class MoneyComputeUtil {
 
     /**
      * 校验是否为金额
+     *
      * @param source
      * @return
      */
-    public static boolean checkIsNotMoney(String source){
-        if (StringUtils.isBlank(source)){
+    public static boolean checkIsNotMoney(String source) {
+        if (StringUtils.isBlank(source)) {
             return true;
         }
         return !source.matches(Configuration.CURRENCY_YUAN_REGEX);

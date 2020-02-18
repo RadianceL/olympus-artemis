@@ -26,9 +26,9 @@ import java.util.stream.Stream;
  */
 public class ReflexUtils {
 
-    public static List<FieldDefinition> getAllField(Object source){
+    public static List<FieldDefinition> getAllField(Object source) {
         List<FieldDefinition> containsFields = new ArrayList<>();
-        if (Objects.isNull(source)){
+        if (Objects.isNull(source)) {
             return containsFields;
         }
         Class<?> sourceClass = source.getClass();
@@ -45,12 +45,13 @@ public class ReflexUtils {
 
     /**
      * 通过包名获取包内所有类
+     *
      * @param pkg
      * @return
      */
     public static List<Class<?>> getAllClassByPackageName(String pkg) {
         List<Class<?>> returnClassList = getClasses(pkg);
-        if (returnClassList.size() == 0){
+        if (returnClassList.size() == 0) {
             throw new RuntimeException("类名错误/没有有效的对象");
         }
         return returnClassList;
@@ -58,6 +59,7 @@ public class ReflexUtils {
 
     /**
      * 通过接口名取得某个接口下所有实现这个接口的类
+     *
      * @param c
      * @return
      */
@@ -88,6 +90,7 @@ public class ReflexUtils {
 
     /**
      * 取得某一类所在包的所有类名 不含迭代
+     *
      * @param classLocation
      * @param packageName
      * @return
@@ -95,12 +98,11 @@ public class ReflexUtils {
     public static String[] getPackageAllClassName(String classLocation, String packageName) {
         // 将packageName分解
         String[] packagePathSplit = packageName.split("[.]");
-        String realClassLocation = classLocation;
-        int packageLength = packagePathSplit.length;
-        for (int i = 0; i < packageLength; i++) {
-            realClassLocation = realClassLocation + File.separator + packagePathSplit[i];
+        StringBuilder realClassLocation = new StringBuilder(classLocation);
+        for (String s : packagePathSplit) {
+            realClassLocation.append(File.separator).append(s);
         }
-        File packageDir = new File(realClassLocation);
+        File packageDir = new File(realClassLocation.toString());
         if (packageDir.isDirectory()) {
             String[] allClassName = packageDir.list();
             return allClassName;
@@ -110,6 +112,7 @@ public class ReflexUtils {
 
     /**
      * 从包package中获取所有的Class
+     *
      * @param packageName
      * @return
      */
@@ -191,6 +194,7 @@ public class ReflexUtils {
 
     /**
      * 以文件的形式来获取包下的所有Class
+     *
      * @param packageName
      * @param packagePath
      * @param recursive

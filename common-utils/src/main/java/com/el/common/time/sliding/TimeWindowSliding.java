@@ -13,30 +13,44 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class TimeWindowSliding {
 
-    /** 队列的总长度  */
+    /**
+     * 队列的总长度
+     */
     private volatile int timeSliceSize;
 
-    /** 每个时间片的时长，以毫秒为单位 */
+    /**
+     * 每个时间片的时长，以毫秒为单位
+     */
     private volatile int timeMillisPerSlice;
 
-    /** 当前所使用的时间片位置 */
+    /**
+     * 当前所使用的时间片位置
+     */
     private AtomicInteger cursor = new AtomicInteger(0);
 
-    /** 在一个完整窗口期内允许通过的最大阈值 */
+    /**
+     * 在一个完整窗口期内允许通过的最大阈值
+     */
     private int threshold;
 
     private int windowSize;
 
-    /** 最小每个时间片的时长，以毫秒为单位 */
+    /**
+     * 最小每个时间片的时长，以毫秒为单位
+     */
     private static final int MIN_TIME_MILLIS_PER_SLICE = 50;
 
-    /** 最小窗口数量 */
+    /**
+     * 最小窗口数量
+     */
     private static final int DEFAULT_WINDOW_SIZE = 5;
 
-    /** 数据存储 */
+    /**
+     * 数据存储
+     */
     private TimeWindowSlidingDataSource timeWindowSlidingDataSource;
 
-    public TimeWindowSliding(TimeWindowSlidingDataSource timeWindowSlidingDataSource, int windowSize, int timeMillisPerSlice, int threshold){
+    public TimeWindowSliding(TimeWindowSlidingDataSource timeWindowSlidingDataSource, int windowSize, int timeMillisPerSlice, int threshold) {
         this.timeWindowSlidingDataSource = timeWindowSlidingDataSource;
         this.timeMillisPerSlice = timeMillisPerSlice;
         this.threshold = threshold;
@@ -50,7 +64,7 @@ public class TimeWindowSliding {
         this.verifier();
     }
 
-    private void verifier(){
+    private void verifier() {
         if (Objects.isNull(timeWindowSlidingDataSource) || timeMillisPerSlice < MIN_TIME_MILLIS_PER_SLICE || threshold <= 0) {
             throw new RuntimeException("初始化异常，参数不正确");
         }
@@ -59,7 +73,7 @@ public class TimeWindowSliding {
 
     public static void main(String[] args) {
         //0.2秒一个时间片，窗口共5个
-        TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 10,200,  5);
+        TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 10, 200, 5);
         for (int i = 0; i < 1000; i++) {
             int allow = window.allowNotLimitPerMin("a1");
             System.out.println(allow);
@@ -104,20 +118,20 @@ public class TimeWindowSliding {
         int sum = 0;
         int nextIndex = index + 1;
         this.timeWindowSlidingDataSource.clearSingle(nextIndex);
-        int from = index, to  = index;
+        int from = index, to = index;
         if (index < windowSize) {
             from += windowSize + 1;
             to += 2 * windowSize;
-        }else {
+        } else {
             from = index - windowSize + 1;
         }
-        while (from <= to){
+        while (from <= to) {
             int targetIndex = from;
             if (from >= timeSliceSize) {
                 targetIndex = from - 2 * windowSize;
             }
             sum += timeWindowSlidingDataSource.getAllocAdoptRecordTimes(targetIndex, key);
-            from ++;
+            from++;
         }
         this.timeWindowSlidingDataSource.allocAdoptRecord(index, key);
         return (sum + 1) / windowSize;

@@ -1,8 +1,7 @@
-package com.el.common.support.data;
+package com.el.common.support.exception.data;
 
 import com.el.common.support.Constant;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -16,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public enum  Local {
+public enum Local {
 
     /**
      * 中国
@@ -66,16 +65,16 @@ public enum  Local {
     private String areaType;
 
     public static String findLocalName(String fileName) {
-        if (StringUtils.isBlank(fileName)){
+        if (StringUtils.isBlank(fileName)) {
             return Constant.EMPTY_STRING;
         }
 
-        for (Local e : values()){
+        for (Local e : values()) {
             String fileNameUpperCase = fileName.toUpperCase();
-            if (fileNameUpperCase.contains(DEFAULT_LOCAL_NAME)){
+            if (fileNameUpperCase.contains(DEFAULT_LOCAL_NAME)) {
                 return Local.CN.getLocalName();
             }
-            if (fileNameUpperCase.contains(e.getLocalName())){
+            if (fileNameUpperCase.contains(e.getLocalName())) {
                 return e.getLocalName();
             }
         }

@@ -22,7 +22,8 @@ import org.springframework.stereotype.Component;
 public class TimeCalculationProcess {
 
     @Pointcut("@annotation(com.el.util.time.annotation.TimeCalculation)")
-    public void costTimePointCut(){}
+    public void costTimePointCut() {
+    }
 
     @Around("costTimePointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {

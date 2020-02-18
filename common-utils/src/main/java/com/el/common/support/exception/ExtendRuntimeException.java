@@ -12,7 +12,7 @@ import java.util.Objects;
  * @author eddie
  */
 @Slf4j
-public class ExtendRuntimeException extends RuntimeException{
+public class ExtendRuntimeException extends RuntimeException {
 
     private ErrorMessage errorMessage;
 
@@ -35,15 +35,15 @@ public class ExtendRuntimeException extends RuntimeException{
         log.error("{} : {}", getErrorCode(), getErrorMessage(), cause);
     }
 
-    public String getErrorCode(){
-        if (Objects.isNull(errorMessage)){
+    public String getErrorCode() {
+        if (Objects.isNull(errorMessage)) {
             return "";
         }
         return errorMessage.getErrorCode();
     }
 
-    public String getErrorMessage(){
-        if (Objects.isNull(errorMessage)){
+    public String getErrorMessage() {
+        if (Objects.isNull(errorMessage)) {
             return "";
         }
         return errorMessage.getErrorMessage();

@@ -13,6 +13,7 @@ public interface Producer {
 
     /**
      * 生产一个产品
+     *
      * @return 产品
      */
     ExecuteJob manufacture();

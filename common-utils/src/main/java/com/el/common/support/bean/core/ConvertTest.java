@@ -7,7 +7,7 @@ package com.el.common.support.bean.core;
  */
 public class ConvertTest {
 
-    private TestBean testBean1(TestBean source){
+    private TestBean testBean1(TestBean source) {
         TestBean newTestBean = new TestBean();
         newTestBean.setSett(source.isSett());
         newTestBean.setS(source.getS());
@@ -17,7 +17,7 @@ public class ConvertTest {
         return newTestBean;
     }
 
-    private TestBean testBean2(TestBean source){
+    private TestBean testBean2(TestBean source) {
         TestBean newTestBean = new TestBean();
         newTestBean.setSett(source.isSett());
         newTestBean.setS(source.getS());

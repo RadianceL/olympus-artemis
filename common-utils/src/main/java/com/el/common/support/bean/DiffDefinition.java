@@ -16,12 +16,12 @@ import java.util.Map;
 public class DiffDefinition {
 
 
-    public DiffDefinition(Builder builder){
+    public DiffDefinition(Builder builder) {
 
     }
 
     @Data
-    private static class Builder{
+    private static class Builder {
 
         private Map<String, Node<Class<?>>> definitionMap = new HashMap<>();
 
@@ -29,20 +29,20 @@ public class DiffDefinition {
 
         private Class<?> targetClass;
 
-        public Builder registerClass(Class<?> sourceClass, Class<?> targetClass){
+        public Builder registerClass(Class<?> sourceClass, Class<?> targetClass) {
             this.sourceClass = sourceClass;
             this.targetClass = targetClass;
             return this;
         }
 
-        public Builder registerField(String sourceField, String targetField){
+        public Builder registerField(String sourceField, String targetField) {
             List<BeanLanguageProtocol.BeanFieldPositionDefinition> sourceFieldDesc = BeanLanguageProtocol.convertBeanLanguageProtocol(sourceField);
             List<BeanLanguageProtocol.BeanFieldPositionDefinition> targetFieldDesc = BeanLanguageProtocol.convertBeanLanguageProtocol(targetField);
 
             return this;
         }
 
-        public DiffDefinition registerFieldFinish(){
+        public DiffDefinition registerFieldFinish() {
             System.out.println(definitionMap.toString());
             return new DiffDefinition(this);
         }
@@ -64,10 +64,11 @@ public class DiffDefinition {
 
     /**
      * 内部节点
+     *
      * @param <T>
      */
     @Data
-    private static class Node<T>{
+    private static class Node<T> {
 
         /**
          * 索引

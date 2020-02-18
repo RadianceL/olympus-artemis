@@ -29,18 +29,10 @@ public class ClassByteConvert implements Opcodes {
         TYPE_MAP.put("java.lang.Character", "Ljava/lang/Character;");
         TYPE_MAP.put("java.lang.Boolean", "Ljava/lang/Boolean;");
         TYPE_MAP.put("byte", "B");
-        TYPE_MAP.put("int", "I");
-        TYPE_MAP.put("int", "I");
-        TYPE_MAP.put("int", "I");
-        TYPE_MAP.put("int", "I");
-        TYPE_MAP.put("int", "I");
-        TYPE_MAP.put("int", "I");
-        TYPE_MAP.put("int", "I");
-        TYPE_MAP.put("int", "I");
 
     }
 
-    public static byte[] dump () throws Exception {
+    public static byte[] dump() throws Exception {
 
         FieldVisitor fv;
         MethodVisitor mv;

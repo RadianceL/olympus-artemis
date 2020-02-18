@@ -69,21 +69,23 @@ public class RandomUtil {
 
     /**
      * 获取指定长度的随机字符串（小写字母加数字）
+     *
      * @param len
      * @return
      */
-    public static String getRandomStr(int len){
+    public static String getRandomStr(int len) {
         String randomPassword = RandomStringUtils.random(len, "abcdefghijklmnopqrstuvwxyz1234567890");
         return randomPassword;
     }
 
     /**
      * 创建一个随机字符串，其长度介于包含最小值和最大最大值之间,字符将从拉丁字母（a-z、A-Z）和数字0-9中选择。
-     * @param min   要生成的字符串的包含最小长度
-     * @param max   要生成的字符串的包含最大长度
+     *
+     * @param min 要生成的字符串的包含最小长度
+     * @param max 要生成的字符串的包含最大长度
      * @return
      */
-    public static String getRandomAlphanumeric(int min, int max){
+    public static String getRandomAlphanumeric(int min, int max) {
         String randomPassword = RandomStringUtils.randomAlphanumeric(min, max);
         return randomPassword;
     }

@@ -12,11 +12,11 @@ import java.util.Objects;
  * @author eddie
  */
 @Slf4j
-public class ImportantErrorException extends Exception{
+public class ImportantErrorException extends Exception {
 
     private ErrorMessage errorMessage;
 
-    public ImportantErrorException(){
+    public ImportantErrorException() {
         this(ErrorMessage.EMPTY_ERROR_MESSAGE);
         this.errorMessage = ErrorMessage.EMPTY_ERROR_MESSAGE;
         log.error("无法定义的异常, {} : {}", getErrorCode(), getErrorMessage());
@@ -39,15 +39,15 @@ public class ImportantErrorException extends Exception{
         log.error("{} : {}", getErrorCode(), getErrorMessage());
     }
 
-    public String getErrorCode(){
-        if (Objects.isNull(errorMessage)){
+    public String getErrorCode() {
+        if (Objects.isNull(errorMessage)) {
             return "";
         }
         return errorMessage.getErrorCode();
     }
 
-    public String getErrorMessage(){
-        if (Objects.isNull(errorMessage)){
+    public String getErrorMessage() {
+        if (Objects.isNull(errorMessage)) {
             return "";
         }
         return errorMessage.getErrorMessage();

@@ -5,7 +5,7 @@ package com.el.common.thread.exceptions;
  * @createTime 2019-05-30
  * @description 线程关闭异常
  */
-public class BoundedBufferThreadShutdownExcetption extends BasicBoundedBufferException{
+public class BoundedBufferThreadShutdownExcetption extends BasicBoundedBufferException {
     public BoundedBufferThreadShutdownExcetption() {
     }
 

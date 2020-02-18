@@ -2,7 +2,9 @@ package com.el.common.io.local;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +19,9 @@ import java.util.Objects;
 @Slf4j
 public class PropertiesReadUtil {
 
-    public static Map<String,String> getProperties(String name){
+    public static Map<String, String> getProperties(String name) {
         URL resource = PropertiesReadUtil.class.getClassLoader().getResource(name);
-        if (Objects.isNull(resource)){
+        if (Objects.isNull(resource)) {
             throw new RuntimeException("文件不存在");
         }
         Map<String, String> propertiesMap = new HashMap<>(16);
@@ -28,7 +30,7 @@ public class PropertiesReadUtil {
             FileReader fr = new FileReader(filePath);
             BufferedReader br = new BufferedReader(fr);
             String line;
-            while ((line = br.readLine())!=null) {
+            while ((line = br.readLine()) != null) {
                 String[] propertiesInfo = line.split("=");
                 propertiesMap.put(propertiesInfo[0], propertiesInfo[1]);
             }

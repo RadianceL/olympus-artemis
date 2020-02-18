@@ -1,6 +1,6 @@
 package com.el.common.io.net;
 
-import com.el.common.io.entity.FtpBO;
+import com.el.common.io.entity.FtpInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -21,27 +21,23 @@ public class FtpUtils {
 
     /**
      * 获取ftp连接
-     *
-     * @param ftpBO
-     * @return
-     * @throws Exception
      */
-    public static boolean connectFtp(FtpBO ftpBO) throws Exception {
+    public static boolean connectFtp(FtpInfo ftpInfo) throws Exception {
         ftp = new FTPClient();
         int reply;
-        if (ftpBO.getPort() == null) {
-            ftp.connect(ftpBO.getIpAddr(), 21);
+        if (ftpInfo.getPort() == null) {
+            ftp.connect(ftpInfo.getIpAddr(), 21);
         } else {
-            ftp.connect(ftpBO.getIpAddr(), ftpBO.getPort());
+            ftp.connect(ftpInfo.getIpAddr(), ftpInfo.getPort());
         }
-        ftp.login(ftpBO.getUserName(), ftpBO.getPassWord());
+        ftp.login(ftpInfo.getUserName(), ftpInfo.getPassWord());
         ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
         reply = ftp.getReplyCode();
         if (!FTPReply.isPositiveCompletion(reply)) {
             ftp.disconnect();
             return false;
         }
-        ftp.changeWorkingDirectory(ftpBO.getUploadPath());
+        ftp.changeWorkingDirectory(ftpInfo.getUploadPath());
         return true;
     }
 
@@ -61,9 +57,6 @@ public class FtpUtils {
 
     /**
      * ftp上传文件
-     *
-     * @param f
-     * @throws Exception
      */
     public static void upload(File f) throws Exception {
         if (f.isDirectory()) {
@@ -93,24 +86,24 @@ public class FtpUtils {
     /**
      * 下载链接配置
      *
-     * @param f
+     * @param ftpInfo       连接信息
      * @param localBaseDir  本地目录
      * @param remoteBaseDir 远程目录
-     * @throws Exception
+     * @throws Exception 异常
      */
-    public static void startDown(FtpBO f, String localBaseDir, String remoteBaseDir) throws Exception {
-        if (FtpUtils.connectFtp(f)) {
+    public static void startDown(FtpInfo ftpInfo, String localBaseDir, String remoteBaseDir) throws Exception {
+        if (FtpUtils.connectFtp(ftpInfo)) {
             try {
                 FTPFile[] files;
                 boolean changeDir = ftp.changeWorkingDirectory(remoteBaseDir);
                 if (changeDir) {
                     ftp.setControlEncoding("GBK");
                     files = ftp.listFiles();
-                    for (int i = 0; i < files.length; i++) {
+                    for (FTPFile file : files) {
                         try {
-                            downloadFile(files[i], localBaseDir, remoteBaseDir);
+                            downloadFile(file, localBaseDir, remoteBaseDir);
                         } catch (Exception e) {
-                            log.error("startDown [{}]下载失败", files[i].getName(), e);
+                            log.error("startDown [{}]下载失败", file.getName(), e);
                         }
                     }
                 }
@@ -128,21 +121,15 @@ public class FtpUtils {
      * 下载FTP文件
      * 当你需要下载FTP文件的时候，调用此方法
      * 根据<b>获取的文件名，本地地址，远程地址</b>进行下载
-     *
-     * @param ftpFile
-     * @param relativeLocalPath
-     * @param relativeRemotePath
      */
     private static void downloadFile(FTPFile ftpFile, String relativeLocalPath, String relativeRemotePath) {
         if (ftpFile.isFile()) {
-            if (ftpFile.getName().indexOf("?") == -1) {
+            if (!ftpFile.getName().contains("?")) {
                 OutputStream outputStream = null;
                 try {
-                    File locaFile = new File(relativeLocalPath + ftpFile.getName());
+                    File localFile = new File(relativeLocalPath + ftpFile.getName());
                     //判断文件是否存在，存在则返回
-                    if (locaFile.exists()) {
-                        return;
-                    } else {
+                    if (!localFile.exists()) {
                         outputStream = new FileOutputStream(relativeLocalPath + ftpFile.getName());
                         ftp.retrieveFile(ftpFile.getName(), outputStream);
                         outputStream.flush();
@@ -175,8 +162,8 @@ public class FtpUtils {
                 if (changeDir) {
                     FTPFile[] files;
                     files = ftp.listFiles();
-                    for (int i = 0; i < files.length; i++) {
-                        downloadFile(files[i], newLocalRelatePath, newRemote);
+                    for (FTPFile file : files) {
+                        downloadFile(file, newLocalRelatePath, newRemote);
                     }
                 }
                 if (changeDir) {
@@ -190,7 +177,7 @@ public class FtpUtils {
 
 
     public static void main(String[] args) throws Exception {
-        FtpBO f = new FtpBO();
+        FtpInfo f = new FtpInfo();
         f.setIpAddr("1111");
         f.setUserName("root");
         f.setPassWord("111111");

@@ -21,7 +21,7 @@ public abstract class AbstractBeanMapperAdapter {
      */
     private Map<String, String> objectDiffMapper = new HashMap<>(16);
 
-    public static <T>  T conver(Object sourceObject, Class<T> targetClass, Map<String, String> diff){
+    public static <T> T conver(Object sourceObject, Class<T> targetClass, Map<String, String> diff) {
         return null;
     }
 

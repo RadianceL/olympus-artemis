@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * ftp链接常量
+ *
  * @Author jia
  * @Date 2019/6/6 17:16
  * @Description
@@ -14,15 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FtpBO {
-    /**
-     * 商户编码
-     */
-    private String mchCode;
-    /**
-     * 企业编码
-     */
-    private String companyCode;
+public class FtpInfo {
+
     /**
      * ip地址
      */

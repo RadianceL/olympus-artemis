@@ -6,8 +6,10 @@ import com.el.common.thread.model.action.WorkCallAction;
 import com.el.common.thread.status.LifeCycle;
 import com.el.common.thread.status.LifeCycleStatus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -18,7 +20,7 @@ import java.util.concurrent.*;
  * @author eddielee
  */
 @Slf4j
-public class ExecutorPool<T, V> implements LifeCycle {
+public class ExecutorPool implements LifeCycle {
 
     /**
      * 线程池
@@ -37,64 +39,93 @@ public class ExecutorPool<T, V> implements LifeCycle {
 
     /**
      * 私有构造函数
-     * @param threadTotal   核心线程数
-     * @param poolName      线程池名称
+     *
+     * @param threadTotal 核心线程数
+     * @param threadLimit 同时运行线程数
+     * @param poolName    线程池名称
      */
-    public ExecutorPool(int threadTotal, String poolName){
+    public ExecutorPool(int threadTotal, int threadLimit, String poolName) {
         ThreadFactory factory = new ThreadFactoryBuilder().setNameFormat(poolName.concat("-Thread-%d")).build();
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         this.service = new ThreadPoolExecutor(threadTotal, availableProcessors * FACTOR, 5L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingDeque<>(256), factory, new ThreadPoolExecutor.AbortPolicy());
         //初始化信号量
-        this.semaphore = new Semaphore(threadTotal);
+        this.semaphore = new Semaphore(threadLimit);
     }
 
     /**
      * 执行工作
-     * @param action    lambda表达式 -> 任务
-     * @param source    任务内容
+     *
+     * @param command lambda表达式 -> 任务
+     * @param source  任务内容
      */
-    public void executeWork(WorkAction<T> action, T source) {
+    public void executeWork(WorkAction command, Object source) {
         try {
             service.execute(() -> {
                 try {
                     semaphore.acquire();
-                    action.execute(source);
-                } catch (InterruptedException e) {
-                    throw new BasicBoundedBufferException("线程异常: {}", e.getMessage());
-                }finally {
-                    semaphore.release();
-                }
-            });
-        }catch (BasicBoundedBufferException e){
-            this.shutDown();
-            throw new BasicBoundedBufferException(e);
-        }
-    }
-
-    public Future<V> submitWork(WorkCallAction<T, V> action, T source) {
-        try {
-            return service.submit(() -> {
-                try {
-                    semaphore.acquire();
-                    return action.execute(source);
+                    command.execute(source);
                 } catch (InterruptedException e) {
                     throw new BasicBoundedBufferException("线程异常: {}", e.getMessage());
                 } finally {
                     semaphore.release();
                 }
             });
-        }catch (BasicBoundedBufferException e){
+        } catch (BasicBoundedBufferException e) {
             this.shutDown();
             throw new BasicBoundedBufferException(e);
         }
+    }
+
+    public List<Future<Object>> submitWork(WorkCallAction action, List<Object> sources) {
+        try {
+            List<Future<Object>> resultObjects = new ArrayList<>();
+            for (Object o : sources) {
+                Future<Object> submit = service.submit(() -> {
+                    try {
+                        semaphore.acquire();
+                        return action.execute(o);
+                    } catch (InterruptedException e) {
+                        throw new BasicBoundedBufferException("线程异常: {}", e.getMessage());
+                    } finally {
+                        semaphore.release();
+                    }
+                });
+                resultObjects.add(submit);
+            }
+            return resultObjects;
+        } catch (BasicBoundedBufferException e) {
+            this.shutDown();
+            throw new BasicBoundedBufferException(e);
+        }
+    }
+
+    @SneakyThrows
+    public List<Object> runBackgroundCommand(WorkCallAction action, List<Object> sources) {
+        final CountDownLatch countDownLatch = new CountDownLatch(sources.size());
+        List<Object> resultObjects = new CopyOnWriteArrayList<>();
+
+        for (Object o : sources) {
+            service.execute(() -> {
+                try {
+                    semaphore.acquire();
+                    resultObjects.add(action.execute(o));
+                } catch (InterruptedException e) {
+                    throw new BasicBoundedBufferException("线程异常: {}", e.getMessage());
+                } finally {
+                    countDownLatch.countDown();
+                }
+            });
+        }
+        countDownLatch.await();
+        return resultObjects;
     }
 
     /**
      * 关闭线程池
      */
     @Override
-    public void shutDown(){
+    public void shutDown() {
         try {
             service.shutdown();
             service.awaitTermination(Integer.MAX_VALUE, TimeUnit.MINUTES);
@@ -110,6 +141,7 @@ public class ExecutorPool<T, V> implements LifeCycle {
 
     /**
      * 线程池是否关闭状态
+     *
      * @return
      */
     @Override

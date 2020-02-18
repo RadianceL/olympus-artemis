@@ -30,6 +30,7 @@ public interface LifeCycle {
 
     /**
      * 获取当前运行状态
+     *
      * @return
      */
     LifeCycleStatus getStatus();

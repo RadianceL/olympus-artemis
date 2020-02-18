@@ -40,18 +40,18 @@ public abstract class AbstractCompletableFuturePool<T extends Comparable<T>> {
         AVAILABLE_PROCESSORS = Runtime.getRuntime().availableProcessors();
     }
 
-    public AbstractCompletableFuturePool(int corePoolSize, String poolName){
+    public AbstractCompletableFuturePool(int corePoolSize, String poolName) {
         ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat(poolName.concat("-Thread-%d")).build();
 
-        if (corePoolSize <= AVAILABLE_PROCESSORS){
+        if (corePoolSize <= AVAILABLE_PROCESSORS) {
             corePoolSize = DEFAULT_CORE_POOL_SIZE;
         }
         executorService = new ThreadPoolExecutor(corePoolSize, AVAILABLE_PROCESSORS * DEFAULT_FACTOR, corePoolSize * KEEP_ALIVE_FACTOR,
-                TimeUnit.MILLISECONDS,new LinkedBlockingDeque<>(256), threadFactory, new ThreadPoolExecutor.AbortPolicy());
+                TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>(256), threadFactory, new ThreadPoolExecutor.AbortPolicy());
     }
 
     @SuppressWarnings("rawtypes")
-    public void doCompletableFutures(List<T> conditions){
+    public void doCompletableFutures(List<T> conditions) {
         final List<T> syncConditions = Collections.synchronizedList(conditions);
         CompletableFuture[] futures = syncConditions.stream()
                 .map(this::initCompletableFuture)
@@ -63,23 +63,26 @@ public abstract class AbstractCompletableFuturePool<T extends Comparable<T>> {
 
     /**
      * 初始化线程池
-     * @param data  需要处理的数据
+     *
+     * @param data 需要处理的数据
      * @return
      */
     public abstract CompletableFuture<T> initCompletableFuture(T data);
 
     /**
      * 执行完毕后回调
+     *
      * @param futures
      */
     public abstract void completableFuturesFinishCallback(CompletableFuture<T>[] futures);
 
     /**
      * 可选方法 手动覆写 在initCompletableFuture中调用
-     * @param source        本次处理的参数
-     * @param throwable     如对该参数的处理出现异常
+     *
+     * @param source    本次处理的参数
+     * @param throwable 如对该参数的处理出现异常
      */
-    public void abstractCallback(T source, Throwable throwable){
+    public void abstractCallback(T source, Throwable throwable) {
         /*
             do something
          */
@@ -97,7 +100,7 @@ public abstract class AbstractCompletableFuturePool<T extends Comparable<T>> {
         }
     }
 
-    public ExecutorService getExecutorService(){
+    public ExecutorService getExecutorService() {
         return this.executorService;
     }
 }

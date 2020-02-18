@@ -42,44 +42,44 @@ public class BeanLanguageProtocol {
      */
     private static final Character IGNORE_FIELD = '?';
 
-    public static List<BeanFieldPositionDefinition> convertBeanLanguageProtocol(String desc){
-        if (StringUtils.isBlank(desc)){
+    public static List<BeanFieldPositionDefinition> convertBeanLanguageProtocol(String desc) {
+        if (StringUtils.isBlank(desc)) {
             throw new BeanFieldDescriptionIsEmptyException("传入的字段描述为空异常，请检查字段映射注册填写是否完整");
         }
         desc = desc.concat(String.valueOf(END_FIELD));
         boolean runSign = true;
         List<BeanFieldPositionDefinition> beanFieldPositionDefinitions = new ArrayList<>();
-        while (runSign){
+        while (runSign) {
             BeanFieldDescription fieldDefinition = getFieldDefinition(desc);
             String protocolDescription = String.valueOf(fieldDefinition.protocolDescription);
             String savedDescription = protocolDescription + fieldDefinition.fieldName;
             desc = desc.substring(savedDescription.length());
             beanFieldPositionDefinitions.add(new BeanFieldPositionDefinition(protocolDescription, new FieldDefinition(fieldDefinition.fieldName)));
-            if (IGNORE_FIELD.equals(fieldDefinition.protocolDescription)){
+            if (IGNORE_FIELD.equals(fieldDefinition.protocolDescription)) {
                 break;
             }
-            if (!isContainsProtocolDescription(desc)){
+            if (!isContainsProtocolDescription(desc)) {
                 runSign = false;
             }
         }
         return beanFieldPositionDefinitions;
     }
 
-    private static BeanFieldDescription getFieldDefinition(String desc){
-        for (int i = 0; i < desc.length(); i ++){
-            if (CHILD_FIELD.equals(desc.charAt(i))){
+    private static BeanFieldDescription getFieldDefinition(String desc) {
+        for (int i = 0; i < desc.length(); i++) {
+            if (CHILD_FIELD.equals(desc.charAt(i))) {
                 return new BeanFieldDescription(desc.substring(0, i), CHILD_FIELD);
             }
-            if (LIST_FIELD_START.equals(desc.charAt(i))){
+            if (LIST_FIELD_START.equals(desc.charAt(i))) {
                 return new BeanFieldDescription(desc.substring(0, i), LIST_FIELD_START);
             }
-            if (LIST_FIELD_END.equals(desc.charAt(i))){
+            if (LIST_FIELD_END.equals(desc.charAt(i))) {
                 return new BeanFieldDescription(desc.substring(0, i), LIST_FIELD_END);
             }
-            if (IGNORE_FIELD.equals(desc.charAt(i))){
+            if (IGNORE_FIELD.equals(desc.charAt(i))) {
                 return new BeanFieldDescription(desc.substring(0, i), IGNORE_FIELD);
             }
-            if (END_FIELD.equals(desc.charAt(i))){
+            if (END_FIELD.equals(desc.charAt(i))) {
                 return new BeanFieldDescription(desc.substring(0, i), END_FIELD);
             }
         }
@@ -87,8 +87,8 @@ public class BeanLanguageProtocol {
     }
 
 
-    private static boolean isContainsProtocolDescription(String desc){
-        if (StringUtils.isNotBlank(desc)){
+    private static boolean isContainsProtocolDescription(String desc) {
+        if (StringUtils.isNotBlank(desc)) {
             return desc.contains(String.valueOf(CHILD_FIELD))
                     || desc.contains(String.valueOf(LIST_FIELD_START)) || desc.contains(String.valueOf(LIST_FIELD_END))
                     || desc.contains(String.valueOf(IGNORE_FIELD))
@@ -103,7 +103,7 @@ public class BeanLanguageProtocol {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class BeanFieldPositionDefinition{
+    public static class BeanFieldPositionDefinition {
 
         /**
          * 协议描述字段
@@ -120,7 +120,7 @@ public class BeanLanguageProtocol {
     @ToString
     @NoArgsConstructor
     @AllArgsConstructor
-    private static class BeanFieldDescription{
+    private static class BeanFieldDescription {
 
         private String fieldName;
 

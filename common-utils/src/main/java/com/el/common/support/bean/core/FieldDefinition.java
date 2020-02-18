@@ -25,7 +25,7 @@ public class FieldDefinition {
      */
     private String fieldName;
 
-    public FieldDefinition(String fieldName){
+    public FieldDefinition(String fieldName) {
         this.fieldName = fieldName;
     }
 }
