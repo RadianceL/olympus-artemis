@@ -15,10 +15,16 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties("spring.el-util")
-public class ElApplicationConfiguration {
+public class CommonUtilProperties {
 
     /**
      * 是否开启
      */
     private Boolean enableAutoConfig;
+
+    /**
+     * 是否开启
+     */
+    private Boolean enableTimeCalculation;
+
 }

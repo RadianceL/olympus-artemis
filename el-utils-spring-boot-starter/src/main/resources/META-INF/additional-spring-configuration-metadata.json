@@ -2,21 +2,40 @@
   "groups": [
     {
       "name": "spring.el-util",
-      "type": "com.el.utils.auto.configuration.ElApplicationConfiguration",
-      "sourceType": "com.el.utils.auto.configuration.ElApplicationConfiguration"
+      "type": "com.el.utils.auto.configuration.CommonUtilProperties",
+      "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties"
     }
   ],
   "properties": [
     {
       "name": "spring.el-util.enable-auto-config",
       "type": "java.lang.Boolean",
-      "sourceType": "com.el.utils.auto.configuration.ElApplicationConfiguration",
+      "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.el-util.enable-time-calculation",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties",
       "defaultValue": false
     }
   ],
   "hints": [
     {
       "name": "spring.el-util.enable-auto-config",
+      "values": [
+        {
+          "value": "true",
+          "description": "开启."
+        },
+        {
+          "value": false,
+          "description": "关闭."
+        }
+      ]
+    },
+    {
+      "name": "spring.el-util.enable-time-calculation",
       "values": [
         {
           "value": "true",

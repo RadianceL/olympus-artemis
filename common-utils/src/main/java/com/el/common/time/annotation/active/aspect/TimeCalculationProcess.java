@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TimeCalculationProcess {
 
-    @Pointcut("@annotation(com.el.util.time.annotation.TimeCalculation)")
+    @Pointcut("@annotation(com.el.common.time.annotation.TimeCalculation)")
     public void costTimePointCut() {
     }
 
