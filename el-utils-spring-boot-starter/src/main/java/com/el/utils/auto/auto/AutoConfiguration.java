@@ -19,7 +19,7 @@ public class AutoConfiguration {
     @Bean
     @ConditionalOnProperty(prefix = "spring.el-util", name = "enable-time-calculation")
     public TimeCalculationProcess timeCalculationProcess() {
-        log.debug("加载接口时间统计器");
+        log.info("启用 - 接口调用时间统计器");
         return new TimeCalculationProcess();
     }
 

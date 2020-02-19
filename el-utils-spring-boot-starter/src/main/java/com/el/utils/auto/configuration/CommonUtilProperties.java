@@ -23,7 +23,7 @@ public class CommonUtilProperties {
     private Boolean enableAutoConfig;
 
     /**
-     * 是否开启
+     * 是否开启接口执行时间统计
      */
     private Boolean enableTimeCalculation;
 
