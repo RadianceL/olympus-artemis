@@ -5,7 +5,7 @@ package com.el.common.money;
  *
  * @author eddielee
  */
-public class Configuration {
+public class MoneyConstant {
 
     /**
      * 金额为元的格式，小数点后两位

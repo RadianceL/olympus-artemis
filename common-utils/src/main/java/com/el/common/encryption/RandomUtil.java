@@ -10,30 +10,24 @@ import java.util.regex.Pattern;
  * 获取随机数
  * 2019-03-12
  *
- * @author 牛国凯
+ * @author eddie
  */
 public class RandomUtil {
 
-    private static final Pattern pattern = Pattern.compile("[^0-9]");
+    private static final Pattern PATTERN = Pattern.compile("[^0-9]");
 
     /**
      * 获取随机数
-     *
-     * @param length
-     * @return
      */
     public static Integer getRandomNumber(Integer length) {
         Double rand = Math.random();
         Double arg = Math.pow(10, length);
-        Double result = Math.floor(rand * arg);
-        return result.intValue();
+        double result = Math.floor(rand * arg);
+        return (int) result;
     }
 
     /**
      * 获取随机数
-     *
-     * @param length
-     * @return
      */
     public static String getRandomNumberString(Integer length) {
         return formatNumber(getRandomNumber(length), length);
@@ -41,10 +35,6 @@ public class RandomUtil {
 
     /**
      * 格式化数字
-     *
-     * @param value
-     * @param length
-     * @return
      */
     private static String formatNumber(Integer value, Integer length) {
         if (value == null) {
@@ -55,27 +45,20 @@ public class RandomUtil {
 
     /**
      * 获取字符串中的数字
-     *
-     * @param content
-     * @return
      */
     public static String getNumbers(String content) {
         if (StringUtils.isEmpty(content)) {
             return "";
         }
-        Matcher matcher = pattern.matcher(content);
+        Matcher matcher = PATTERN.matcher(content);
         return matcher.replaceAll("").trim();
     }
 
     /**
      * 获取指定长度的随机字符串（小写字母加数字）
-     *
-     * @param len
-     * @return
      */
     public static String getRandomStr(int len) {
-        String randomPassword = RandomStringUtils.random(len, "abcdefghijklmnopqrstuvwxyz1234567890");
-        return randomPassword;
+        return RandomStringUtils.random(len, "abcdefghijklmnopqrstuvwxyz1234567890");
     }
 
     /**
@@ -83,11 +66,9 @@ public class RandomUtil {
      *
      * @param min 要生成的字符串的包含最小长度
      * @param max 要生成的字符串的包含最大长度
-     * @return
      */
     public static String getRandomAlphanumeric(int min, int max) {
-        String randomPassword = RandomStringUtils.randomAlphanumeric(min, max);
-        return randomPassword;
+        return RandomStringUtils.randomAlphanumeric(min, max);
     }
 
 

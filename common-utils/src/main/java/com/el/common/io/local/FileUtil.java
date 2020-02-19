@@ -7,6 +7,9 @@ import java.util.Objects;
 
 /**
  * 文件读取工具类
+ * 2019-03-12
+ *
+ * @author eddie
  */
 public class FileUtil {
 

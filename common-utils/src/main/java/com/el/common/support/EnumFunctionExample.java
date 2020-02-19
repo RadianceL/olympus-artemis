@@ -5,7 +5,7 @@ package com.el.common.support;
  * 枚举方法用例
  * 2019/10/7
  *
- * @author eddielee
+ * @author eddie
  */
 public enum EnumFunctionExample {
     /**

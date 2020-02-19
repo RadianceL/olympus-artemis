@@ -131,10 +131,6 @@ public class MoneyComputeUtil {
 
     /**
      * 四舍五入保留小数点后#{scale}个
-     *
-     * @param sourceAmount
-     * @param scale
-     * @return
      */
     public static BigDecimal roundHalfUp(String sourceAmount, Integer scale) {
         if (checkIsNotMoney(sourceAmount)) {
@@ -146,10 +142,6 @@ public class MoneyComputeUtil {
 
     /**
      * 四舍五入保留小数点后#{scale}个
-     *
-     * @param sourceAmount
-     * @param scale
-     * @return
      */
     public static BigDecimal roundHalfUp(BigDecimal sourceAmount, Integer scale) {
         if (Objects.isNull(scale) || scale == 0) {
@@ -160,15 +152,12 @@ public class MoneyComputeUtil {
 
     /**
      * 校验是否为金额
-     *
-     * @param source
-     * @return
      */
     public static boolean checkIsNotMoney(String source) {
         if (StringUtils.isBlank(source)) {
             return true;
         }
-        return !source.matches(Configuration.CURRENCY_YUAN_REGEX);
+        return !source.matches(MoneyConstant.CURRENCY_YUAN_REGEX);
     }
 
     public static void main(String[] args) {

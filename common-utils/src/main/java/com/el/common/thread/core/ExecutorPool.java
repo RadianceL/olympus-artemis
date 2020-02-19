@@ -1,8 +1,8 @@
 package com.el.common.thread.core;
 
 import com.el.common.thread.exceptions.BasicBoundedBufferException;
-import com.el.common.thread.model.action.WorkAction;
-import com.el.common.thread.model.action.WorkCallAction;
+import com.el.common.thread.model.WorkAction;
+import com.el.common.thread.model.WorkCallAction;
 import com.el.common.thread.status.LifeCycle;
 import com.el.common.thread.status.LifeCycleStatus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;

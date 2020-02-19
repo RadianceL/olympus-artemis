@@ -1,4 +1,4 @@
-package com.el.common.support.bean;
+package com.el.common.support;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -9,17 +9,15 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * 配置读取工具
+ *
+ * since 2019/03/13
  * @author eddie
- * @createTime 2019-03-18
- * @description
  */
 public class BeanUtil {
 
     /**
      * Bean对象是否包含空Field
-     *
-     * @param obj
-     * @return
      */
     public static boolean hasNull(Object obj) {
         for (Field f : obj.getClass().getDeclaredFields()) {
@@ -37,9 +35,6 @@ public class BeanUtil {
 
     /**
      * 哪个Field值为null
-     *
-     * @param obj
-     * @return
      */
     private static List<String> whereIsNull(Object obj) {
         List<String> fields = new ArrayList<>();
@@ -66,10 +61,6 @@ public class BeanUtil {
 
     /**
      * 哪个Field值为null
-     *
-     * @param obj
-     * @param notNullField
-     * @return
      */
     public static List<String> whereJsonIsNull(JSONObject obj, List<String> notNullField) {
         Set<String> keys = obj.keySet();
@@ -81,8 +72,7 @@ public class BeanUtil {
      * 空值中是否包含必填项
      *
      * @param object       需要被校验的实体
-     * @param notNullField 不能为空的字段名
-     * @return
+     * @param notNullField 不能为空的字段名\
      */
     public static List<String> notNullField(Object object, List<String> notNullField) {
         List<String> nullFields = whereIsNull(object);

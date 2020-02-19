@@ -1,4 +1,4 @@
-package com.el.common.thread.model.action;
+package com.el.common.thread.model;
 
 /**
  * 有返回值的任务

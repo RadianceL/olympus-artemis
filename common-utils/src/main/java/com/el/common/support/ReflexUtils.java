@@ -1,12 +1,7 @@
 package com.el.common.support;
 
-
-import com.el.common.support.bean.core.FieldDefinition;
-import com.el.common.support.bean.core.TestBean;
-
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -16,7 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.stream.Stream;
 
 /**
  * 注解处理器工具类
@@ -26,28 +20,8 @@ import java.util.stream.Stream;
  */
 public class ReflexUtils {
 
-    public static List<FieldDefinition> getAllField(Object source) {
-        List<FieldDefinition> containsFields = new ArrayList<>();
-        if (Objects.isNull(source)) {
-            return containsFields;
-        }
-        Class<?> sourceClass = source.getClass();
-        Field[] fields = sourceClass.getDeclaredFields();
-        Stream.of(fields).forEach(field -> containsFields.add(new FieldDefinition(field.getType(), field.getName())));
-        return containsFields;
-    }
-
-    public static void main(String[] args) {
-        TestBean testBean = new TestBean();
-        List<FieldDefinition> allField = getAllField(testBean);
-        System.out.println(allField);
-    }
-
     /**
      * 通过包名获取包内所有类
-     *
-     * @param pkg
-     * @return
      */
     public static List<Class<?>> getAllClassByPackageName(String pkg) {
         List<Class<?>> returnClassList = getClasses(pkg);
@@ -59,9 +33,6 @@ public class ReflexUtils {
 
     /**
      * 通过接口名取得某个接口下所有实现这个接口的类
-     *
-     * @param c
-     * @return
      */
     public static List<Class<?>> getAllClassByInterface(Class<?> c) {
         List<Class<?>> returnClassList = null;
@@ -71,15 +42,13 @@ public class ReflexUtils {
             String packageName = c.getPackage().getName();
             // 获取当前包下以及子包下所以的类
             List<Class<?>> allClass = getClasses(packageName);
-            if (allClass != null) {
-                returnClassList = new ArrayList<>();
-                for (Class<?> cls : allClass) {
-                    // 判断是否是同一个接口
-                    if (c.isAssignableFrom(cls)) {
-                        // 本身不加入进去
-                        if (!c.equals(cls)) {
-                            returnClassList.add(cls);
-                        }
+            returnClassList = new ArrayList<>();
+            for (Class<?> cls : allClass) {
+                // 判断是否是同一个接口
+                if (c.isAssignableFrom(cls)) {
+                    // 本身不加入进去
+                    if (!c.equals(cls)) {
+                        returnClassList.add(cls);
                     }
                 }
             }
@@ -90,10 +59,6 @@ public class ReflexUtils {
 
     /**
      * 取得某一类所在包的所有类名 不含迭代
-     *
-     * @param classLocation
-     * @param packageName
-     * @return
      */
     public static String[] getPackageAllClassName(String classLocation, String packageName) {
         // 将packageName分解
@@ -104,17 +69,13 @@ public class ReflexUtils {
         }
         File packageDir = new File(realClassLocation.toString());
         if (packageDir.isDirectory()) {
-            String[] allClassName = packageDir.list();
-            return allClassName;
+            return packageDir.list();
         }
         return null;
     }
 
     /**
      * 从包package中获取所有的Class
-     *
-     * @param packageName
-     * @return
      */
     private static List<Class<?>> getClasses(String packageName) {
         // 第一个class类的集合
@@ -194,11 +155,6 @@ public class ReflexUtils {
 
     /**
      * 以文件的形式来获取包下的所有Class
-     *
-     * @param packageName
-     * @param packagePath
-     * @param recursive
-     * @param classes
      */
     private static void findAndAddClassesInPackageByFile(String packageName, String packagePath, final boolean recursive, List<Class<?>> classes) {
         // 获取此包的目录 建立一个File
