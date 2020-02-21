@@ -1,6 +1,7 @@
 package com.el.common.thread.core;
 
-import com.el.common.thread.exceptions.BasicBoundedBufferException;
+import com.el.common.support.exception.data.ErrorMessage;
+import com.el.common.thread.excepion.ThreadInterruptedException;
 import com.el.common.thread.model.WorkAction;
 import com.el.common.thread.model.WorkCallAction;
 import com.el.common.thread.status.LifeCycle;
@@ -60,58 +61,50 @@ public class ExecutorPool implements LifeCycle {
      * @param source  任务内容
      */
     public void executeWork(WorkAction command, Object source) {
-        try {
-            service.execute(() -> {
+        service.execute(() -> {
+            try {
+                semaphore.acquire();
+                command.execute(source);
+            } catch (InterruptedException e) {
+                this.shutDown();
+                throw new ThreadInterruptedException(ErrorMessage.of("线程中断异常", e.getMessage()));
+            } finally {
+                semaphore.release();
+            }
+        });
+    }
+
+    public List<Future<Object>> submitWork(WorkCallAction action, List<Object> sources) {
+        List<Future<Object>> resultObjects = new ArrayList<>();
+        for (Object o : sources) {
+            Future<Object> submit = service.submit(() -> {
                 try {
                     semaphore.acquire();
-                    command.execute(source);
+                    return action.execute(o);
                 } catch (InterruptedException e) {
-                    throw new BasicBoundedBufferException("线程异常: {}", e.getMessage());
+                    this.shutDown();
+                    throw new ThreadInterruptedException(ErrorMessage.of("线程中断异常", e.getMessage()));
                 } finally {
                     semaphore.release();
                 }
             });
-        } catch (BasicBoundedBufferException e) {
-            this.shutDown();
-            throw new BasicBoundedBufferException(e);
+            resultObjects.add(submit);
         }
-    }
-
-    public List<Future<Object>> submitWork(WorkCallAction action, List<Object> sources) {
-        try {
-            List<Future<Object>> resultObjects = new ArrayList<>();
-            for (Object o : sources) {
-                Future<Object> submit = service.submit(() -> {
-                    try {
-                        semaphore.acquire();
-                        return action.execute(o);
-                    } catch (InterruptedException e) {
-                        throw new BasicBoundedBufferException("线程异常: {}", e.getMessage());
-                    } finally {
-                        semaphore.release();
-                    }
-                });
-                resultObjects.add(submit);
-            }
-            return resultObjects;
-        } catch (BasicBoundedBufferException e) {
-            this.shutDown();
-            throw new BasicBoundedBufferException(e);
-        }
+        return resultObjects;
     }
 
     @SneakyThrows
     public List<Object> runBackgroundCommand(WorkCallAction action, List<Object> sources) {
         final CountDownLatch countDownLatch = new CountDownLatch(sources.size());
         List<Object> resultObjects = new CopyOnWriteArrayList<>();
-
         for (Object o : sources) {
             service.execute(() -> {
                 try {
                     semaphore.acquire();
                     resultObjects.add(action.execute(o));
                 } catch (InterruptedException e) {
-                    throw new BasicBoundedBufferException("线程异常: {}", e.getMessage());
+                    this.shutDown();
+                    throw new ThreadInterruptedException(ErrorMessage.of("线程中断异常", e.getMessage()));
                 } finally {
                     countDownLatch.countDown();
                 }
