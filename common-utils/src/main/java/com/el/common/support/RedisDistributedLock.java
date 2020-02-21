@@ -1,8 +1,6 @@
 package com.el.common.support;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 
@@ -17,7 +15,6 @@ import java.util.concurrent.TimeUnit;
  * @author eddie
  */
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RedisDistributedLock implements AutoCloseable {
 
     /**
@@ -39,6 +36,10 @@ public class RedisDistributedLock implements AutoCloseable {
      * 成功的返回值
      */
     private static final Long RELEASE_SUCCESS = 1L;
+
+    public RedisDistributedLock(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     public Boolean lock() {
         long timeout = 20;

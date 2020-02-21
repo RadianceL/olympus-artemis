@@ -16,7 +16,18 @@ import java.util.Base64;
  */
 public class ThreeDesUtils {
 
-    static byte[] tripleDesEncrypt(byte[] content, byte[] key) throws Exception {
+    public static String decrypt(String data, String key) {
+        byte[] dec64 = Base64.getDecoder().decode(data);
+        byte[] dec;
+        try {
+            dec = ThreeDesUtils.tripleDesDecrypt(dec64, key.getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            return "";
+        }
+        return new String(dec);
+    }
+
+    public static byte[] tripleDesEncrypt(byte[] content, byte[] key) throws Exception {
         byte[] icv = new byte[8];
         System.arraycopy(key, 0, icv, 0, 8);
         return tripleDesEncrypt(content, key, icv);
@@ -43,18 +54,6 @@ public class ThreeDesUtils {
         cipher.init(Cipher.DECRYPT_MODE, secretKey, iv);
         return cipher.doFinal(content);
     }
-
-    public static String decrypt(String data, String key) {
-        byte[] dec64 = Base64.getDecoder().decode(data);
-        byte[] dec;
-        try {
-            dec = ThreeDesUtils.tripleDesDecrypt(dec64, key.getBytes(StandardCharsets.UTF_8));
-        } catch (Exception e) {
-            return "";
-        }
-        return new String(dec);
-    }
-
 
     private static String hmacSha256(String message, String secret) {
         String hash = "";
