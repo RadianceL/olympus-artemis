@@ -1,1 +1,3 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.el.utils.auto.auto.AutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.el.utils.auto.auto.AutoConfiguration,\
+  com.el.utils.auto.configuration.CommonUtilProperties
