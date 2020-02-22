@@ -3,6 +3,7 @@
     {
       "name": "spring.el-util",
       "type": "com.el.utils.auto.configuration.CommonUtilProperties",
+      "description": "自动装配数据源.",
       "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties"
     }
   ],
@@ -10,15 +11,47 @@
     {
       "name": "spring.el-util.enable-auto-config",
       "type": "java.lang.Boolean",
+      "description": "是否开启自动化配置.",
       "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties",
-      "defaultValue": false
+      "defaultValue": true
     },
     {
       "name": "spring.el-util.enable-time-calculation",
       "type": "java.lang.Boolean",
+      "description": "是否开启接口响应时间统计.",
       "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties",
       "defaultValue": false
+    },
+    {
+      "name": "spring.el-util.enable-thread-pool",
+      "type": "java.lang.Boolean",
+      "description": "是否开启线程池.",
+      "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.el-util.thread-pool-config.core-thread-total",
+      "type": "java.lang.Integer",
+      "description": "核心线程池数量.",
+      "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties$ThreadPoolConfig",
+      "defaultValue": 10
+    },
+    {
+      "name": "spring.el-util.thread-pool-config.max-thread-limit",
+      "type": "java.lang.Integer",
+      "description": "同一时间同时执行线程数（并非线程池最大线程）.",
+      "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties$ThreadPoolConfig",
+      "defaultValue": 20
+    },
+    {
+      "name": "spring.el-util.thread-pool-config.pool-name",
+      "type": "java.lang.String",
+      "description": "线程名称.",
+      "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties$ThreadPoolConfig",
+      "defaultValue": "application"
     }
+
+
   ],
   "hints": [
     {
@@ -36,6 +69,19 @@
     },
     {
       "name": "spring.el-util.enable-time-calculation",
+      "values": [
+        {
+          "value": "true",
+          "description": "开启."
+        },
+        {
+          "value": false,
+          "description": "关闭."
+        }
+      ]
+    },
+    {
+      "name": "spring.el-util.enable-thread-pool",
       "values": [
         {
           "value": "true",

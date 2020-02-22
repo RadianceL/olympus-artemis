@@ -26,13 +26,21 @@ public enum Local {
      */
     RU(101L, "RU", Local.AREA_TYPE_COUNTRY),
     /**
+     * 法国
+     */
+    FR(102L, "FR", Local.AREA_TYPE_COUNTRY),
+    /**
      * 美国
      */
-    US(102L, "US", Local.AREA_TYPE_COUNTRY),
+    US(103L, "US", Local.AREA_TYPE_COUNTRY),
     /**
      * 英国
      */
-    UK(103L, "UK", Local.AREA_TYPE_COUNTRY);
+    UK(104L, "UK", Local.AREA_TYPE_COUNTRY),
+    /**
+     * 日本
+     */
+    JP(105L, "JP", Local.AREA_TYPE_COUNTRY);
 
     /**
      * 地区类型 国家

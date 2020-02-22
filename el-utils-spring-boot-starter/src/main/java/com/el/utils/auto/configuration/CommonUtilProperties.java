@@ -3,6 +3,7 @@ package com.el.utils.auto.configuration;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,4 +28,21 @@ public class CommonUtilProperties {
      */
     private Boolean enableTimeCalculation;
 
+    /**
+     * 是否开启线程池
+     */
+    private Boolean enableThreadPool;
+
+    /**
+     * 线程池配置
+     */
+    @NestedConfigurationProperty
+    private ThreadPoolConfig threadPoolConfig = new ThreadPoolConfig();
+
+    @Data
+    public static class ThreadPoolConfig {
+        private int coreThreadTotal;
+        private int maxThreadLimit;
+        private String poolName;
+    }
 }

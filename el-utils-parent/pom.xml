@@ -9,6 +9,7 @@
         <groupId>com.el</groupId>
         <artifactId>el-common-utils</artifactId>
         <version>1.0.0</version>
+        <relativePath>../</relativePath>
     </parent>
 
     <artifactId>el-utils-parent</artifactId>

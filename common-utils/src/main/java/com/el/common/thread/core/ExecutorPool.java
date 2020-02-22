@@ -4,6 +4,7 @@ import com.el.common.support.exception.data.ErrorMessage;
 import com.el.common.thread.excepion.ThreadInterruptedException;
 import com.el.common.thread.model.WorkAction;
 import com.el.common.thread.model.WorkCallAction;
+import com.el.common.thread.model.WorkWithoutSourceAction;
 import com.el.common.thread.status.LifeCycle;
 import com.el.common.thread.status.LifeCycleStatus;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -46,12 +47,31 @@ public class ExecutorPool implements LifeCycle {
      * @param poolName    线程池名称
      */
     public ExecutorPool(int threadTotal, int threadLimit, String poolName) {
-        ThreadFactory factory = new ThreadFactoryBuilder().setNameFormat(poolName.concat("-Thread-%d")).build();
+        ThreadFactory factory = new ThreadFactoryBuilder().setNameFormat(poolName.concat("-thread-%d")).build();
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         this.service = new ThreadPoolExecutor(threadTotal, availableProcessors * FACTOR, 5L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingDeque<>(256), factory, new ThreadPoolExecutor.AbortPolicy());
         //初始化信号量
         this.semaphore = new Semaphore(threadLimit);
+    }
+
+    /**
+     * 执行工作
+     *
+     * @param command lambda表达式 -> 任务
+     */
+    public void executeWork(WorkWithoutSourceAction command) {
+        service.execute(() -> {
+            try {
+                semaphore.acquire();
+                command.execute();
+            } catch (InterruptedException e) {
+                this.shutDown();
+                throw new ThreadInterruptedException(ErrorMessage.of("线程中断异常", e.getMessage()));
+            } finally {
+                semaphore.release();
+            }
+        });
     }
 
     /**
@@ -74,6 +94,14 @@ public class ExecutorPool implements LifeCycle {
         });
     }
 
+    /**
+     * 有返回值的线程模型
+     * 这个设计模式 我觉得主要的使用场景是在bio上面
+     * 用来解决网络io和cpu之间的阻抗不匹配的问题
+     * @param action            执行任务逻辑
+     * @param sources           需要处理的对象
+     * @return                  Future结果集
+     */
     public List<Future<Object>> submitWork(WorkCallAction action, List<Object> sources) {
         List<Future<Object>> resultObjects = new ArrayList<>();
         for (Object o : sources) {
@@ -93,6 +121,12 @@ public class ExecutorPool implements LifeCycle {
         return resultObjects;
     }
 
+    /**
+     * 每个Object都是单独线程来执行
+     * @param action        执行逻辑
+     * @param sources       需要处理的对象
+     * @return              结果集
+     */
     @SneakyThrows
     public List<Object> runBackgroundCommand(WorkCallAction action, List<Object> sources) {
         final CountDownLatch countDownLatch = new CountDownLatch(sources.size());
