@@ -1,8 +1,10 @@
-package com.el.common.web.security;
+package com.el.common.web.security.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.el.common.support.exception.ExtendRuntimeException;
 import com.el.common.support.utils.TraceIdUtil;
+import com.el.common.web.config.CommonWebConstants;
+import com.el.common.web.security.FilterFailureType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -39,10 +41,8 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
         ServerHttpRequest request = exchange.getRequest();
 
         String url = request.getPath().value();
-        log.debug("请求URL: {} 请求方式为[{}]", url, request.getMethod());
-
         String traceId = TraceIdUtil.getTraceId();
-        addHttpHeader(request, "traceId", traceId);
+        addHttpHeader(request, CommonWebConstants.TRACE_ID, traceId);
 
         if (ACROSS_PERMISSIONS.contains(ACROSS_PERMISSIONS_ALL)
                 || ACROSS_PERMISSIONS.contains(url)) {
@@ -53,63 +53,69 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
         Flux<DataBuffer> body = request.getBody();
         ServerHttpResponse response = exchange.getResponse();
         String realIp = headers.getFirst("X-Real-IP");
-
         try {
             if (!verifyRemoteIpPermissions(realIp)) {
-                return onFailureListener(response, FilterFailureType.REMOTE_IP);
+                return onFailureListener(request, response, FilterFailureType.REMOTE_IP);
             }
             if (!verifyRequestParameter(url, headers, body)) {
-                return onFailureListener(response, FilterFailureType.HEADER_PARAMETER);
+                return onFailureListener(request, response, FilterFailureType.HEADER_PARAMETER);
             }
-            onSuccessListener(request);
+            onSuccessListener(traceId, url, request);
         }catch (ExtendRuntimeException e) {
-            return onExceptionListener(response, e);
+            return onExceptionListener(request, response, e);
         }
         return chain.filter(exchange.mutate().request(request).build());
     }
 
     /**
      * 校验IP是否有权限访问
-     * @param xRealIp   用户真实IP
-     * @return          是否有权限
+     * @param xRealIp       用户真实IP
+     * @return              是否有权限
      */
     public abstract boolean verifyRemoteIpPermissions(String xRealIp);
 
     /**
      * 校验HttpHeader参数
-     * @param url     请求url
-     * @param headers HttpHeaders
-     * @param body    Flux<DataBuffer>
-     * @return        是否通过
+     * @param url           请求url
+     * @param headers       HttpHeaders
+     * @param body          Flux<DataBuffer>
+     * @return              是否通过
      */
     public abstract boolean verifyRequestParameter(String url, HttpHeaders headers, Flux<DataBuffer> body);
 
     /**
      * 校验通过
-     * @param request   请求参数
+     * @param traceId       traceId
+     * @param requestUrl    请求URL
+     * @param request       请求参数
      */
-    public abstract void onSuccessListener(ServerHttpRequest request);
+    public abstract void onSuccessListener(String traceId, String requestUrl, ServerHttpRequest request);
 
     /**
      * 发生错误返回
-     * @param failureType 错误类型
+     * @param request       请求信息
+     * @param failureType   错误类型
      * @return
      */
-    public abstract Object onFailureListener(FilterFailureType failureType);
+    public abstract Object onFailureListener(ServerHttpRequest request, FilterFailureType failureType);
 
     /**
      * 发生异常返回
-     * @param e 异常
+     * @param request       请求信息
+     * @param e             异常
      * @return
      */
-    public abstract Object onExceptionListener(ExtendRuntimeException e);
+    public abstract Object onExceptionListener(ServerHttpRequest request, ExtendRuntimeException e);
 
     /**
      * 发生错误返回
-     * @param response  HttpResponse
+     * @param request       请求信息
+     * @param response      返回封装
+     * @param failureType   错误类型
+     * @return
      */
-    public Mono<Void> onFailureListener(ServerHttpResponse response, FilterFailureType failureType) {
-        byte[] bits = JSON.toJSONBytes(onFailureListener(failureType));
+    public Mono<Void> onFailureListener(ServerHttpRequest request, ServerHttpResponse response, FilterFailureType failureType) {
+        byte[] bits = JSON.toJSONBytes(onFailureListener(request, failureType));
         DataBuffer buffer = response.bufferFactory().wrap(bits);
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
         response.getHeaders().add("Content-Type", "text/plain;charset=UTF-8");
@@ -117,11 +123,14 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
     }
 
     /**
-     * 发生错误返回
-     * @param response  HttpResponse
+     * 发生异常返回
+     * @param request       请求信息
+     * @param response      返回封装
+     * @param e             异常
+     * @return
      */
-    public Mono<Void> onExceptionListener(ServerHttpResponse response, ExtendRuntimeException e) {
-        byte[] bits = JSON.toJSONBytes(onExceptionListener(e));
+    public Mono<Void> onExceptionListener(ServerHttpRequest request, ServerHttpResponse response, ExtendRuntimeException e) {
+        byte[] bits = JSON.toJSONBytes(onExceptionListener(request, e));
         DataBuffer buffer = response.bufferFactory().wrap(bits);
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
         response.getHeaders().add("Content-Type", "text/plain;charset=UTF-8");
