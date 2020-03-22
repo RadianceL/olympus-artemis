@@ -10,6 +10,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -18,8 +19,11 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 路由过滤器
@@ -52,12 +56,13 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
         HttpHeaders headers = request.getHeaders();
         Flux<DataBuffer> body = request.getBody();
         ServerHttpResponse response = exchange.getResponse();
+        String body1 = resolveBodyFromRequest(request);
         String realIp = headers.getFirst("X-Real-IP");
         try {
             if (!verifyRemoteIpPermissions(realIp)) {
                 return onFailureListener(request, response, FilterFailureType.REMOTE_IP);
             }
-            if (!verifyRequestParameter(url, headers, body)) {
+            if (!verifyRequestParameter(url, headers, body1)) {
                 return onFailureListener(request, response, FilterFailureType.HEADER_PARAMETER);
             }
             onSuccessListener(traceId, url, request);
@@ -81,7 +86,7 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
      * @param body          Flux<DataBuffer>
      * @return              是否通过
      */
-    public abstract boolean verifyRequestParameter(String url, HttpHeaders headers, Flux<DataBuffer> body);
+    public abstract boolean verifyRequestParameter(String url, HttpHeaders headers, String body);
 
     /**
      * 校验通过
@@ -147,5 +152,19 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
 
     public void addHttpHeader(ServerHttpRequest httpRequest, String key, String value) {
         httpRequest.mutate().header(key, value);
+    }
+
+    private String resolveBodyFromRequest(ServerHttpRequest serverHttpRequest){
+        //获取请求体
+        Flux<DataBuffer> body = serverHttpRequest.getBody();
+
+        AtomicReference<String> bodyRef = new AtomicReference<>();
+        body.subscribe(buffer -> {
+            CharBuffer charBuffer = StandardCharsets.UTF_8.decode(buffer.asByteBuffer());
+            DataBufferUtils.release(buffer);
+            bodyRef.set(charBuffer.toString());
+        });
+        //获取request body
+        return bodyRef.get();
     }
 }
