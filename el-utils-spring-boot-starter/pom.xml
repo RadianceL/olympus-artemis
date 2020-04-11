@@ -12,14 +12,14 @@
     </parent>
 
     <artifactId>el-utils-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <dependencies>
         <!-- 内部工具包 -->
         <dependency>
             <groupId>com.el</groupId>
             <artifactId>common-utils</artifactId>
-            <version>0.1.6-SNAPSHOT</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
 
         <!-- spring boot 依赖-->
