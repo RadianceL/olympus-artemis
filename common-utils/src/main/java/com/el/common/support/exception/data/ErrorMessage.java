@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.PropertyKey;
 import org.slf4j.helpers.MessageFormatter;
 
 import java.net.URL;
@@ -26,6 +27,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ErrorMessage {
 
+    private static final String BUNDLE = "i18n.errors";
+
     /**
      * 读取多语言配置
      */
@@ -34,18 +37,16 @@ public class ErrorMessage {
     /**
      * 空错误
      */
-    public static final ErrorMessage EMPTY_ERROR_MESSAGE = new ErrorMessage("UN_KNOW", "EMPTY_ERROR_MESSAGE");
+    public static final ErrorMessage EMPTY_ERROR_MESSAGE = new ErrorMessage("UN_KNOW_EXCEPTION", "SYSTEM_ERROR");
 
     static {
-        /*
-            初始化多语言配置
-         */
+        /* 初始化多语言配置 */
         PROPERTIES = new HashMap<>();
-        URL resource = ErrorMessage.class.getClassLoader().getResource("message/");
+        URL resource = ErrorMessage.class.getClassLoader().getResource("i18n/");
         if (!Objects.isNull(resource)) {
             List<String> fileNames = FileUtil.getFiles(resource.getPath());
             for (String fileName : fileNames) {
-                Map<String, String> defaultProperties = PropertiesReadUtil.getProperties("message/".concat(fileName));
+                Map<String, String> defaultProperties = PropertiesReadUtil.getProperties("i18n/".concat(fileName));
                 String localName = Local.findLocalName(fileName);
                 PROPERTIES.put(localName, defaultProperties);
             }
@@ -69,7 +70,7 @@ public class ErrorMessage {
      * @param errorMessage 错误信息
      * @return 错误信息对象
      */
-    public static ErrorMessage of(String errorCode, String errorMessage) {
+    public static ErrorMessage of(@PropertyKey(resourceBundle = BUNDLE) String errorCode, String errorMessage) {
         return new ErrorMessage(errorCode, errorMessage);
     }
 
@@ -80,7 +81,7 @@ public class ErrorMessage {
      * @param args      错误参数
      * @return 错误信息对象
      */
-    public static ErrorMessage of(String errorCode, Object... args) {
+    public static ErrorMessage of(@PropertyKey(resourceBundle = BUNDLE) String errorCode, Object... args) {
         String message = getMessage(errorCode, Local.CN, args);
         return new ErrorMessage(errorCode, message);
     }
@@ -93,7 +94,7 @@ public class ErrorMessage {
      * @param args      错误参数
      * @return 错误信息对象
      */
-    public static ErrorMessage of(String errorCode, Local local, Object... args) {
+    public static ErrorMessage of(@PropertyKey(resourceBundle = BUNDLE) String errorCode, Local local, Object... args) {
         String message = getMessage(errorCode, local, args);
         return new ErrorMessage(errorCode, message);
     }

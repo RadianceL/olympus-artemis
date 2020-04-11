@@ -12,18 +12,6 @@ import java.util.List;
 public interface LifeCycle {
 
     /**
-     * 开始执行 该方法以删除
-     */
-    @Deprecated
-    void start();
-
-    /**
-     * 暂停消费 该方法以删除
-     */
-    @Deprecated
-    void stop();
-
-    /**
      * 停止服务 停止生产 等待消费完成
      */
     void shutDown();

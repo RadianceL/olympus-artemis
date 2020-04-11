@@ -27,12 +27,12 @@ public class ExecutorPool implements LifeCycle {
     /**
      * 线程池
      */
-    private ExecutorService service;
+    private final ExecutorService service;
 
     /**
      * 信号锁
      */
-    private Semaphore semaphore;
+    private final Semaphore semaphore;
 
     /**
      * MAX线程因子
@@ -67,7 +67,7 @@ public class ExecutorPool implements LifeCycle {
                 command.execute();
             } catch (InterruptedException e) {
                 this.shutDown();
-                throw new ThreadInterruptedException(ErrorMessage.of("线程中断异常", e.getMessage()));
+                throw new ThreadInterruptedException(ErrorMessage.of("UTIL-THREAD-000-01", e.getMessage()));
             } finally {
                 semaphore.release();
             }
@@ -87,7 +87,7 @@ public class ExecutorPool implements LifeCycle {
                 command.execute(source);
             } catch (InterruptedException e) {
                 this.shutDown();
-                throw new ThreadInterruptedException(ErrorMessage.of("线程中断异常", e.getMessage()));
+                throw new ThreadInterruptedException(ErrorMessage.of("UTIL-THREAD-000-01", e.getMessage()));
             } finally {
                 semaphore.release();
             }
@@ -111,7 +111,7 @@ public class ExecutorPool implements LifeCycle {
                     return action.execute(o);
                 } catch (InterruptedException e) {
                     this.shutDown();
-                    throw new ThreadInterruptedException(ErrorMessage.of("线程中断异常", e.getMessage()));
+                    throw new ThreadInterruptedException(ErrorMessage.of("UTIL-THREAD-000-01", e.getMessage()));
                 } finally {
                     semaphore.release();
                 }
@@ -138,7 +138,7 @@ public class ExecutorPool implements LifeCycle {
                     resultObjects.add(action.execute(o));
                 } catch (InterruptedException e) {
                     this.shutDown();
-                    throw new ThreadInterruptedException(ErrorMessage.of("线程中断异常", e.getMessage()));
+                    throw new ThreadInterruptedException(ErrorMessage.of("UTIL-THREAD-000-01", e.getMessage()));
                 } finally {
                     countDownLatch.countDown();
                 }
@@ -176,13 +176,4 @@ public class ExecutorPool implements LifeCycle {
         return service.isShutdown() ? LifeCycleStatus.STOPED : LifeCycleStatus.RUNNING;
     }
 
-    @Override
-    public void start() {
-        //无此方法此方法
-    }
-
-    @Override
-    public void stop() {
-        //无此方法
-    }
 }
