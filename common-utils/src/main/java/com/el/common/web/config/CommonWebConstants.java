@@ -9,4 +9,10 @@ package com.el.common.web.config;
 public class CommonWebConstants {
 
     public static final String TRACE_ID = "traceId";
+
+    public static final String X_REAL_IP = "X-Real-IP";
+
+    public static final String HEADER_CONTENT_TYPE = "Content-Type";
+
+    public static final String WEB_JSON_UTF8_CHARSET = "application/json;charset=UTF-8";
 }

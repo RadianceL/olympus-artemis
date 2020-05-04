@@ -50,7 +50,7 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
 
         HttpHeaders headers = request.getHeaders();
         ServerHttpResponse response = exchange.getResponse();
-        String realIp = headers.getFirst("X-Real-IP");
+        String realIp = headers.getFirst(CommonWebConstants.X_REAL_IP);
         try {
             if (!verifyRemoteIpPermissions(realIp)) {
                 return onFailureListener(request, response, FilterFailureType.REMOTE_IP);
@@ -131,7 +131,7 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
         byte[] bits = JSON.toJSONBytes(onExceptionListener(request, e));
         DataBuffer buffer = response.bufferFactory().wrap(bits);
         response.setStatusCode(HttpStatus.UNAUTHORIZED);
-        response.getHeaders().add("Content-Type", "text/plain;charset=UTF-8");
+        response.getHeaders().add(CommonWebConstants.HEADER_CONTENT_TYPE, CommonWebConstants.WEB_JSON_UTF8_CHARSET);
         return response.writeWith(Mono.just(buffer));
     }
 
