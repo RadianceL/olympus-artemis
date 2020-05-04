@@ -23,4 +23,6 @@ public @interface TimeCalculation {
      */
     String value() default "";
 
+    long slowMethodDefine() default 100L;
+
 }

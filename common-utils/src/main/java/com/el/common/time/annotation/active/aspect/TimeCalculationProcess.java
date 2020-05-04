@@ -37,9 +37,12 @@ public class TimeCalculationProcess {
     private void logCostTime(ProceedingJoinPoint joinPoint, long time) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         TimeCalculation annotation = signature.getMethod().getAnnotation(TimeCalculation.class);
-        String desc = annotation.value();
-        String className = joinPoint.getTarget().getClass().getName();
-        String methodName = signature.getName();
-        log.info("控制器: {}, 方法名: {}, 方法描述:{}, 花费: [{}]ms", className, methodName, desc, time);
+        long slowMethodDefine = annotation.slowMethodDefine();
+        if (time >= slowMethodDefine) {
+            String desc = annotation.value();
+            String className = joinPoint.getTarget().getClass().getName();
+            String methodName = signature.getName();
+            log.info("class: {}, method: {}, desc:{}, cost: [{}]ms", className, methodName, desc, time);
+        }
     }
 }
