@@ -31,12 +31,19 @@ public abstract class AbstractAuthenticationInterceptor implements HandlerInterc
         if (BasicErrorController.class.equals(handlerMethod.getBean().getClass())) {
             return true;
         }
+        // 判断方法上是否包含该注解
+        RequirePermissions methodRequirePermissions = handlerMethod.getMethodAnnotation(RequirePermissions.class);
+        if (Objects.nonNull(methodRequirePermissions)) {
+            return onPreHandleRequest(request, response, handler);
+        }
 
+        // 判断控制器上是否包含该注解
         Class<?> beanType = handlerMethod.getBeanType();
         RequirePermissions requirePermissions = beanType.getAnnotation(RequirePermissions.class);
         if (Objects.nonNull(requirePermissions)) {
             Method method = handlerMethod.getMethod();
 
+            // 控制器上包含该注解 但其中一个方法不需要鉴权则忽略
             NotRequirePermissions methodAnnotation = method.getAnnotation(NotRequirePermissions.class);
             if (Objects.nonNull(methodAnnotation)) {
                 return true;
@@ -44,6 +51,8 @@ public abstract class AbstractAuthenticationInterceptor implements HandlerInterc
 
             return onPreHandleRequest(request, response, handler);
         }
+
+        // 方法 && 控制器 均不包含鉴权注解 则跳过
         return true;
     }
 
