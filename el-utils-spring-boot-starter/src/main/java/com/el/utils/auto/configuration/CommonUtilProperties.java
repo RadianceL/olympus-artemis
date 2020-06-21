@@ -37,7 +37,7 @@ public class CommonUtilProperties {
      * 线程池配置
      */
     @NestedConfigurationProperty
-    private ThreadPoolConfig threadPoolConfig = new ThreadPoolConfig();
+    private final ThreadPoolConfig threadPoolConfig = new ThreadPoolConfig();
 
     @Data
     public static class ThreadPoolConfig {

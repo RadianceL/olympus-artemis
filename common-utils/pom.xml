@@ -6,14 +6,14 @@
     <parent>
         <groupId>com.el</groupId>
         <artifactId>el-utils-parent</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.0</version>
         <relativePath/>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>common-utils</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <dependencies>
 

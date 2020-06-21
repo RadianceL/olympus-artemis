@@ -22,11 +22,11 @@
     <distributionManagement>
         <repository>
             <id>rdc-releases</id>
-            <url>https://repo.rdc.aliyun.com/repository/106172-release-7FQRMe/</url>
+            <url>https://packages.aliyun.com/maven/repository/2010744-release-Dcu7zI/</url>
         </repository>
         <snapshotRepository>
             <id>rdc-snapshots</id>
-            <url>https://repo.rdc.aliyun.com/repository/106172-snapshot-Ty5suM/</url>
+            <url>https://packages.aliyun.com/maven/repository/2010744-snapshot-7SYoOs/</url>
         </snapshotRepository>
     </distributionManagement>
 

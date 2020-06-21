@@ -7,7 +7,7 @@
 
     <groupId>com.el</groupId>
     <artifactId>el-utils-parent</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.0</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -20,7 +20,7 @@
         <commons-lang3.version>3.9</commons-lang3.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot-dependencies.version>2.2.4.RELEASE</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.3.1.RELEASE</spring-boot-dependencies.version>
     </properties>
 
     <dependencyManagement>
@@ -80,11 +80,11 @@
     <distributionManagement>
         <repository>
             <id>rdc-releases</id>
-            <url>https://repo.rdc.aliyun.com/repository/106172-release-7FQRMe/</url>
+            <url>https://packages.aliyun.com/maven/repository/2010744-release-Dcu7zI/</url>
         </repository>
         <snapshotRepository>
             <id>rdc-snapshots</id>
-            <url>https://repo.rdc.aliyun.com/repository/106172-snapshot-Ty5suM/</url>
+            <url>https://packages.aliyun.com/maven/repository/2010744-snapshot-7SYoOs/</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
