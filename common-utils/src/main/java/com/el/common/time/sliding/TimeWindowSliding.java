@@ -16,24 +16,24 @@ public class TimeWindowSliding {
     /**
      * 队列的总长度
      */
-    private volatile int timeSliceSize;
+    private final int timeSliceSize;
 
     /**
      * 每个时间片的时长，以毫秒为单位
      */
-    private volatile int timeMillisPerSlice;
+    private final int timeMillisPerSlice;
 
     /**
      * 当前所使用的时间片位置
      */
-    private AtomicInteger cursor = new AtomicInteger(0);
+    private final AtomicInteger cursor = new AtomicInteger(0);
 
     /**
      * 在一个完整窗口期内允许通过的最大阈值
      */
-    private int threshold;
+    private final int threshold;
 
-    private int windowSize;
+    private final int windowSize;
 
     /**
      * 最小每个时间片的时长，以毫秒为单位
@@ -48,7 +48,7 @@ public class TimeWindowSliding {
     /**
      * 数据存储
      */
-    private TimeWindowSlidingDataSource timeWindowSlidingDataSource;
+    private final TimeWindowSlidingDataSource timeWindowSlidingDataSource;
 
     public TimeWindowSliding(TimeWindowSlidingDataSource timeWindowSlidingDataSource, int windowSize, int timeMillisPerSlice, int threshold) {
         this.timeWindowSlidingDataSource = timeWindowSlidingDataSource;
