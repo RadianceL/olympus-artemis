@@ -110,4 +110,5 @@ spring:
 第三块是滑动时间窗，这个详细描述我在csdn有博客：
 https://blog.csdn.net/Summerdream1996/article/details/103547186
 
-
+## Open source license
+GNU GENERAL PUBLIC LICENSE
