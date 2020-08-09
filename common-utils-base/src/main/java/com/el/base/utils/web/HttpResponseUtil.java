@@ -1,8 +1,7 @@
-package com.el.common.web;
+package com.el.base.utils.web;
 
 import com.alibaba.fastjson.JSON;
 import lombok.SneakyThrows;
-import org.springframework.http.HttpStatus;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -18,7 +17,7 @@ import java.util.Objects;
 public class HttpResponseUtil {
 
     @SneakyThrows
-    public static void send(HttpServletResponse httpServletResponse, HttpStatus status, Object response){
+    public static void send(HttpServletResponse httpServletResponse, Object response){
         if (Objects.isNull(response)) {
             return;
         }
@@ -58,7 +57,7 @@ public class HttpResponseUtil {
             response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
 
             byte[] bytes = new byte[4096];
-            int len = -1;
+            int len;
             while ((len = in.read(bytes)) != -1) {
                 out.write(bytes, 0, len);
             }

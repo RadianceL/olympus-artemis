@@ -15,6 +15,7 @@
         <guava.version>28.1-jre</guava.version>
         <lombok.version>1.18.12</lombok.version>
         <fastjson.version>1.2.61</fastjson.version>
+        <easyexcel.version>2.2.6</easyexcel.version>
         <httpclient.version>4.5.6</httpclient.version>
         <commons-net.version>3.6</commons-net.version>
         <commons-lang3.version>3.9</commons-lang3.version>
@@ -73,6 +74,12 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

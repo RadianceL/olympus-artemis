@@ -17,6 +17,8 @@
     <modules>
         <module>common-utils</module>
         <module>el-utils-spring-boot-starter</module>
+        <module>common-utils-excel</module>
+        <module>common-utils-base</module>
     </modules>
 
     <distributionManagement>
