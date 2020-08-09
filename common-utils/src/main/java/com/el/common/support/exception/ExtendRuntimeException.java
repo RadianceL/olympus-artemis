@@ -1,7 +1,8 @@
 package com.el.common.support.exception;
 
+import com.el.common.support.ErrorsEventLogger;
 import com.el.common.support.exception.data.ErrorMessage;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
 import java.util.Objects;
 
@@ -11,28 +12,39 @@ import java.util.Objects;
  *
  * @author eddie
  */
-@Slf4j
 public class ExtendRuntimeException extends RuntimeException {
 
     private ErrorMessage errorMessage;
 
+    private final Logger log = ErrorsEventLogger.getInstance();
 
     public ExtendRuntimeException() {
         this(ErrorMessage.EMPTY_ERROR_MESSAGE);
         this.errorMessage = ErrorMessage.EMPTY_ERROR_MESSAGE;
-        log.error("无法定义的异常, {} : {}", getErrorCode(), getErrorMessage());
+        log.error("Runtime un-know type exception", this);
+    }
+
+    public ExtendRuntimeException(String error) {
+        super(error);
+        log.error("Runtime normal error string: [{}]", error, this);
     }
 
     public ExtendRuntimeException(ErrorMessage errorMessage) {
         super(errorMessage.getErrorMessage());
         this.errorMessage = errorMessage;
-        log.error("{} : {}", getErrorCode(), getErrorMessage());
+        log.error("Runtime normal error message exception, key -> [{}] value -> [{}]", getErrorCode(), getErrorMessage(), this);
     }
 
     public ExtendRuntimeException(ErrorMessage errorMessage, Throwable cause) {
         super(errorMessage.getErrorMessage(), cause);
         this.errorMessage = errorMessage;
-        log.error("{} : {}", getErrorCode(), getErrorMessage(), cause);
+        log.error("Runtime normal error message exception, key -> [{}] value -> [{}]", getErrorCode(), getErrorMessage(), this);
+    }
+
+    public ExtendRuntimeException(ErrorMessage errorMessage, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(errorMessage.getErrorMessage(), cause, enableSuppression, writableStackTrace);
+        this.errorMessage = errorMessage;
+        log.error("Runtime normal error message exception, key -> [{}] value -> [{}]", getErrorCode(), getErrorMessage(), this);
     }
 
     public String getErrorCode() {

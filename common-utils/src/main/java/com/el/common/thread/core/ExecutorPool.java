@@ -22,7 +22,7 @@ import java.util.concurrent.*;
  * @author eddielee
  */
 @Slf4j
-public class ExecutorPool implements LifeCycle {
+public class ExecutorPool<R, T> implements LifeCycle {
 
     /**
      * 线程池
@@ -80,7 +80,7 @@ public class ExecutorPool implements LifeCycle {
      * @param command lambda表达式 -> 任务
      * @param source  任务内容
      */
-    public void executeWork(WorkAction command, Object source) {
+    public void executeWork(WorkAction<T> command, T source) {
         service.execute(() -> {
             try {
                 semaphore.acquire();
@@ -102,10 +102,10 @@ public class ExecutorPool implements LifeCycle {
      * @param sources           需要处理的对象
      * @return                  Future结果集
      */
-    public List<Future<Object>> submitWork(WorkCallAction action, List<Object> sources) {
-        List<Future<Object>> resultObjects = new ArrayList<>();
-        for (Object o : sources) {
-            Future<Object> submit = service.submit(() -> {
+    public List<Future<R>> submitWork(WorkCallAction<R, T> action, List<T> sources) {
+        List<Future<R>> resultObjects = new ArrayList<>();
+        for (T o : sources) {
+            Future<R> submit = service.submit(() -> {
                 try {
                     semaphore.acquire();
                     return action.execute(o);
@@ -128,10 +128,10 @@ public class ExecutorPool implements LifeCycle {
      * @return              结果集
      */
     @SneakyThrows
-    public List<Object> runBackgroundCommand(WorkCallAction action, List<Object> sources) {
+    public List<R> runBackgroundCommand(WorkCallAction<R, T> action, List<T> sources) {
         final CountDownLatch countDownLatch = new CountDownLatch(sources.size());
-        List<Object> resultObjects = new CopyOnWriteArrayList<>();
-        for (Object o : sources) {
+        List<R> resultObjects = new CopyOnWriteArrayList<>();
+        for (T o : sources) {
             service.execute(() -> {
                 try {
                     semaphore.acquire();

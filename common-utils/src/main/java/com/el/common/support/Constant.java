@@ -9,4 +9,6 @@ package com.el.common.support;
 public class Constant {
 
     public static final String EMPTY_STRING = "";
+
+    public static final String LOGGER_NAME = "biz_error_logger";
 }

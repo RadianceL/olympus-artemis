@@ -16,14 +16,14 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ExceptionHandlerManager {
 
-    private static Map<String, ExceptionHandler> exceptionHandlerMap = new ConcurrentHashMap<>(8);
+    private static final Map<String, ExceptionHandler> EXCEPTION_HANDLER_MAP = new ConcurrentHashMap<>(16);
 
     public static void registerExceptionHandler(ExceptionHandler exceptionHandler){
-        exceptionHandlerMap.put(exceptionHandler.ofExceptionDomain(), exceptionHandler);
+        EXCEPTION_HANDLER_MAP.put(exceptionHandler.ofExceptionDomain(), exceptionHandler);
     }
 
     public static ErrorMessage handlerException(AbstractDomainRuntimeException e){
-        ExceptionHandler exceptionHandler = exceptionHandlerMap.get(e.getDomian());
+        ExceptionHandler exceptionHandler = EXCEPTION_HANDLER_MAP.get(e.getDomain());
         if (Objects.isNull(exceptionHandler)) {
             throw e;
         }

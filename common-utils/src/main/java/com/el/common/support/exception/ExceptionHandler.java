@@ -25,12 +25,12 @@ public interface ExceptionHandler {
      */
     ErrorMessage handleException(ExtendRuntimeException e);
 
-//    /**
-//     * 处理 <p>checked</p> 异常
-//     *
-//     * @param e 异常
-//     * @return 错误信息
-//     */
-//    ErrorMessage handleException(ImportantErrorException e);
+    /**
+     * 处理 <p>checked</p> 异常
+     *
+     * @param e 异常
+     * @return 错误信息
+     */
+    ErrorMessage handleException(ImportantErrorException e);
 
 }

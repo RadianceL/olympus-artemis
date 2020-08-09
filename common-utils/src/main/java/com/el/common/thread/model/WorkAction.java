@@ -7,12 +7,12 @@ package com.el.common.thread.model;
  * @author eddielee
  */
 @FunctionalInterface
-public interface WorkAction {
+public interface WorkAction<T> {
 
     /**
      * 执行工作
      *
      * @param source
      */
-    void execute(Object source);
+    void execute(T source);
 }

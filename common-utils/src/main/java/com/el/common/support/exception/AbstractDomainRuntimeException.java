@@ -25,5 +25,5 @@ public abstract class AbstractDomainRuntimeException extends ExtendRuntimeExcept
         super(errorMessage, cause);
     }
 
-    public abstract String getDomian();
+    public abstract String getDomain();
 }
