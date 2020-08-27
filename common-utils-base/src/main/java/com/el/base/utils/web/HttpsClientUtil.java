@@ -1,4 +1,4 @@
-package com.el.common.io.net;
+package com.el.base.utils.web;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;

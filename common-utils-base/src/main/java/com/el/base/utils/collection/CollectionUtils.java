@@ -1,9 +1,6 @@
 package com.el.base.utils.collection;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * <br/>
@@ -12,6 +9,14 @@ import java.util.Objects;
  * @author eddie.lys
  */
 public class CollectionUtils {
+
+    public static boolean isEmpty(Map<?, ?> map) {
+        return Objects.isNull(map) || map.isEmpty();
+    }
+
+    public static boolean isNotEmpty(Map<?, ?> map) {
+        return !isEmpty(map);
+    }
 
     public static <T> boolean isEmpty(T[] array) {
         return array == null || array.length == 0;
