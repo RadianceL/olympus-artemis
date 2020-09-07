@@ -1,6 +1,6 @@
-package com.el.common.io.net;
+package com.el.base.utils.support.io.net;
 
-import com.el.common.io.entity.FtpInfo;
+import com.el.base.utils.support.io.entity.FtpInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;

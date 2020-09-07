@@ -1,4 +1,4 @@
-package com.el.base.utils.scan;
+package com.el.base.utils.support.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +22,7 @@ import java.util.*;
  * @author eddie.lys
  */
 @Slf4j
-public class PackageScan {
+public class PackageScanUtils {
 
     /**
      * 扫描  scanPackages 下的文件的匹配符

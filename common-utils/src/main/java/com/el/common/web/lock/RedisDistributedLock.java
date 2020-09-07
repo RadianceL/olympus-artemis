@@ -1,4 +1,4 @@
-package com.el.base.utils.support.utils;
+package com.el.common.web.lock;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

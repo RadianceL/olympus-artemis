@@ -9,7 +9,7 @@ import java.security.MessageDigest;
  *
  * @author eddie
  */
-public class Md5 {
+public class Md5Utils {
 
     private final static String[] HEX_DIGITS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
 

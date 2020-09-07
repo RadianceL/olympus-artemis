@@ -1,4 +1,4 @@
-package com.el.base.utils.support.serializable;
+package com.el.common.web.serializer;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.data.redis.serializer.RedisSerializer;

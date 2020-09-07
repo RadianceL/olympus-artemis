@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author eddielee
  */
-public class MoneyComputeUtil {
+public class BigDecimalComputeUtil {
 
     private static final Integer DEFAULT_SCALE = 2;
 

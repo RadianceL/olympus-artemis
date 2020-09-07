@@ -1,4 +1,4 @@
-package com.el.common.web.security.interceptor;
+package com.el.common.web.access.interceptor;
 
 import com.el.common.web.annotation.NotRequirePermissions;
 import com.el.common.web.annotation.RequirePermissions;

@@ -1,10 +1,10 @@
-package com.el.common.web.security.filter;
+package com.el.common.web.access.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.el.base.utils.support.exception.ExtendRuntimeException;
-import com.el.base.utils.support.utils.TraceIdUtil;
+import com.el.common.web.utils.TraceIdUtil;
 import com.el.common.web.config.CommonWebConstants;
-import com.el.common.web.security.FilterFailureType;
+import com.el.common.web.access.FilterFailureType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;

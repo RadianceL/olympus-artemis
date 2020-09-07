@@ -1,4 +1,4 @@
-package com.el.common.io.entity;
+package com.el.base.utils.support.io.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

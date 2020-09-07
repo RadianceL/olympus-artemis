@@ -1,4 +1,4 @@
-package com.el.common.data;
+package com.el.common.pagebale;
 
 import lombok.Data;
 
