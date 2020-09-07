@@ -1,7 +1,7 @@
 package com.el.common.thread.excepion;
 
-import com.el.common.support.exception.ExtendRuntimeException;
-import com.el.common.support.exception.data.ErrorMessage;
+import com.el.base.utils.support.exception.ExtendRuntimeException;
+import com.el.base.utils.support.exception.data.ErrorMessage;
 
 /**
  * 线程中断异常

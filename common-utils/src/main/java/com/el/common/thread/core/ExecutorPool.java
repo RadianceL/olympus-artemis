@@ -1,6 +1,6 @@
 package com.el.common.thread.core;
 
-import com.el.common.support.exception.data.ErrorMessage;
+import com.el.base.utils.support.exception.data.ErrorMessage;
 import com.el.common.thread.excepion.ThreadInterruptedException;
 import com.el.common.thread.model.WorkAction;
 import com.el.common.thread.model.WorkCallAction;
@@ -22,7 +22,7 @@ import java.util.concurrent.*;
  * @author eddielee
  */
 @Slf4j
-public class ExecutorPool<R, T> implements LifeCycle {
+public class ExecutorPool<T, R> implements LifeCycle {
 
     /**
      * 线程池
@@ -102,7 +102,7 @@ public class ExecutorPool<R, T> implements LifeCycle {
      * @param sources           需要处理的对象
      * @return                  Future结果集
      */
-    public List<Future<R>> submitWork(WorkCallAction<R, T> action, List<T> sources) {
+    public List<Future<R>> submitWork(WorkCallAction<T, R> action, List<T> sources) {
         List<Future<R>> resultObjects = new ArrayList<>();
         for (T o : sources) {
             Future<R> submit = service.submit(() -> {
@@ -128,7 +128,7 @@ public class ExecutorPool<R, T> implements LifeCycle {
      * @return              结果集
      */
     @SneakyThrows
-    public List<R> runBackgroundCommand(WorkCallAction<R, T> action, List<T> sources) {
+    public List<R> runBackgroundCommand(WorkCallAction<T, R> action, List<T> sources) {
         final CountDownLatch countDownLatch = new CountDownLatch(sources.size());
         List<R> resultObjects = new CopyOnWriteArrayList<>();
         for (T o : sources) {

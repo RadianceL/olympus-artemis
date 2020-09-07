@@ -1,6 +1,6 @@
-package com.el.common.support.exception;
+package com.el.base.utils.support.exception;
 
-import com.el.common.support.exception.data.ErrorMessage;
+import com.el.base.utils.support.exception.data.ErrorMessage;
 
 /**
  * 异常处理器负责的领域

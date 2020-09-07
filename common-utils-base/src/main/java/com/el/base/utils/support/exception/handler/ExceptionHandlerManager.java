@@ -1,8 +1,8 @@
-package com.el.common.support.exception.handler;
+package com.el.base.utils.support.exception.handler;
 
-import com.el.common.support.exception.AbstractDomainRuntimeException;
-import com.el.common.support.exception.ExceptionHandler;
-import com.el.common.support.exception.data.ErrorMessage;
+import com.el.base.utils.support.exception.AbstractDomainRuntimeException;
+import com.el.base.utils.support.exception.ExceptionHandler;
+import com.el.base.utils.support.exception.data.ErrorMessage;
 
 import java.util.Map;
 import java.util.Objects;

@@ -1,8 +1,8 @@
 package com.el.common.web.security.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.el.common.support.exception.ExtendRuntimeException;
-import com.el.common.support.utils.TraceIdUtil;
+import com.el.base.utils.support.exception.ExtendRuntimeException;
+import com.el.base.utils.support.utils.TraceIdUtil;
 import com.el.common.web.config.CommonWebConstants;
 import com.el.common.web.security.FilterFailureType;
 import lombok.extern.slf4j.Slf4j;

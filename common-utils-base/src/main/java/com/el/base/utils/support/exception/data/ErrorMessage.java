@@ -1,8 +1,8 @@
-package com.el.common.support.exception.data;
+package com.el.base.utils.support.exception.data;
 
 import com.el.common.io.local.FileUtil;
 import com.el.common.io.local.PropertiesReadUtil;
-import com.el.common.support.Constant;
+import com.el.base.utils.support.Constant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

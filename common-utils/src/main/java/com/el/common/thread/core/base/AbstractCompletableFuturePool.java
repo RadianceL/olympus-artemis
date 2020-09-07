@@ -5,6 +5,8 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * 步骤执行线程池
@@ -32,7 +34,7 @@ public abstract class AbstractCompletableFuturePool<T extends Comparable<T>> {
     /**
      * 线程池
      */
-    private ExecutorService executorService;
+    private final ExecutorService executorService;
 
     private static final int AVAILABLE_PROCESSORS;
 
@@ -77,7 +79,8 @@ public abstract class AbstractCompletableFuturePool<T extends Comparable<T>> {
     public abstract void completableFuturesFinishCallback(CompletableFuture<T>[] futures);
 
     /**
-     * 可选方法 手动覆写 在initCompletableFuture中调用
+     * 可选方法 手动覆写 <br/>
+     * 在initCompletableFuture中调用
      *
      * @param source    本次处理的参数
      * @param throwable 如对该参数的处理出现异常

@@ -1,4 +1,4 @@
-package com.el.common.support;
+package com.el.base.utils.support;
 
 import ch.qos.logback.classic.AsyncAppender;
 import ch.qos.logback.classic.Level;
@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 
 /**
  * 基础日志类

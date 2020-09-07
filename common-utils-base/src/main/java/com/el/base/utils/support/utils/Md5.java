@@ -1,4 +1,4 @@
-package com.el.common.support.utils;
+package com.el.base.utils.support.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

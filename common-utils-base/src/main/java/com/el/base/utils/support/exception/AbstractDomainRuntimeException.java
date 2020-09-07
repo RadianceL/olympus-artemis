@@ -1,9 +1,7 @@
-package com.el.common.support.exception;
+package com.el.base.utils.support.exception;
 
-import com.el.common.support.exception.data.ErrorMessage;
+import com.el.base.utils.support.exception.data.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Objects;
 
 /**
  * 扩展运行时异常

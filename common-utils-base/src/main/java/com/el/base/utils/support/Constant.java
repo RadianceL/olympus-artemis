@@ -1,4 +1,4 @@
-package com.el.common.support;
+package com.el.base.utils.support;
 
 /**
  * 常量池
