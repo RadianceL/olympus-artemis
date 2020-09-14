@@ -1,6 +1,6 @@
 package com.el.base.utils.support.exception.data;
 
-import com.el.base.utils.support.io.local.FileUtil;
+import com.el.base.utils.support.io.local.LocalFileUtil;
 import com.el.base.utils.support.io.local.PropertiesReadUtil;
 import com.el.base.utils.support.Constant;
 import lombok.AllArgsConstructor;
@@ -44,7 +44,7 @@ public class ErrorMessage {
         PROPERTIES = new HashMap<>();
         URL resource = ErrorMessage.class.getClassLoader().getResource("i18n/");
         if (!Objects.isNull(resource)) {
-            List<String> fileNames = FileUtil.getFiles(resource.getPath());
+            List<String> fileNames = LocalFileUtil.getFiles(resource.getPath());
             for (String fileName : fileNames) {
                 Map<String, String> defaultProperties = PropertiesReadUtil.getProperties("i18n/".concat(fileName));
                 String localName = Local.findLocalName(fileName);

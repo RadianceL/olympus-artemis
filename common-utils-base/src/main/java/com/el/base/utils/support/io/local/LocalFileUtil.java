@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author eddie
  */
-public class FileUtil {
+public class LocalFileUtil {
 
     private static final int DEFAULT_SIZE = 1024;
 

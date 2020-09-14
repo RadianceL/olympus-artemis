@@ -1,6 +1,6 @@
-package com.el.base.utils.support.io.net;
+package com.el.base.utils.support.io.ftp;
 
-import com.el.base.utils.support.io.entity.FtpInfo;
+import com.el.base.utils.support.io.ftp.data.FtpInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -9,10 +9,10 @@ import org.apache.commons.net.ftp.FTPReply;
 import java.io.*;
 
 /**
- * ftp文件推送
+ * ftp文件推送 <br/>
  * 2019/6/5
  *
- * @author eddielee
+ * @author eddie.lys
  */
 @Slf4j
 public class FtpUtils {

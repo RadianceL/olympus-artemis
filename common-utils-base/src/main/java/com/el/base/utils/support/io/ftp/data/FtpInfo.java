@@ -1,17 +1,15 @@
-package com.el.base.utils.support.io.entity;
+package com.el.base.utils.support.io.ftp.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * ftp链接常量
+ * ftp链接所需信息 <br/>
+ * 2019/6/5
  *
- * @Author jia
- * @Date 2019/6/6 17:16
- * @Description
+ * @author eddie.lys
  */
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

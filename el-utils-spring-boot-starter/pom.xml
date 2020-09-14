@@ -18,7 +18,7 @@
         <!-- 内部工具包 -->
         <dependency>
             <groupId>com.el</groupId>
-            <artifactId>common-utils</artifactId>
+            <artifactId>common-utils-core</artifactId>
             <version>1.0.0</version>
         </dependency>
 

@@ -42,7 +42,6 @@ public abstract class AbstractAuthenticationInterceptor implements HandlerInterc
         RequirePermissions requirePermissions = beanType.getAnnotation(RequirePermissions.class);
         if (Objects.nonNull(requirePermissions)) {
             Method method = handlerMethod.getMethod();
-
             // 控制器上包含该注解 但其中一个方法不需要鉴权则忽略
             NotRequirePermissions methodAnnotation = method.getAnnotation(NotRequirePermissions.class);
             if (Objects.nonNull(methodAnnotation)) {

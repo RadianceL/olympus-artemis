@@ -29,7 +29,7 @@ public class AutoConfiguration {
 
     @Bean
     @ConditionalOnProperty(prefix = "spring.el-util", name = "enable-thread-pool")
-    public ExecutorPool executorPool(CommonUtilProperties commonUtilProperties) {
+    public <T, R> ExecutorPool<T, R> executorPool(CommonUtilProperties commonUtilProperties) {
         log.info("启用 - 工程线程池");
         int coreThreadTotal = commonUtilProperties.getThreadPoolConfig().getCoreThreadTotal();
         int maxThreadLimit = commonUtilProperties.getThreadPoolConfig().getMaxThreadLimit();
@@ -47,6 +47,6 @@ public class AutoConfiguration {
             poolName = "application";
         }
 
-        return new ExecutorPool(coreThreadTotal, maxThreadLimit, poolName);
+        return new ExecutorPool<>(coreThreadTotal, maxThreadLimit, poolName);
     }
 }

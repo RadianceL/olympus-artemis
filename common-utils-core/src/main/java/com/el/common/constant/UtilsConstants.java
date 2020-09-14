@@ -1,4 +1,4 @@
-package com.el.common.time.configuration;
+package com.el.common.constant;
 
 /**
  * 工具配置类
@@ -6,7 +6,7 @@ package com.el.common.time.configuration;
  *
  * @author eddielee
  */
-public class Configuration {
+public class UtilsConstants {
 
     /**
      * 空字符串

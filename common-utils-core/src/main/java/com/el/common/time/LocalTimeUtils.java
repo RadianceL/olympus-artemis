@@ -1,6 +1,6 @@
 package com.el.common.time;
 
-import com.el.common.time.configuration.Configuration;
+import com.el.common.constant.UtilsConstants;
 import com.el.common.time.entity.DateEntity;
 import org.apache.commons.lang3.StringUtils;
 
@@ -38,7 +38,7 @@ public class LocalTimeUtils {
      */
     public static String formatDate(LocalDateTime date) {
         if (Objects.isNull(date)) {
-            return Configuration.EMPTY_STRING;
+            return UtilsConstants.EMPTY_STRING;
         } else {
             return DATE_TIME_FORMATTER.format(date);
         }
@@ -53,7 +53,7 @@ public class LocalTimeUtils {
      */
     public static String formatDate(LocalDateTime date, String formatter) {
         if (Objects.isNull(date)) {
-            return Configuration.EMPTY_STRING;
+            return UtilsConstants.EMPTY_STRING;
         } else {
             DateTimeFormatter dateTimeFormatter = DATE_TIME_FORMATTER;
             if (StringUtils.isNotBlank(formatter)) {

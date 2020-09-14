@@ -21,14 +21,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 路由过滤器
+ * get_way路由过滤器
  * 方法间信息传递使用ThreadLocal
  * since 2020/3/8
  *
  * @author eddie
  */
 @Slf4j
-public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordered {
+public abstract class AbstractRouterFilterVerify<T> implements GlobalFilter, Ordered {
 
     /** 准许通过的路径 */
     private static final List<String> ACROSS_PERMISSIONS = new ArrayList<>();
@@ -40,8 +40,6 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
         ServerHttpRequest request = exchange.getRequest();
 
         String url = request.getPath().value();
-        String traceId = TraceIdUtil.getTraceId();
-        addHttpHeader(request, CommonWebConstants.TRACE_ID, traceId);
 
         if (ACROSS_PERMISSIONS.contains(ACROSS_PERMISSIONS_ALL)
                 || ACROSS_PERMISSIONS.contains(url)) {
@@ -58,7 +56,7 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
             if (!verifyRequestParameter(url, headers, request)) {
                 return onFailureListener(request, response, FilterFailureType.HEADER_PARAMETER);
             }
-            onSuccessListener(traceId, url, request);
+            onSuccessListener(url, request);
         }catch (ExtendRuntimeException e) {
             return onExceptionListener(request, response, e);
         }
@@ -82,35 +80,31 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
     public abstract boolean verifyRequestParameter(String url, HttpHeaders headers, ServerHttpRequest request);
 
     /**
-     * 校验通过
-     * @param traceId       traceId
+     * 校验通过\
      * @param requestUrl    请求URL
      * @param request       请求参数
      */
-    public abstract void onSuccessListener(String traceId, String requestUrl, ServerHttpRequest request);
+    public abstract void onSuccessListener(String requestUrl, ServerHttpRequest request);
 
     /**
      * 发生错误返回
      * @param request       请求信息
      * @param failureType   错误类型
-     * @return
      */
-    public abstract Object onFailureListener(ServerHttpRequest request, FilterFailureType failureType);
+    public abstract T onFailureListener(ServerHttpRequest request, FilterFailureType failureType);
 
     /**
      * 发生异常返回
      * @param request       请求信息
      * @param e             异常
-     * @return
      */
-    public abstract Object onExceptionListener(ServerHttpRequest request, ExtendRuntimeException e);
+    public abstract T onExceptionListener(ServerHttpRequest request, ExtendRuntimeException e);
 
     /**
      * 发生错误返回
      * @param request       请求信息
      * @param response      返回封装
      * @param failureType   错误类型
-     * @return
      */
     public Mono<Void> onFailureListener(ServerHttpRequest request, ServerHttpResponse response, FilterFailureType failureType) {
         byte[] bits = JSON.toJSONBytes(onFailureListener(request, failureType));
@@ -125,7 +119,6 @@ public abstract class AbstractRouterFilterVerify implements GlobalFilter, Ordere
      * @param request       请求信息
      * @param response      返回封装
      * @param e             异常
-     * @return
      */
     public Mono<Void> onExceptionListener(ServerHttpRequest request, ServerHttpResponse response, ExtendRuntimeException e) {
         byte[] bits = JSON.toJSONBytes(onExceptionListener(request, e));

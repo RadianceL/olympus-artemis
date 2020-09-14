@@ -55,7 +55,11 @@ public class ExcelUtils {
         }
     }
 
-    public static <T> void exprotExcel(HttpServletResponse httpServletResponse, Class<T> clazz, List<T> dataLists) {
+    public static <T> void exportExcel(HttpServletResponse httpServletResponse, Class<T> clazz, List<T> dataLists) {
+        exportExcel(httpServletResponse, clazz, dataLists, declarationField -> declarationField);
+    }
+
+    public static <T> void exportExcel(HttpServletResponse httpServletResponse, Class<T> clazz, List<T> dataLists, MultilingualExtend multilingualExtend) {
         if (Objects.isNull(clazz)) {
             throw new IllegalArgumentException("data class can not be null! please check again ~");
         }
@@ -80,15 +84,14 @@ public class ExcelUtils {
             configurationExcelHttpResponse(fileName, httpServletResponse);
             ServletOutputStream outputStream = httpServletResponse.getOutputStream();
             ExcelWriterBuilder excelWriter = EasyExcel.write(outputStream, clazz);
-            excelWriter.head(buildExcelExcelHead(clazz));
+            excelWriter.head(buildExcelExcelHead(clazz, multilingualExtend));
             excelWriter.sheet(0, sheetNameArray[0]).doWrite(dataLists);
         }catch (Throwable e) {
             log.error("export excel error happen on class [{}], fileName {}", clazz.getName(), fileName, e);
         }
-
     }
 
-    private static List<List<String>> buildExcelExcelHead(Class<?> clazz) {
+    private static List<List<String>> buildExcelExcelHead(Class<?> clazz, MultilingualExtend multilingualExtend) {
         List<List<String>> excelHeadList = new ArrayList<>();
         if (clazz.getDeclaredFields().length > 0) {
             for (Field declaredField : clazz.getDeclaredFields()) {
@@ -96,7 +99,7 @@ public class ExcelUtils {
                 if (Objects.nonNull(annotation)) {
                     List<String> header = new ArrayList<>();
                     for (String excelHeadDescription : annotation.value()) {
-                        header.add(MultilingualExtend.buildExcelHeadName(excelHeadDescription));
+                        header.add(multilingualExtend.buildExcelHeadName(excelHeadDescription));
                     }
                     excelHeadList.add(header);
                 }
