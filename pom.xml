@@ -15,6 +15,7 @@
     </properties>
 
     <modules>
+        <module>el-utils-parent</module>
         <module>common-utils-core</module>
         <module>common-utils-excel</module>
         <module>common-utils-base</module>

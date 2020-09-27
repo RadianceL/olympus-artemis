@@ -7,19 +7,26 @@
     <parent>
         <groupId>com.el</groupId>
         <artifactId>el-utils-parent</artifactId>
-        <version>1.0.0</version>
-        <relativePath/>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../el-utils-parent</relativePath>
     </parent>
 
     <artifactId>el-utils-spring-boot-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <dependencies>
         <!-- 内部工具包 -->
         <dependency>
             <groupId>com.el</groupId>
             <artifactId>common-utils-core</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- 内部工具包 -->
+        <dependency>
+            <groupId>com.el</groupId>
+            <artifactId>common-utils-excel</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
         <!-- spring boot 依赖-->
