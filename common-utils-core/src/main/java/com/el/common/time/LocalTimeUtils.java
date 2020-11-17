@@ -4,6 +4,7 @@ import com.el.common.constant.UtilsConstants;
 import com.el.common.time.entity.DateEntity;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.xml.crypto.Data;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +12,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -166,5 +168,10 @@ public class LocalTimeUtils {
             return 0;
         }
         return localDateTime.get(weekFields.weekOfMonth());
+    }
+
+    public static void main(String[] args) {
+        Date date = new Date();
+        System.out.println(date.toString());
     }
 }

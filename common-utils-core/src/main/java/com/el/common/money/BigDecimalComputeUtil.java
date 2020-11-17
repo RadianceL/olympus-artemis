@@ -126,6 +126,11 @@ public class BigDecimalComputeUtil {
         if (Objects.isNull(scale) || scale == 0) {
             scale = DEFAULT_SCALE;
         }
+        // 任意 = 0 则返回0
+        if (BigDecimal.ZERO.compareTo(sourceAmount) == 0 ||
+                BigDecimal.ZERO.compareTo(targetAmount) == 0) {
+            return BigDecimal.ZERO;
+        }
         return sourceAmount.divide(targetAmount, scale, BigDecimal.ROUND_HALF_UP).setScale(scale, BigDecimal.ROUND_HALF_UP);
     }
 
@@ -160,11 +165,47 @@ public class BigDecimalComputeUtil {
         return !source.matches(MoneyConstant.CURRENCY_YUAN_REGEX);
     }
 
-    public static void main(String[] args) {
-        System.out.println(add("10.543", "10.12345678"));
-        System.out.println(subtract("10.543", "10.12345678"));
-        System.out.println(multiply("10.543", "10.12345678"));
-        System.out.println(divide("10.543", "10.12345678", 4));
-        System.out.println(roundHalfUp(new BigDecimal("10.545"), 2));
+    /**
+     * 大于0
+     */
+    public static boolean greaterThanZero(BigDecimal number) {
+        if (Objects.isNull(number)) {
+            return false;
+        }
+
+        return number.compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    /**
+     * 等于0
+     */
+    public static boolean equalToZero(BigDecimal number) {
+        if (Objects.isNull(number)) {
+            return false;
+        }
+
+        return number.compareTo(BigDecimal.ZERO) == 0;
+    }
+
+    /**
+     * 小于等于0
+     */
+    public static boolean lessEqualToZero(BigDecimal number) {
+        if (Objects.isNull(number)) {
+            return false;
+        }
+
+        return number.compareTo(BigDecimal.ZERO) <= 0;
+    }
+
+    /**
+     * 小于0
+     */
+    public static boolean lessThanZero(BigDecimal number) {
+        if (Objects.isNull(number)) {
+            return false;
+        }
+
+        return number.compareTo(BigDecimal.ZERO) < 0;
     }
 }
