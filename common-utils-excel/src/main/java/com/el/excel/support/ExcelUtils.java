@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
 import com.el.base.utils.collection.CollectionUtils;
+import com.el.base.utils.support.io.local.LocalFileUtil;
 import com.el.excel.annotation.ExcelStatement;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
@@ -49,6 +51,23 @@ public class ExcelUtils {
         }
         try {
             return EasyExcel.read(excelFileData.getInputStream()).head(clazz).sheet().doReadSync();
+        }catch (IOException e) {
+            log.error("read excel exception!", e);
+            return new ArrayList<>();
+        }
+    }
+
+    public static <T> List<T> readExcel(String localPath, Class<T> clazz) {
+        if (StringUtils.isNotBlank(localPath) || Objects.isNull(clazz)) {
+            throw new IllegalArgumentException("args can not be null! please check again ~");
+        }
+        try {
+            byte[] fileBytes = LocalFileUtil.readFileByBytes(localPath);
+            if (Objects.isNull(fileBytes)) {
+                log.error("read local excel file error: file bytes is empty");
+                return new ArrayList<>();
+            }
+            return EasyExcel.read(new ByteArrayInputStream(fileBytes)).head(clazz).sheet().doReadSync();
         }catch (IOException e) {
             log.error("read excel exception!", e);
             return new ArrayList<>();
