@@ -81,7 +81,7 @@ public class ErrorsEventLogger {
 
     private static String buildLogPath() {
         String property = System.getProperty("user.dir");
-        return property.concat(File.separator).concat("errors.log");
+        return property.concat(File.separator).concat("errors_log");
     }
 
     private static class SingletonHolder {

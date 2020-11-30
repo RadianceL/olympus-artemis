@@ -91,14 +91,17 @@
         </dependencies>
     </dependencyManagement>
 
+    <!--打包发布到私库的配置-->
     <distributionManagement>
         <repository>
-            <id>rdc-releases</id>
-            <url>https://packages.aliyun.com/maven/repository/2010744-release-Dcu7zI/</url>
+            <id>roualliance-r</id>
+            <name>Release Repository</name>
+            <url>http://nexus.mmrou.net/repository/maven-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>rdc-snapshots</id>
-            <url>https://packages.aliyun.com/maven/repository/2010744-snapshot-7SYoOs/</url>
+            <id>roualliance-s</id>
+            <name>Snapshot Repository</name>
+            <url>http://nexus.mmrou.net/repository/maven-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
