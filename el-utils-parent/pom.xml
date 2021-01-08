@@ -99,18 +99,18 @@
     </dependencyManagement>
 
     <!--打包发布到私库的配置-->
-    <distributionManagement>
-        <repository>
-            <id>roualliance-r</id>
-            <name>Release Repository</name>
-            <url>http://nexus.mmrou.net/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>roualliance-s</id>
-            <name>Snapshot Repository</name>
-            <url>http://nexus.mmrou.net/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>roualliance-r</id>-->
+<!--            <name>Release Repository</name>-->
+<!--            <url>http://nexus.mmrou.net/repository/maven-releases/</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>roualliance-s</id>-->
+<!--            <name>Snapshot Repository</name>-->
+<!--            <url>http://nexus.mmrou.net/repository/maven-snapshots/</url>-->
+<!--        </snapshotRepository>-->
+<!--    </distributionManagement>-->
 
     <build>
         <plugins>
