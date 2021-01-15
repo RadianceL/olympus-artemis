@@ -1,10 +1,13 @@
 package com.el.base.utils.support.utils;
 
 
+import com.el.base.utils.collection.CollectionUtils;
 import org.mockito.cglib.beans.BeanCopier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -37,6 +40,20 @@ public class BeanCopierUtil {
             BEAN_COPIER_CACHE.put(key, beanCopier);
         }
         beanCopier.copy(source, target, null);
+    }
+
+    public static <T> List<T> copyList(List<?> sourceList, Class<T> targetClass) {
+        if (CollectionUtils.isEmpty(sourceList)) {
+            return new ArrayList<>();
+        }
+
+        List<T> resultList = new ArrayList<>();
+        for (Object source : sourceList) {
+            T copy = BeanCopierUtil.copy(source, targetClass);
+            resultList.add(copy);
+        }
+
+        return resultList;
     }
 
 
