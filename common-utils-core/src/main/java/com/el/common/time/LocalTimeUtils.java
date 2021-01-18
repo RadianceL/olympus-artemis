@@ -4,14 +4,18 @@ import com.el.common.constant.UtilsConstants;
 import com.el.common.time.entity.DateEntity;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.xml.crypto.Data;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -28,9 +32,57 @@ public class LocalTimeUtils {
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    private static final DateFormat DEFAULT_DATE_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.CHINESE);
 
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.CHINESE);
+
+    /**
+     * 将日期字符串转化为Date类型
+     */
+    public static Date parseDateString(String dateStr, String pattern) {
+        try {
+            DateFormat sdf = new SimpleDateFormat(pattern);
+            return sdf.parse(dateStr);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    /**
+     * 将日期字符串转化为Date类型
+     */
+    public static Date parseDateString(String dateStr) {
+        try {
+            return DEFAULT_DATE_FORMATTER.parse(dateStr);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    public static Date getNextDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, +1);
+        date = calendar.getTime();
+        return date;
+    }
+
+    public static Date getNextSecond(Date date) {
+        date.setTime(date.getTime() + 1000);
+        return date;
+    }
+
+    public static String dateToString(Date date) {
+        if (Objects.isNull(date)) {
+            return null;
+        }
+        Instant instant = date.toInstant();
+        ZoneId zone = ZoneId.systemDefault();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+        return formatDate(localDateTime);
+    }
 
     /**
      * 格式化时间
@@ -169,9 +221,48 @@ public class LocalTimeUtils {
         }
         return localDateTime.get(weekFields.weekOfMonth());
     }
+    /**
+     * 获取某月最后一天
+     *
+     * @return 时间对象
+     */
+    public static String getMonthLast(int year, int month) {
+        LocalDateTime of = LocalDateTime.of(year, month, 1, 0, 0);
+        return formatDate(of.with(TemporalAdjusters.lastDayOfMonth()), "");
+    }
 
-    public static void main(String[] args) {
-        Date date = new Date();
-        System.out.println(date.toString());
+    /**
+     * 获取某月第一天
+     *
+     * @return 时间对象
+     */
+    public static String getMonthFirst(int year, int month) {
+        LocalDateTime of = LocalDateTime.of(year, month, 1, 0, 0);
+        return formatDate(of.with(TemporalAdjusters.firstDayOfMonth()), "");
+    }
+
+    /**
+     * @return 返回指定月份的第一天的0分0秒
+     */
+    public static Date getFirstMonthOfDate() {
+        Calendar para = Calendar.getInstance(java.util.Locale.CHINA);
+        para.setTime(new Date());
+        para.set(Calendar.DATE, para.getActualMinimum(Calendar.DAY_OF_MONTH));
+        para.set(Calendar.HOUR_OF_DAY, 0);
+        para.set(Calendar.MINUTE, 0);
+        para.set(Calendar.SECOND, 0);
+        return para.getTime();
+    }
+
+    public static Date getLastDayOfMonth () {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        //获取本月最大天数
+        int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        calendar.set(Calendar.DATE, lastDay);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime();
     }
 }
