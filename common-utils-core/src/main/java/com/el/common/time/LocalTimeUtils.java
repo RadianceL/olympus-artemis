@@ -50,6 +50,12 @@ public class LocalTimeUtils {
         }
     }
 
+    public static double dateBetween(Date start, Date end) {
+        long interval = start.getTime() - end.getTime();
+        double days = interval / (1000.0D * 600D * 600D * 240D);
+        return days / 24.0D;
+    }
+
     /**
      * 将日期字符串转化为Date类型
      */
