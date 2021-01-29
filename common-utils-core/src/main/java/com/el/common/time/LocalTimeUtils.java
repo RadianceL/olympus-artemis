@@ -90,6 +90,17 @@ public class LocalTimeUtils {
         return formatDate(localDateTime);
     }
 
+    public static String dateToString(Date date, String formatter) {
+        if (Objects.isNull(date)) {
+            return null;
+        }
+        Instant instant = date.toInstant();
+        ZoneId zone = ZoneId.systemDefault();
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
+        return formatDate(localDateTime, formatter);
+    }
+
+
     /**
      * 格式化时间
      *
