@@ -258,6 +258,21 @@ public class LocalTimeUtils {
         return formatDate(of.with(TemporalAdjusters.firstDayOfMonth()), "");
     }
 
+    public static String addMonth(Date date, int addMonth, String format) {
+        Calendar c = Calendar.getInstance();
+
+        //过去一月
+        c.setTime(date);
+        c.add(Calendar.MONTH, addMonth);
+        Date m = c.getTime();
+
+        if (StringUtils.isNotBlank(format)) {
+            DateFormat sdf = new SimpleDateFormat(format);
+            return sdf.format(m);
+        }
+        return DEFAULT_DATE_FORMATTER.format(m);
+    }
+
     /**
      * 判断当前时间是否在[startTime, endTime]区间，注意时间格式要一致
      *
