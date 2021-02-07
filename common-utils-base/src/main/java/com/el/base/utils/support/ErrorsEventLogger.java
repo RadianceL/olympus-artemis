@@ -52,7 +52,7 @@ public class ErrorsEventLogger {
         // 滚动策略
         SizeAndTimeBasedRollingPolicy<?> rollingPolicy = new SizeAndTimeBasedRollingPolicy<>();
         rollingPolicy.setContext(context);
-        rollingPolicy.setFileNamePattern(logFile + ROLLING_PATTERN);
+        rollingPolicy.setFileNamePattern(logFile + File.separator + Constant.LOGGER_NAME + File.separator + "history" + File.separator + Constant.LOGGER_NAME + ROLLING_PATTERN + ".log");
         rollingPolicy.setMaxHistory(7);
         rollingPolicy.setMaxFileSize(FileSize.valueOf("200mb"));
         rollingPolicy.setTotalSizeCap(FileSize.valueOf("2048mb"));

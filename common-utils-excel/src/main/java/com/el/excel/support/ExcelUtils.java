@@ -15,6 +15,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -55,6 +56,13 @@ public class ExcelUtils {
             log.error("read excel exception!", e);
             return new ArrayList<>();
         }
+    }
+
+    public static <T> List<T> readExcel(InputStream excelFileData, Class<T> clazz) {
+        if (Objects.isNull(excelFileData) || Objects.isNull(clazz)) {
+            throw new IllegalArgumentException("args can not be null! please check again ~");
+        }
+        return EasyExcel.read(excelFileData).head(clazz).sheet().doReadSync();
     }
 
     public static <T> List<T> readExcel(String localPath, Class<T> clazz) {
