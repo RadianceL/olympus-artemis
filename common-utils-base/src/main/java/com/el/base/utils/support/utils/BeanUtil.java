@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -78,6 +80,25 @@ public class BeanUtil {
         List<String> nullFields = whereIsNull(object);
         nullFields.retainAll(notNullField);
         return nullFields;
+    }
+
+    public static <T> T mapToObject(Map<String, String> map, Class<T> beanClass) throws Exception {
+        if (map == null) {
+            return null;
+        }
+        Object obj = beanClass.newInstance();
+        Field[] fields = obj.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            int mod = field.getModifiers();
+            if (Modifier.isStatic(mod) || Modifier.isFinal(mod)) {
+                continue;
+            }
+            field.setAccessible(true);
+            if (map.containsKey(field.getName())) {
+                field.set(obj, map.get(field.getName()));
+            }
+        }
+        return (T) obj;
     }
 
 }
