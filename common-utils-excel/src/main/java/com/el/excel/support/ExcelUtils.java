@@ -71,10 +71,6 @@ public class ExcelUtils {
         }
         try {
             byte[] fileBytes = LocalFileUtil.readFileByBytes(localPath);
-            if (Objects.isNull(fileBytes)) {
-                log.error("read local excel file error: file bytes is empty");
-                return new ArrayList<>();
-            }
             return EasyExcel.read(new ByteArrayInputStream(fileBytes)).head(clazz).sheet().doReadSync();
         }catch (IOException e) {
             log.error("read excel exception!", e);
