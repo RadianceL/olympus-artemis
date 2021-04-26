@@ -13,7 +13,7 @@ import java.io.InputStream;
 public class InputStreamCopyUtils {
 
 
-    private static ByteArrayOutputStream cloneInputStream(InputStream input) throws IOException {
+    public static ByteArrayOutputStream cloneInputStream(InputStream input) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len;
