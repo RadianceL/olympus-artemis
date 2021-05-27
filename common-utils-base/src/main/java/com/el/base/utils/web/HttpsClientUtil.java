@@ -168,6 +168,20 @@ public class HttpsClientUtil {
     }
 
     /**
+     * 单向Https Get请求
+     */
+    public static byte[] singletonHttpsGetForByte(String requestUrl, Map<String, String> headerMap, Map<String, String> paramMap) throws Exception {
+        byte[] resultSb;
+        try (CloseableHttpClient httpClient = getSingletonHttpsClient()) {
+            HttpGet httpGet = getHttpGet(requestUrl, headerMap, paramMap);
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            resultSb = sendForByte(response);
+        }
+        return resultSb;
+    }
+
+
+    /**
      * 单向Https Post请求
      *
      * @param requestUrl
@@ -269,6 +283,27 @@ public class HttpsClientUtil {
         return httpPost;
     }
 
+
+    private static byte[] sendForByte(CloseableHttpResponse response) throws IOException {
+        try {
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                InputStream bufferedReader = entity.getContent();
+                byte[] buffer = new byte[1024];
+                int len;
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                while((len = bufferedReader.read(buffer)) != -1) {
+                    bos.write(buffer, 0, len);
+                }
+                bos.close();
+                EntityUtils.consume(entity);
+                return bos.toByteArray();
+            }
+        } finally {
+            response.close();
+        }
+        throw new RuntimeException("下载文件异常");
+    }
 
     /**
      * 发送请求
