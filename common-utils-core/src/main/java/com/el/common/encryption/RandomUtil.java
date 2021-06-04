@@ -13,8 +13,14 @@ import java.util.regex.Pattern;
  * @author eddie
  */
 public class RandomUtil {
-
+    /**
+     * 保留数字正则表达式
+     */
     private static final Pattern PATTERN = Pattern.compile("[^0-9]");
+    /**
+     * 随机字符串范围
+     */
+    private static final String RANDOM_CHAR_SCOPE = "abcdefghijklmnopqrstuvwxyz1234567890";
 
     /**
      * 获取随机数
@@ -58,7 +64,14 @@ public class RandomUtil {
      * 获取指定长度的随机字符串（小写字母加数字）
      */
     public static String getRandomStr(int len) {
-        return RandomStringUtils.random(len, "abcdefghijklmnopqrstuvwxyz1234567890");
+        return RandomStringUtils.random(len, RANDOM_CHAR_SCOPE);
+    }
+
+    /**
+     * 获取指定长度的随机字符串（小写字母加数字）
+     */
+    public static String getRandomStr(int len, String scope) {
+        return RandomStringUtils.random(len, scope);
     }
 
     /**
