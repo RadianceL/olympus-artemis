@@ -34,25 +34,25 @@ public class CollectionUtils {
         return !isEmpty(collection);
     }
 
-    public static <T> List<List<T>> splitList(List<T> splitList, int len) {
-        if (isEmpty(splitList)) {
-            return null;
+    public static <T> List<List<T>> averageAssign(List<T> sourceList, int len) {
+        if (isEmpty(sourceList)) {
+            return new ArrayList<>();
         }
-
-        List<List<T>> resultList = new ArrayList<>();
-        if (len < 1) {
-            resultList.add(splitList);
-            return resultList;
+        List<List<T>> result = new ArrayList<>();
+        int remaider = sourceList.size() % len;
+        int number = sourceList.size() / len;
+        int offset = 0;
+        for (int i = 0; i < len; i++) {
+            List<T> value;
+            if (remaider > 0) {
+                value = sourceList.subList(i * number + offset, (i + 1) * number + offset + 1);
+                remaider--;
+                offset++;
+            } else {
+                value = sourceList.subList(i * number + offset, (i + 1) * number + offset);
+            }
+            result.add(value);
         }
-
-        int size = splitList.size();
-        int count = size / len -1;
-
-        for (int i = 0; i < count; i++) {
-            List<T> subList = splitList.subList(i * len, (Math.min((i + 1) * len, size)));
-            resultList.add(subList);
-        }
-
-        return resultList;
+        return result;
     }
 }
