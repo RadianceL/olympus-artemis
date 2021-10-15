@@ -1,6 +1,7 @@
 package com.el.common.mail;
 
 import com.el.base.utils.collection.CollectionUtils;
+import com.el.base.utils.support.utils.InputStreamUtils;
 import com.el.common.mail.data.MailAccountConfig;
 import com.el.common.mail.data.MailAgreementEnum;
 import com.el.common.mail.data.MailConfig;
@@ -9,10 +10,12 @@ import com.el.common.mail.utils.HtmlUtils;
 import com.el.common.time.LocalTimeUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.javatuples.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -118,31 +121,31 @@ public abstract class MailSendExecutorService extends MailSendExecutor {
             helper.setText(context, true);
             if (CollectionUtils.isNotEmpty(mailContext.getFileMap())) {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                if (mailContext.getNeedZipFileIfPresent()) {
-                    ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
-                    zipOutputStream.setMethod(ZipOutputStream.DEFLATED);
-                    for (String fileName : mailContext.getFileMap().keySet()) {
-                        InputStream inputStream = mailContext.getFileMap().get(fileName);
-                        byte[] bytes = toByteArray(inputStream);
+                ZipOutputStream zipOutputStream = new ZipOutputStream(byteArrayOutputStream);
+                zipOutputStream.setMethod(ZipOutputStream.DEFLATED);
+                mailContext.getFileMap().forEach((fileName, fileStream) -> {
+                    try {
+                        byte[] bytes = InputStreamUtils.toByteArray(fileStream);
                         if (Objects.isNull(bytes)) {
-                            continue;
+                            return;
                         }
                         zipOutputStream.putNextEntry(new ZipEntry(fileName));
                         zipOutputStream.write(bytes);
+                    }catch (Throwable throwable) {
+                        log.error("邮件发送打包附件异常", throwable);
                     }
-                    helper.addAttachment(LocalTimeUtils.nowTime(),
-                            new InputStreamResource(parse(byteArrayOutputStream)));
-                }else {
-                    for (String fileName : mailContext.getFileMap().keySet()) {
-                        InputStream inputStream = mailContext.getFileMap().get(fileName);
-                        byte[] bytes = toByteArray(inputStream);
-                        if (Objects.isNull(bytes)) {
-                            continue;
-                        }
-                        helper.addAttachment(fileName,
-                                new InputStreamResource(parse(byteArrayOutputStream)));
-                    }
+                });
+                zipOutputStream.closeEntry();
+                zipOutputStream.close();
+
+                String fileName;
+                if (StringUtils.isNotBlank(contextMap.get("businessOrderId"))) {
+                    fileName = "附件-" + contextMap.get("businessOrderId") + ".zip";;
+                }else  {
+                    fileName = "附件-" + LocalTimeUtils.nowTime("yyyy-MM-dd") + ".zip";
                 }
+                // 转换流 修复引起流不匹配异常
+                helper.addAttachment(fileName, new ByteArrayResource(IOUtils.toByteArray(parse(byteArrayOutputStream))));
             }
             javaMailSender.testConnection();
             javaMailSender.send(message);
@@ -178,18 +181,5 @@ public abstract class MailSendExecutorService extends MailSendExecutor {
     public ByteArrayInputStream parse(final OutputStream out) {
         ByteArrayOutputStream byteArrayOutputStream = (ByteArrayOutputStream) out;
         return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-    }
-
-    public static byte[] toByteArray(InputStream input) throws IOException {
-        if (Objects.isNull(input)) {
-            return null;
-        }
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        byte[] buffer = new byte[4096];
-        int n;
-        while (-1 != (n = input.read(buffer))) {
-            output.write(buffer, 0, n);
-        }
-        return output.toByteArray();
     }
 }

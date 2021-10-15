@@ -2,7 +2,9 @@ package com.el.common.mail;
 
 import com.el.common.constant.MailConfigConstants;
 import com.el.common.executor.GlobalExecutor;
+import com.el.common.mail.data.MailAttachment;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -23,17 +25,15 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public abstract class AbstractReceiveMailService implements ReceiveMailService, Runnable {
 
-    private static final Session session;
+    private static final Properties props = System.getProperties();
 
     static {
-        Properties props = System.getProperties();
         props.setProperty(MailConfigConstants.MAIL_HOST_KEY, MailConfigConstants.MAIL_HOST_VALUE);
         props.setProperty(MailConfigConstants.SSL_SOCKET_FACTORY_CLASS, MailConfigConstants.SSL_SOCKET_FACTORY);
         props.setProperty(MailConfigConstants.SSL_SOCKET_FACTORY_FALLBACK, Boolean.FALSE.toString());
         props.setProperty(MailConfigConstants.MAIL_IMAP_PORT_KEY, MailConfigConstants.MAIL_IMAP_PORT_VALUE);
         props.setProperty(MailConfigConstants.SSL_SOCKET_FACTORY_PORT_KEY, MailConfigConstants.MAIL_IMAP_PORT_VALUE);
         props.setProperty(MailConfigConstants.MAIL_IMAP_AUTH_KEY, Boolean.TRUE.toString());
-        session = Session.getInstance(props, null);
     }
 
     public AbstractReceiveMailService() {
@@ -41,52 +41,40 @@ public abstract class AbstractReceiveMailService implements ReceiveMailService, 
     }
 
     @Override
-    public void run() {
-
-    }
-
-    @Override
-    public void startListener(URLName url) {
-        while (true) {
-            Store store = null;
-            Folder inbox = null;
+    public void receiveMail(URLName url) {
+        Store store = null;
+        Folder inbox = null;
+        try {
+            store = Session.getInstance(props, null).getStore(url);
+            store.connect();
+            inbox = store.getFolder("INBOX");
+            inbox.open(Folder.READ_WRITE);
+            FetchProfile profile = new FetchProfile();
+            profile.add(FetchProfile.Item.ENVELOPE);
+            FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
+            Message[] messages = inbox.search(ft);
+            inbox.fetch(messages, profile);
+            int length = messages.length;
+            log.info("定时任务执行麦克田邮件分拣，收件箱的邮件数：{}", length);
+            for (Message message : messages) {
+                parseMessage(message);
+            }
+        } catch (Exception e) {
+            log.error("邮件解析消息异常", e);
+        } finally {
             try {
-                store = session.getStore(url);
-                store.connect();
-                inbox = store.getFolder("INBOX");
-                inbox.open(Folder.READ_WRITE);
-                FetchProfile profile = new FetchProfile();
-                profile.add(FetchProfile.Item.ENVELOPE);
-                FlagTerm ft = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-                Message[] messages = inbox.search(ft);
-                inbox.fetch(messages, profile);
-                int length = messages.length;
-                log.info("收件箱的邮件数：{}", length);
-                for (Message message : messages) {
-                    parseMessage(message);
+                if (inbox != null) {
+                    inbox.close(false);
                 }
-            } catch (Exception e) {
-                log.error("邮件解析消息异常", e);
-            } finally {
-                try {
-                    if (inbox != null) {
-                        inbox.close(false);
-                    }
-                } catch (MessagingException e) {
-                    log.error("邮件文件夹连接关闭异常", e);
-                }
-                try {
-                    if (store != null) {
-                        store.close();
-                    }
-                } catch (MessagingException e) {
-                    log.error("邮件Store连接关闭异常", e);
-                }
+            } catch (MessagingException e) {
+                log.error("邮件文件夹连接关闭异常", e);
             }
             try {
-                TimeUnit.SECONDS.sleep(5);
-            } catch (InterruptedException e) {
-                log.error("执行监听发生异常", e);
+                if (store != null) {
+                    store.close();
+                }
+            } catch (MessagingException e) {
+                log.error("邮件Store连接关闭异常", e);
             }
         }
     }
@@ -96,32 +84,30 @@ public abstract class AbstractReceiveMailService implements ReceiveMailService, 
      *
      * @param messages 要解析的邮件列表
      */
-    public void parseMessage(Message... messages) throws MessagingException, IOException {
+    public void parseMessage(Message... messages) throws Exception {
         if (messages == null || messages.length < 1) {
             throw new MessagingException("未找到要解析的邮件!");
         }
         for (Message message : messages) {
             MimeMessage msg = (MimeMessage) message;
-            log.info("------------------解析第" + msg.getMessageNumber() + "封邮件-------------------- ");
             boolean isContainerAttachment = isContainAttachment(msg);
             StringBuffer content = new StringBuffer(30);
             getMailTextContent(msg, content);
             try {
                 if (receiveMail(getSubject(msg), getFrom(msg), getReceiveAddress(msg, null), getSentDate(msg, null), isSeen(msg),
-                        getPriority(msg), isReplySign(msg), content.toString(), isContainerAttachment, saveAttachment(msg))) {
+                        getPriority(msg), isReplySign(msg), content.toString(), isContainerAttachment, getFileInputStream(msg))) {
                     message.setFlag(Flags.Flag.SEEN, true);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new RuntimeException("邮件接收任务执行失败， case：", e);
             }
-            log.info("------------------第" + msg.getMessageNumber() + "封邮件解析结束-------------------- ");
         }
     }
 
     /**
      * 接受邮件信息
      */
-   abstract boolean receiveMail(String subject, String from, String receiveAddress, String sentDate, boolean seen, String priority, boolean replySign, String context, boolean isContainerAttachment, InputStream attachment) throws Exception;
+    abstract boolean receiveMail(String subject, String from, String receiveAddress, String sentDate, boolean seen, String priority, boolean replySign, String context, boolean isContainerAttachment, MailAttachment attachment) throws Exception;
 
     /**
      * 获得邮件主题
@@ -312,59 +298,38 @@ public abstract class AbstractReceiveMailService implements ReceiveMailService, 
         }
     }
 
-    /**
-     * 保存附件
-     *
-     * @param part    邮件中多个组合体中的其中一个组合体
-     */
-    public static InputStream saveAttachment(Part part) throws MessagingException, IOException {
+    private MailAttachment getFileInputStream(Part part) throws Exception {
+        String fileName;
+        MailAttachment mailAttachment = new MailAttachment();
         if (part.isMimeType("multipart/*")) {
-            Multipart multipart = (Multipart) part.getContent();
-            //复杂体邮件包含多个邮件体
-            int partCount = multipart.getCount();
-            for (int i = 0; i < partCount; i++) {
-                //获得复杂体邮件中其中一个邮件体
-                BodyPart bodyPart = multipart.getBodyPart(i);
-                //某一个邮件体也有可能是由多个邮件体组成的复杂体
-                String disposition = bodyPart.getDisposition();
-                if (disposition != null && (disposition.equalsIgnoreCase(Part.ATTACHMENT) || disposition.equalsIgnoreCase(Part.INLINE))) {
-//                    saveFile(is, destDir, decodeText(bodyPart.getFileName()));
-                    return bodyPart.getInputStream();
-                } else if (bodyPart.isMimeType("multipart/*")) {
-                    return saveAttachment(bodyPart);
+            Multipart mp = (Multipart) part.getContent();
+            for (int i = 0; i < mp.getCount(); i++) {
+                BodyPart mPart = mp.getBodyPart(i);
+                String disposition = mPart.getDisposition();
+                if (StringUtils.isBlank(disposition)) {
+                    continue;
+                }
+                if (disposition.equals(Part.ATTACHMENT) || disposition.equals(Part.INLINE)) {
+                    fileName = decodeText(mPart.getFileName());
+                    mailAttachment.setFileName(fileName);
+                    mailAttachment.setAttachment(mPart.getInputStream());
+                    return mailAttachment;
+                } else if (mPart.isMimeType("multipart/*")) {
+                    return getFileInputStream(mPart);
                 } else {
-                    String contentType = bodyPart.getContentType();
-                    if (contentType.contains("name") || contentType.contains("application")) {
-//                        saveFile(bodyPart.getInputStream(), destDir, decodeText(bodyPart.getFileName()));
-                        return bodyPart.getInputStream();
+                    fileName = mPart.getFileName();
+                    if ((fileName != null)) {
+                        fileName = decodeText(fileName);
+                        mailAttachment.setFileName(fileName);
+                        mailAttachment.setAttachment(mPart.getInputStream());
+                        return mailAttachment;
                     }
                 }
             }
         } else if (part.isMimeType("message/rfc822")) {
-            return saveAttachment((Part) part.getContent());
+            return getFileInputStream((Part) part.getContent());
         }
-        return null;
-    }
-
-    /**
-     * 读取输入流中的数据保存至指定目录
-     *
-     * @param is       输入流
-     * @param fileName 文件名
-     * @param destDir  文件存储目录
-     */
-    public static void saveFile(InputStream is, String destDir, String fileName)
-            throws IOException {
-        BufferedInputStream bis = new BufferedInputStream(is);
-        BufferedOutputStream bos = new BufferedOutputStream(
-                new FileOutputStream(destDir + fileName));
-        int len;
-        while ((len = bis.read()) != -1) {
-            bos.write(len);
-            bos.flush();
-        }
-        bos.close();
-        bis.close();
+        return mailAttachment;
     }
 
     /**
@@ -380,5 +345,4 @@ public abstract class AbstractReceiveMailService implements ReceiveMailService, 
             return MimeUtility.decodeText(encodeText);
         }
     }
-
 }

@@ -2,9 +2,9 @@ package com.el.base.utils.support.utils;
 
 
 import com.el.base.utils.collection.CollectionUtils;
-import org.mockito.cglib.beans.BeanCopier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cglib.beans.BeanCopier;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,6 @@
 package com.el.utils.auto.auto;
 
 import com.el.common.thread.core.ExecutorPool;
-import com.el.common.time.annotation.active.aspect.TimeCalculationProcess;
 import com.el.utils.auto.configuration.CommonUtilProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -19,13 +18,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConditionalOnProperty(prefix = "spring.el-util", name = "enable-auto-config")
 public class AutoConfiguration {
-
-    @Bean
-    @ConditionalOnProperty(prefix = "spring.el-util", name = "enable-time-calculation")
-    public TimeCalculationProcess timeCalculationProcess() {
-        log.info("启用 - 接口调用时间统计器");
-        return new TimeCalculationProcess();
-    }
 
     @Bean
     @ConditionalOnProperty(prefix = "spring.el-util", name = "enable-thread-pool")

@@ -10,6 +10,8 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
+        <common-utils.version>1.0.2-SNAPSHOT</common-utils.version>
+
         <java.version>1.8</java.version>
         <junit.version>4.13.1</junit.version>
         <guava.version>30.1-jre</guava.version>
@@ -17,9 +19,9 @@
         <fastcsv.version>2.0.0</fastcsv.version>
         <fastjson.version>1.2.61</fastjson.version>
         <easyexcel.version>2.2.7</easyexcel.version>
-        <httpclient.version>4.5.6</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <commons-net.version>3.6</commons-net.version>
-        <mockito-core.version>1.10.19</mockito-core.version>
+        <mockito-core.version>4.0.0</mockito-core.version>
         <annotations.version>17.0.0</annotations.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,6 +37,12 @@
                 <version>${spring-boot-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>2.2.2.RELEASE</version>
             </dependency>
 
             <dependency>
@@ -68,6 +76,18 @@
             </dependency>
 
             <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>1.7</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.2</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
@@ -78,6 +98,13 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.javatuples</groupId>
+                <artifactId>javatuples</artifactId>
+                <version>1.2</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -104,20 +131,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <!--打包发布到私库的配置-->
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>roualliance-r</id>-->
-<!--            <name>Release Repository</name>-->
-<!--            <url>http://nexus.mmrou.net/repository/maven-releases/</url>-->
-<!--        </repository>-->
-<!--        <snapshotRepository>-->
-<!--            <id>roualliance-s</id>-->
-<!--            <name>Snapshot Repository</name>-->
-<!--            <url>http://nexus.mmrou.net/repository/maven-snapshots/</url>-->
-<!--        </snapshotRepository>-->
-<!--    </distributionManagement>-->
 
     <build>
         <plugins>

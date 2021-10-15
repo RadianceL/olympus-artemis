@@ -13,5 +13,5 @@ public interface ReceiveMailService {
     /**
      * 启动监听器
      */
-    void startListener(URLName url);
+    void receiveMail(URLName url);
 }

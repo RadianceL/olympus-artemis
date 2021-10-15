@@ -5,8 +5,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import java.util.concurrent.*;
 
 /**
- * @author ${USER}
- * @since ${DATE}
+ * 全局任务提交执行器
  */
 public class GlobalExecutor {
 

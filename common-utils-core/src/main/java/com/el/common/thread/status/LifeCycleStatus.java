@@ -31,12 +31,12 @@ public enum LifeCycleStatus {
     /**
      * 标识描述
      */
-    private String desc;
+    private final String desc;
 
     /**
      * 标识编码
      */
-    private int code;
+    private final int code;
 
     LifeCycleStatus(String desc, int code) {
         this.desc = desc;

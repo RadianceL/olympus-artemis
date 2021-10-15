@@ -92,4 +92,16 @@ public class LocalFileUtil {
         } catch (Exception ignored) {
         }
     }
+
+    public static void bufferedWriterMethod(String filepath, String content) throws IOException {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filepath))) {
+            bufferedWriter.write(content);
+        }
+    }
+
+    private static void bufferedOutputStreamTest(String filepath, byte[] bytes) throws IOException {
+        try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(filepath))) {
+            bufferedOutputStream.write(bytes);
+        }
+    }
 }
