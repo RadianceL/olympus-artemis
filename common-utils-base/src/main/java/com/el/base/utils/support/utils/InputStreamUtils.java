@@ -28,7 +28,7 @@ public class InputStreamUtils {
      * @param source           原始对象
      * @return                 InputStream
      */
-    public ByteArrayInputStream convertOutputStreamToInputStream(final OutputStream source) {
+    public static ByteArrayInputStream convertOutputStreamToInputStream(final OutputStream source) {
         if (Objects.isNull(source)) {
             return null;
         }

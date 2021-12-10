@@ -61,7 +61,6 @@ public class HttpsClientUtil {
      * @param headerMap  请求头
      * @param paramMap   请求参数
      * @return 返回值
-     * @throws Exception
      */
     public static String httpsGetRequest(String requestUrl, Map<String, String> headerMap, Map<String, String> paramMap) throws Exception {
         StringBuilder resultMsg;
@@ -79,7 +78,6 @@ public class HttpsClientUtil {
      * @param requestUrl 请求Url
      * @param paramMap   请求参数
      * @return 返回值
-     * @throws Exception
      */
     public static String httpsGetRequest(String requestUrl, Map<String, String> paramMap) throws Exception {
         return httpsGetRequest(requestUrl, null, paramMap);
@@ -92,7 +90,6 @@ public class HttpsClientUtil {
      * @param requestUrl  请求Url
      * @param requestBody 请求体
      * @return 返回值
-     * @throws Exception
      */
     public static String httpsPostRequest(String requestUrl, String requestBody) throws Exception {
         return httpsPostRequest(requestUrl, null, requestBody, StandardCharsets.UTF_8);
@@ -105,7 +102,6 @@ public class HttpsClientUtil {
      * @param requestBody 请求体
      * @param charset     字符集编码
      * @return 返回值
-     * @throws Exception
      */
     public static String httpsPostRequest(String requestUrl, String requestBody, String charset) throws Exception {
         return httpsPostRequest(requestUrl, null, requestBody, Charset.forName(charset));
@@ -113,13 +109,6 @@ public class HttpsClientUtil {
 
     /**
      * 双向Https Post请求
-     *
-     * @param requestUrl
-     * @param headerMap
-     * @param requestBody
-     * @param charset
-     * @return
-     * @throws Exception
      */
     public static String httpsPostRequest(String requestUrl, Map<String, String> headerMap, String requestBody, Charset charset) throws Exception {
         StringBuilder resultMsg;
@@ -135,11 +124,6 @@ public class HttpsClientUtil {
 
     /**
      * 单向Http Get请求
-     *
-     * @param requestUrl
-     * @param paramMap
-     * @return
-     * @throws Exception
      */
     public static String singletonHttpsGetRequest(String requestUrl, Map<String, String> paramMap) throws Exception {
         return singletonHttpsGetRequest(requestUrl, null, paramMap);
@@ -147,12 +131,6 @@ public class HttpsClientUtil {
 
     /**
      * 单向Https Get请求
-     *
-     * @param requestUrl
-     * @param headerMap
-     * @param paramMap
-     * @return
-     * @throws Exception
      */
     public static String singletonHttpsGetRequest(String requestUrl, Map<String, String> headerMap, Map<String, String> paramMap) throws Exception {
         StringBuilder resultSb;
@@ -180,12 +158,6 @@ public class HttpsClientUtil {
 
     /**
      * 单向Https Post请求
-     *
-     * @param requestUrl
-     * @param headerMap
-     * @param param
-     * @return
-     * @throws Exception
      */
     public static String singletonHttpsPostRequest(String requestUrl, Map<String, String> headerMap, String param) throws Exception {
         StringBuilder resultSb;
@@ -206,13 +178,6 @@ public class HttpsClientUtil {
 
     /**
      * 单向Https Post请求
-     *
-     * @param requestUrl
-     * @param params
-     * @param charSet
-     * @param timeout
-     * @return
-     * @throws Exception
      */
     public static String singletonHttpsPost(String requestUrl, Map<String, ? extends Object> params, Charset charSet, Integer timeout) throws Exception {
         StringBuilder resultSb;
@@ -238,11 +203,6 @@ public class HttpsClientUtil {
 
     /**
      * 获取Http Get请求体
-     *
-     * @param requestUrl
-     * @param headerMap
-     * @param paramMap
-     * @return
      */
     private static HttpGet getHttpGet(String requestUrl, Map<String, String> headerMap, Map<String, String> paramMap) {
         StringBuilder url = new StringBuilder().append(requestUrl);
@@ -265,10 +225,6 @@ public class HttpsClientUtil {
 
     /**
      * 获取Http Post请求体
-     *
-     * @param requestUrl
-     * @param headerMap
-     * @return
      */
     private static HttpPost getHttpPost(String requestUrl, Map<String, String> headerMap) {
         HttpPost httpPost = new HttpPost(requestUrl);
@@ -304,10 +260,6 @@ public class HttpsClientUtil {
 
     /**
      * 发送请求
-     *
-     * @param response
-     * @return
-     * @throws IOException
      */
     private static StringBuilder send(CloseableHttpResponse response) throws IOException {
         try {
@@ -334,8 +286,6 @@ public class HttpsClientUtil {
 
     /**
      * 双向https
-     *
-     * @return
      */
     private static SSLConnectionSocketFactory initConfig() throws Exception {
         KeyStore keyStore = KeyStore.getInstance("jks");
@@ -360,8 +310,6 @@ public class HttpsClientUtil {
 
     /**
      * http && 单向https
-     *
-     * @return
      */
     private static CloseableHttpClient getSingletonHttpsClient() {
         RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder.create();
