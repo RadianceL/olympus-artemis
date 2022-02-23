@@ -46,7 +46,7 @@ public abstract class AbstractCompletableFuturePool<T extends Comparable<T>> {
         ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat(poolName.concat("-Thread-%d")).build();
 
         if (corePoolSize <= AVAILABLE_PROCESSORS) {
-            corePoolSize = DEFAULT_CORE_POOL_SIZE;
+            corePoolSize = AVAILABLE_PROCESSORS;
         }
         executorService = new ThreadPoolExecutor(corePoolSize, AVAILABLE_PROCESSORS * DEFAULT_FACTOR, corePoolSize * KEEP_ALIVE_FACTOR,
                 TimeUnit.MILLISECONDS, new LinkedBlockingDeque<>(256), threadFactory, new ThreadPoolExecutor.AbortPolicy());
@@ -55,7 +55,7 @@ public abstract class AbstractCompletableFuturePool<T extends Comparable<T>> {
     @SuppressWarnings("rawtypes")
     public void doCompletableFutures(List<T> conditions) {
         final List<T> syncConditions = Collections.synchronizedList(conditions);
-        CompletableFuture[] futures = syncConditions.stream()
+        CompletableFuture<T>[] futures = syncConditions.stream()
                 .map(this::initCompletableFuture)
                 .toArray(CompletableFuture[]::new);
         //阻塞，直到所有任务结束。

@@ -10,7 +10,7 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-        <common-utils.version>1.0.2</common-utils.version>
+        <common-utils.version>1.0.3</common-utils.version>
 
         <java.version>1.8</java.version>
         <junit.version>4.13.1</junit.version>
@@ -22,7 +22,7 @@
         <httpclient.version>4.5.13</httpclient.version>
         <commons-net.version>3.6</commons-net.version>
         <mockito-core.version>4.0.0</mockito-core.version>
-        <annotations.version>17.0.0</annotations.version>
+        <annotations.version>23.0.0</annotations.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

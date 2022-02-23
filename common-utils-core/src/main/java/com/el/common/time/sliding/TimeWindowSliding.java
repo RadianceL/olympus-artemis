@@ -73,22 +73,17 @@ public class TimeWindowSliding {
 
     public static void main(String[] args) {
         //0.2秒一个时间片，窗口共5个
-        TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 10, 200, 5);
+        TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 5, 200, 5);
         for (int i = 0; i < 1000; i++) {
-            int allow = window.allowNotLimitPerMin("a1");
+            boolean allow = window.allowLimitTimes("a1");
             System.out.println(allow);
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 
     /**
      * 判断是否允许进行访问，未超过阈值的话才会对某个时间片+1
      */
-    public boolean allowLimitTimes(String key) {
+    public synchronized boolean allowLimitTimes(String key) {
         int index = locationIndex();
         int sum = 0;
         // cursor不等于index，将cursor设置为index
@@ -102,7 +97,7 @@ public class TimeWindowSliding {
         }
 
         // 阈值判断
-        if (sum <= threshold) {
+        if (sum < threshold) {
             // 未超过阈值才+1
             this.timeWindowSlidingDataSource.allocAdoptRecord(index, key);
             return true;
@@ -155,7 +150,6 @@ public class TimeWindowSliding {
         this.timeWindowSlidingDataSource.allocAdoptRecord(index, key);
         return sum + 1;
     }
-
 
     /**
      * <p>将fromIndex~toIndex之间的时间片计数都清零
