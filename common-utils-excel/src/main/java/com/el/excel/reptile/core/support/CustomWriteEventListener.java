@@ -1,7 +1,7 @@
 package com.el.excel.reptile.core.support;
 
-import com.alibaba.excel.metadata.CellData;
 import com.alibaba.excel.metadata.Head;
+import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.write.handler.CellWriteHandler;
 import com.alibaba.excel.write.metadata.holder.WriteSheetHolder;
 import com.alibaba.excel.write.metadata.holder.WriteTableHolder;
@@ -29,19 +29,11 @@ public class CustomWriteEventListener implements CellWriteHandler {
     }
 
     @Override
-    public void afterCellDataConverted(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, CellData cellData, Cell cell, Head head, Integer integer, Boolean aBoolean) {
+    public void afterCellDataConverted(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, WriteCellData<?> cellData, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
 
     }
-
     @Override
-    public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<CellData> list, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
-//        if (!isHead && cell.getColumnIndex() == 1 && cell.getStringCellValue().contains("个")) {
-//            Workbook workbook = writeSheetHolder.getSheet().getWorkbook();
-//            CellStyle cellStyle = workbook.createCellStyle();
-//            Font cellFont = workbook.createFont();
-//            cellFont.setBold(true);
-//            cellStyle.setFont(cellFont);
-//            cell.setCellStyle(cellStyle);
-//        }
+    public void afterCellDispose(WriteSheetHolder writeSheetHolder, WriteTableHolder writeTableHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
+
     }
 }
