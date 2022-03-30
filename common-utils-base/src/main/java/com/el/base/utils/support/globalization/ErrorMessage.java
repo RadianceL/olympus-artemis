@@ -33,7 +33,6 @@ public class ErrorMessage {
      */
     public static final ErrorMessage EMPTY_ERROR_MESSAGE = new ErrorMessage("UN_KNOW_EXCEPTION", "SYSTEM_ERROR");
 
-
     /**
      * 单语言实例
      *
