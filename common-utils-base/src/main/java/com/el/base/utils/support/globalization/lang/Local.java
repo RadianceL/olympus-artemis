@@ -1,4 +1,4 @@
-package com.el.base.utils.support.exception.data;
+package com.el.base.utils.support.globalization.lang;
 
 import com.el.base.utils.support.Constant;
 import lombok.AllArgsConstructor;

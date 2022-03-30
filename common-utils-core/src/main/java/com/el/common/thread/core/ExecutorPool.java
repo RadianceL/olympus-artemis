@@ -1,6 +1,6 @@
 package com.el.common.thread.core;
 
-import com.el.base.utils.support.exception.data.ErrorMessage;
+import com.el.base.utils.support.globalization.ErrorMessage;
 import com.el.common.thread.excepion.ThreadInterruptedException;
 import com.el.common.thread.model.WorkAction;
 import com.el.common.thread.model.WorkCallAction;

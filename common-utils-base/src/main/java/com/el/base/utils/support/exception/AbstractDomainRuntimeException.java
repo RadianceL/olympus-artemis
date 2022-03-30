@@ -1,6 +1,6 @@
 package com.el.base.utils.support.exception;
 
-import com.el.base.utils.support.exception.data.ErrorMessage;
+import com.el.base.utils.support.globalization.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 
 /**

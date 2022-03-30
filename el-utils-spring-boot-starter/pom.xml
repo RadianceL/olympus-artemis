@@ -6,13 +6,12 @@
 
     <parent>
         <groupId>com.el</groupId>
-        <artifactId>el-utils-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../el-utils-parent</relativePath>
+        <artifactId>el-common-utils</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>el-utils-spring-boot-starter</artifactId>
-    <version>1.0.3</version>
+    <version>${common-utils.version}</version>
 
     <dependencies>
         <!-- 内部工具包 -->
