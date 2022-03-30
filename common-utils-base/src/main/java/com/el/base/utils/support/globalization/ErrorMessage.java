@@ -17,7 +17,7 @@ import org.jetbrains.annotations.PropertyKey;
 @AllArgsConstructor
 public class ErrorMessage {
 
-    private static final String BUNDLE = "i18n.errors";
+    private static final String BUNDLE = "i18n.i18n_default";
     /**
      * 错误码
      */

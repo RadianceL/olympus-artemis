@@ -11,7 +11,7 @@ import org.jetbrains.annotations.PropertyKey;
  */
 public class GlobalMessage {
 
-    private static final String BUNDLE = "i18n.errors";
+    private static final String BUNDLE = "i18n.i18n_default";
 
     public static String of(@PropertyKey(resourceBundle = BUNDLE) String messageCode, Object... messageFill) {
         return GlobalMessagePool.getMessage(messageCode, Local.CN, messageFill);
