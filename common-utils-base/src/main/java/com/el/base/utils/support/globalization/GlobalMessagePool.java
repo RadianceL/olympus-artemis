@@ -6,6 +6,7 @@ import com.el.base.utils.support.io.local.LocalFileUtil;
 import com.el.base.utils.support.io.local.PropertiesReadUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.helpers.MessageFormatter;
+import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -19,13 +20,15 @@ import java.util.Objects;
  * @author eddie.lys
  * @since 3/30/2022
  */
+@Component
 public class GlobalMessagePool {
-
 
     /**
      * 读取多语言配置
      */
     private static final Map<String, Map<String, String>> PROPERTIES;
+
+    private static Map<String, Map<String, String>> COUNTRY_ISO_MAP = new HashMap<>(8);
 
     static {
         /* 初始化多语言配置 */
@@ -39,6 +42,10 @@ public class GlobalMessagePool {
                 PROPERTIES.put(localName, defaultProperties);
             }
         }
+    }
+
+    public static void addCountryIsoDocument(String countryIsoMap, Map<String, String> countryDocumnet) {
+        COUNTRY_ISO_MAP.put(countryIsoMap, countryDocumnet);
     }
 
     /**

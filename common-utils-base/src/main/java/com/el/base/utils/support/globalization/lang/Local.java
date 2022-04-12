@@ -32,15 +32,11 @@ public enum Local {
     /**
      * 美国
      */
-    US(103L, "US", Local.AREA_TYPE_COUNTRY),
-    /**
-     * 英国
-     */
-    UK(104L, "UK", Local.AREA_TYPE_COUNTRY),
+    US(103L, "EN", Local.AREA_TYPE_COUNTRY),
     /**
      * 日本
      */
-    JP(105L, "JP", Local.AREA_TYPE_COUNTRY);
+    JP(104L, "JP", Local.AREA_TYPE_COUNTRY);
 
     /**
      * 地区类型 国家
