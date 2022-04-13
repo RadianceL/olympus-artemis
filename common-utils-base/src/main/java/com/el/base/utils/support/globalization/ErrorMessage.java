@@ -1,5 +1,6 @@
 package com.el.base.utils.support.globalization;
 
+import com.el.base.utils.support.globalization.context.GlobalizationLocalUtil;
 import com.el.base.utils.support.globalization.lang.Local;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,6 +42,7 @@ public class ErrorMessage {
      * @return 错误信息对象
      */
     public static ErrorMessage of(@PropertyKey(resourceBundle = BUNDLE) String errorCode, String errorMessage) {
+        String message = GlobalMessagePool.getMessage(errorCode, GlobalizationLocalUtil.getLocalLanguage(), errorMessage);
         return new ErrorMessage(errorCode, errorMessage);
     }
 
@@ -52,7 +54,7 @@ public class ErrorMessage {
      * @return 错误信息对象
      */
     public static ErrorMessage of(@PropertyKey(resourceBundle = BUNDLE) String errorCode, Object... args) {
-        String message = GlobalMessagePool.getMessage(errorCode, Local.CN, args);
+        String message = GlobalMessagePool.getMessage(errorCode, GlobalizationLocalUtil.getLocalLanguage(), args);
         return new ErrorMessage(errorCode, message);
     }
 

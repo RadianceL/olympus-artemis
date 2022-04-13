@@ -28,7 +28,7 @@ public class GlobalMessagePool {
      */
     private static final Map<String, Map<String, String>> PROPERTIES;
 
-    private static Map<String, Map<String, String>> COUNTRY_ISO_MAP = new HashMap<>(8);
+    private static final Map<String, Map<String, String>> COUNTRY_ISO_MAP = new HashMap<>(8);
 
     static {
         /* 初始化多语言配置 */
@@ -57,12 +57,18 @@ public class GlobalMessagePool {
      * @return 错误信息
      */
     public static String getMessage(String messageCode, Local local, Object... args) {
-        Map<String, String> properties = PROPERTIES.get(local.getLocalName());
-        String messagePattern = properties.get(messageCode);
+        Map<String, String> countryIsoMap = COUNTRY_ISO_MAP.get(local.getLocalName());
+        String messagePattern = countryIsoMap.get(messageCode);
         if (StringUtils.isNotBlank(messagePattern)) {
             return MessageFormatter.format(messagePattern, args).getMessage();
         } else {
-            return Constant.EMPTY_STRING;
+            Map<String, String> properties = PROPERTIES.get(local.getLocalName());
+            messagePattern = properties.get(messageCode);
+            if (StringUtils.isNotBlank(messagePattern)) {
+                return MessageFormatter.format(messagePattern, args).getMessage();
+            }else {
+                return Constant.EMPTY_STRING;
+            }
         }
     }
 }
