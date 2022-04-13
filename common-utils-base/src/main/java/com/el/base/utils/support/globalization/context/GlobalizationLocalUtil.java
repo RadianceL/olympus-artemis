@@ -1,6 +1,7 @@
 package com.el.base.utils.support.globalization.context;
 
 import com.el.base.utils.support.globalization.lang.Local;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
@@ -26,5 +27,9 @@ public class GlobalizationLocalUtil {
             return Local.CN;
         }
         return LOCAL_LANGUAGE.get();
+    }
+
+    public static void clear() {
+        LOCAL_LANGUAGE.remove();
     }
 }

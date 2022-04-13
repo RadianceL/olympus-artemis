@@ -68,6 +68,19 @@ public enum Local {
      */
     private String areaType;
 
+    public static Local findLocal(String localCode) {
+        if (StringUtils.isBlank(localCode)) {
+            return null;
+        }
+        for (Local local : values()) {
+            String fileNameUpperCase = localCode.toUpperCase();
+            if (fileNameUpperCase.equals(local.getLocalName())) {
+                return local;
+            }
+        }
+        return null;
+    }
+
     public static String findLocalName(String fileName) {
         if (StringUtils.isBlank(fileName)) {
             return Constant.EMPTY_STRING;
