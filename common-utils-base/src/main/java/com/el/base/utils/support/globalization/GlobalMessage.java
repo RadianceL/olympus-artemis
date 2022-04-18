@@ -1,6 +1,6 @@
 package com.el.base.utils.support.globalization;
 
-import com.el.base.utils.support.globalization.lang.Local;
+import com.el.base.utils.support.globalization.context.GlobalizationLocalUtil;
 import org.jetbrains.annotations.PropertyKey;
 
 /**
@@ -14,7 +14,7 @@ public class GlobalMessage {
     private static final String BUNDLE = "i18n.i18n_default";
 
     public static String of(@PropertyKey(resourceBundle = BUNDLE) String messageCode, Object... messageFill) {
-        return GlobalMessagePool.getMessage(messageCode, Local.CN, messageFill);
+        return GlobalMessagePool.getMessage(messageCode, GlobalizationLocalUtil.getLocalLanguage(), messageFill);
     }
 
 }
