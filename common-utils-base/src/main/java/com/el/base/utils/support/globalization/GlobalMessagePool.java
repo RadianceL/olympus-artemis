@@ -57,21 +57,31 @@ public class GlobalMessagePool {
      * @return 错误信息
      */
     public static String getMessage(String messageCode, Local local, Object... args) {
+        String messagePattern;
         Map<String, String> countryIsoMap = COUNTRY_ISO_MAP.get(local.getLocalName());
-        String messagePattern = countryIsoMap.get(messageCode);
-        if (StringUtils.isNotBlank(messagePattern)) {
-            return MessageFormatter.format(messagePattern, args).getMessage();
-        } else {
-            Map<String, String> properties = PROPERTIES.get(local.getLocalName());
-            if (Objects.isNull(properties)) {
-                return Constant.EMPTY_STRING;
-            }
-            messagePattern = properties.get(messageCode);
+        if (Objects.nonNull(countryIsoMap)) {
+            messagePattern = countryIsoMap.get(messageCode);
             if (StringUtils.isNotBlank(messagePattern)) {
                 return MessageFormatter.format(messagePattern, args).getMessage();
             }else {
-                return Constant.EMPTY_STRING;
+               return getDefaultMessage(messageCode, local, args);
             }
+        }else {
+            return getDefaultMessage(messageCode, local, args);
+        }
+    }
+
+    private static String getDefaultMessage(String messageCode, Local local, Object[] args) {
+        String messagePattern;
+        Map<String, String> properties = PROPERTIES.get(local.getLocalName());
+        if (Objects.isNull(properties)) {
+            return Constant.EMPTY_STRING;
+        }
+        messagePattern = properties.get(messageCode);
+        if (StringUtils.isNotBlank(messagePattern)) {
+            return MessageFormatter.format(messagePattern, args).getMessage();
+        }else {
+            return Constant.EMPTY_STRING;
         }
     }
 }
