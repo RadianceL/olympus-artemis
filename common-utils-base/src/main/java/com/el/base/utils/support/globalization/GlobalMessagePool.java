@@ -63,6 +63,9 @@ public class GlobalMessagePool {
             return MessageFormatter.format(messagePattern, args).getMessage();
         } else {
             Map<String, String> properties = PROPERTIES.get(local.getLocalName());
+            if (Objects.isNull(properties)) {
+                return Constant.EMPTY_STRING;
+            }
             messagePattern = properties.get(messageCode);
             if (StringUtils.isNotBlank(messagePattern)) {
                 return MessageFormatter.format(messagePattern, args).getMessage();
