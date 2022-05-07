@@ -41,30 +41,37 @@ public class GlobalizationAutoConfiguration implements ApplicationListener<Appli
         String globalDocumentSystemUrl = globalizationApplicationConfig.getGlobalDocumentSystemUrl();
         if (StringUtils.isNotBlank(globalDocumentSystemUrl)) {
             try {
-                Map<String, String> requestBody = new HashMap<>(4);
-                requestBody.put("applicationPath", "/" + applicationName);
-                String result = HttpsClientUtil.singletonHttpsPostRequest(globalDocumentSystemUrl.concat(APPLICATION_DOCUMENT_PATH),null, JSON.toJSONString(requestBody));
-                JSONObject obj = JSON.parseObject(result);
-                if ("0000".equalsIgnoreCase(obj.getString("code")) && "OK".equalsIgnoreCase(obj.getString("message"))) {
-                    JSONObject data = obj.getJSONObject("data");
-                    Set<String> countryIsoSet = data.keySet();
-                    for (String countryIso : countryIsoSet) {
-                        JSONObject countryDocument = data.getJSONObject(countryIso);
-                        Map<String, String> countryDocumentMap = new HashMap<>(32);
-                        for (Map.Entry<String, Object> entry : countryDocument.entrySet()) {
-                            if (Objects.nonNull(entry.getValue())) {
-                                countryDocumentMap.put(entry.getKey(), String.valueOf(entry.getValue()));
-                            }
-                        }
-                        GlobalMessagePool.addCountryIsoDocument(countryIso, countryDocumentMap);
-                    }
-                }else {
-                    log.error("init global document message pool error, server result error : {}", result);
-                }
+                globalDocumentSync(globalDocumentSystemUrl, "pass-saas-basics");
+                globalDocumentSync(globalDocumentSystemUrl, applicationName);
             } catch (Exception e) {
                 log.error("init global document message pool error", e);
+                throw new RuntimeException("init global document message pool error", e);
             }
 
+        }
+    }
+
+    private void globalDocumentSync(String globalDocumentSystemUrl, String applicationName) {
+        Map<String, String> requestBody = new HashMap<>(4);
+        requestBody.put("applicationPath", "/" + applicationName);
+        String result = HttpsClientUtil.singletonHttpsPostRequest(globalDocumentSystemUrl.concat(APPLICATION_DOCUMENT_PATH),null, JSON.toJSONString(requestBody));
+        JSONObject obj = JSON.parseObject(result);
+        if ("0000".equalsIgnoreCase(obj.getString("code")) && "OK".equalsIgnoreCase(obj.getString("message"))) {
+            JSONObject data = obj.getJSONObject("data");
+            Set<String> countryIsoSet = data.keySet();
+            for (String countryIso : countryIsoSet) {
+                JSONObject countryDocument = data.getJSONObject(countryIso);
+                Map<String, String> countryDocumentMap = new HashMap<>(32);
+                for (Map.Entry<String, Object> entry : countryDocument.entrySet()) {
+                    if (Objects.nonNull(entry.getValue())) {
+                        countryDocumentMap.put(entry.getKey(), String.valueOf(entry.getValue()));
+                    }
+                }
+                GlobalMessagePool.addCountryIsoDocument(countryIso, countryDocumentMap);
+            }
+        }else {
+            log.error("init global document message pool error, server result error : {}", result);
+            throw new RuntimeException("init global document message pool error, server result error : " + result);
         }
     }
 }
