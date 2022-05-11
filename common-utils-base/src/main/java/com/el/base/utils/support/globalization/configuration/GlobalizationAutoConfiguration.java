@@ -51,7 +51,7 @@ public class GlobalizationAutoConfiguration implements ApplicationListener<Appli
         }
     }
 
-    private void globalDocumentSync(String globalDocumentSystemUrl, String applicationName) {
+    private void globalDocumentSync(String globalDocumentSystemUrl, String applicationName) throws Exception {
         Map<String, String> requestBody = new HashMap<>(4);
         requestBody.put("applicationPath", "/" + applicationName);
         String result = HttpsClientUtil.singletonHttpsPostRequest(globalDocumentSystemUrl.concat(APPLICATION_DOCUMENT_PATH),null, JSON.toJSONString(requestBody));
