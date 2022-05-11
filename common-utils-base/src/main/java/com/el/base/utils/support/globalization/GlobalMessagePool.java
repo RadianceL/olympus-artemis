@@ -47,6 +47,7 @@ public class GlobalMessagePool {
     public static void addCountryIsoDocument(String countryIsoMap, Map<String, String> countryDocument) {
         if (Objects.nonNull(COUNTRY_ISO_MAP.get(countryIsoMap))) {
             COUNTRY_ISO_MAP.get(countryIsoMap).putAll(countryDocument);
+            return;
         }
         COUNTRY_ISO_MAP.put(countryIsoMap, countryDocument);
     }
