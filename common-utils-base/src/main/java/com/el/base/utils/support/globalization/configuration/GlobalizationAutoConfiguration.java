@@ -47,7 +47,6 @@ public class GlobalizationAutoConfiguration implements ApplicationListener<Appli
                 log.error("init global document message pool error", e);
                 throw new RuntimeException("init global document message pool error", e);
             }
-
         }
     }
 

@@ -11,7 +11,6 @@ import java.util.Objects;
  */
 public class InputStreamUtils {
 
-
     public static ByteArrayOutputStream cloneInputStream(InputStream input) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];

@@ -17,6 +17,10 @@ public class GlobalizationApplicationConfig {
     /**
      * 多语言文案系统路径
      */
+    private Boolean enableGlobalizationCenter;
+    /**
+     * 多语言文案系统路径
+     */
     private String globalDocumentSystemUrl;
 
 }

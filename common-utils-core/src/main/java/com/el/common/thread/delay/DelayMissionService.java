@@ -19,11 +19,12 @@ public abstract class DelayMissionService<D extends DelayMission<?>> {
         return this.coreDelayBlockingQueue;
     }
 
-    public boolean addMission(D delayMission) {
-        return coreDelayBlockingQueue.add(delayMission);
+    public void addMission(D delayMission) {
+        boolean addDelayBlockingQueue = coreDelayBlockingQueue.add(delayMission);
+        if (!addDelayBlockingQueue) {
+            delayMission.handlerException(new RuntimeException(""));
+        }
     }
 
-    abstract boolean rollback();
-
-    abstract String getMissionName();
+    public abstract String getMissionName();
 }

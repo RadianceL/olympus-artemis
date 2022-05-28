@@ -43,7 +43,7 @@ public class ErrorMessage {
      */
     public static ErrorMessage of(@PropertyKey(resourceBundle = BUNDLE) String errorCode, String errorMessage) {
         String message = GlobalMessagePool.getMessage(errorCode, GlobalizationLocalUtil.getLocalLanguage(), errorMessage);
-        return new ErrorMessage(errorCode, errorMessage);
+        return new ErrorMessage(errorCode, message);
     }
 
     /**

@@ -29,24 +29,23 @@ public class DelayMissionQueueControl {
 
     /**
      * 对外暴露 任务注册
-     * @param delayMissionService       延时服务
-     * @return                          成功失败
+     *
+     * @param delayMissionService 延时服务
      */
-    public boolean registerDelayMission(DelayMissionService<DelayMission<?>> delayMissionService) {
+    public void registerDelayMission(DelayMissionService<DelayMission<?>> delayMissionService) throws IllegalArgumentException{
         if (concurrentHashMapMap.containsKey(delayMissionService.getMissionName())) {
             throw new IllegalArgumentException("this mission already registered");
         }
         DelayMissionService<DelayMission<?>> delayMissionDelayMissionService =
                 this.concurrentHashMapMap.putIfAbsent(delayMissionService.getMissionName(), delayMissionService);
-        if (Objects.isNull(delayMissionDelayMissionService)) {
-            boolean rollback = delayMissionService.rollback();
-            if (!rollback) {
-                log.error("{} mission rollback error", delayMissionService.getMissionName());
-            }
-            delayMissionOnMonitor(delayMissionService);
-            return true;
+        if (Objects.nonNull(delayMissionDelayMissionService)) {
+            throw new IllegalArgumentException("this mission already registered");
         }
-        throw new IllegalArgumentException("this mission already registered");
+        delayMissionOnMonitor(delayMissionService);
+    }
+
+    public DelayMissionService<DelayMission<?>> getDelayMissionService(String missionName) {
+        return this.concurrentHashMapMap.get(missionName);
     }
 
     /**
@@ -70,13 +69,19 @@ public class DelayMissionQueueControl {
                         boolean handleMission = delayMission.handleMission();
                         if (!handleMission) {
                             delayMission.handlerFalse();
+                            if (delayMission.isNeedRollBack()) {
+                                delayMission.defaultRollback(null);
+                            }
                         }
                     }catch (Throwable throwable) {
                         delayMission.handlerException(throwable);
+                        if (delayMission.isNeedRollBack()) {
+                            delayMission.defaultRollback(throwable);
+                        }
+
                     }
                 }
             }
-
         }, delayMissionService);
     }
 
