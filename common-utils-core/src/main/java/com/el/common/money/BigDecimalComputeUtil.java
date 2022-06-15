@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -40,6 +41,9 @@ public class BigDecimalComputeUtil {
      * @return 和
      */
     public static BigDecimal add(BigDecimal sourceAmount, BigDecimal targetAmount) {
+        if (Objects.isNull(sourceAmount) || Objects.isNull(targetAmount)) {
+            throw new IllegalArgumentException("加法运算金额中不能有空值");
+        }
         return sourceAmount.add(targetAmount, MathContext.UNLIMITED);
     }
 
@@ -67,6 +71,9 @@ public class BigDecimalComputeUtil {
      * @return 差
      */
     public static BigDecimal subtract(BigDecimal sourceAmount, BigDecimal targetAmount) {
+        if (Objects.isNull(sourceAmount) || Objects.isNull(targetAmount)) {
+            throw new IllegalArgumentException("减法运算金额中不能有空值");
+        }
         return sourceAmount.subtract(targetAmount, MathContext.UNLIMITED);
     }
 
@@ -94,6 +101,9 @@ public class BigDecimalComputeUtil {
      * @return 积
      */
     public static BigDecimal multiply(BigDecimal sourceAmount, BigDecimal targetAmount) {
+        if (Objects.isNull(sourceAmount) || Objects.isNull(targetAmount)) {
+            throw new IllegalArgumentException("乘法运算金额中不能有空值");
+        }
         return sourceAmount.multiply(targetAmount, MathContext.UNLIMITED);
     }
 
@@ -123,6 +133,9 @@ public class BigDecimalComputeUtil {
      * @return 商
      */
     public static BigDecimal divide(BigDecimal sourceAmount, BigDecimal targetAmount, Integer scale) {
+        if (Objects.isNull(sourceAmount) || Objects.isNull(targetAmount)) {
+            throw new IllegalArgumentException("除法运算金额中不能有空值");
+        }
         if (Objects.isNull(scale) || scale == 0) {
             scale = DEFAULT_SCALE;
         }
@@ -131,7 +144,7 @@ public class BigDecimalComputeUtil {
                 BigDecimal.ZERO.compareTo(targetAmount) == 0) {
             return BigDecimal.ZERO;
         }
-        return sourceAmount.divide(targetAmount, scale, BigDecimal.ROUND_HALF_UP).setScale(scale, BigDecimal.ROUND_HALF_UP);
+        return sourceAmount.divide(targetAmount, scale, RoundingMode.HALF_UP).setScale(scale, RoundingMode.HALF_UP);
     }
 
     /**
@@ -152,7 +165,7 @@ public class BigDecimalComputeUtil {
         if (Objects.isNull(scale) || scale == 0) {
             scale = DEFAULT_SCALE;
         }
-        return sourceAmount.setScale(scale, BigDecimal.ROUND_HALF_UP);
+        return sourceAmount.setScale(scale, RoundingMode.HALF_UP);
     }
 
     /**
@@ -183,7 +196,6 @@ public class BigDecimalComputeUtil {
         if (Objects.isNull(number)) {
             return false;
         }
-
         return number.compareTo(BigDecimal.ZERO) == 0;
     }
 
@@ -194,7 +206,6 @@ public class BigDecimalComputeUtil {
         if (Objects.isNull(number)) {
             return false;
         }
-
         return number.compareTo(BigDecimal.ZERO) <= 0;
     }
 
@@ -205,7 +216,6 @@ public class BigDecimalComputeUtil {
         if (Objects.isNull(number)) {
             return false;
         }
-
         return number.compareTo(BigDecimal.ZERO) < 0;
     }
 }

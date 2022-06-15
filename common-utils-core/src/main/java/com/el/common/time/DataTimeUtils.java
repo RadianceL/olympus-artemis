@@ -72,8 +72,6 @@ public class DataTimeUtils {
         return date;
     }
 
-
-
     public static String dateToString(Date date) {
         if (Objects.isNull(date)) {
             return null;
@@ -93,8 +91,6 @@ public class DataTimeUtils {
         LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, zone);
         return LocalTimeUtils.formatDate(localDateTime, formatter);
     }
-
-
 
     public static String addMonth(Date date, int addMonth, String format) {
         Calendar c = Calendar.getInstance();

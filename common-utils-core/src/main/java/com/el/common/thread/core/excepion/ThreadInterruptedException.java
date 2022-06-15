@@ -1,4 +1,4 @@
-package com.el.common.thread.excepion;
+package com.el.common.thread.core.excepion;
 
 import com.el.base.utils.support.exception.ExtendRuntimeException;
 import com.el.base.utils.support.globalization.ErrorMessage;

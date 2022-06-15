@@ -39,7 +39,7 @@ public class DelayMissionQueueTest {
         delayMissionQueueControl.registerDelayMission(delayMissionService);
         for (int i = 0; i < 5; i++) {
             try {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(4);
                 DelayMission<String> delayMissionTimes =
                         new DelayMission<>("创建时间为：" + System.currentTimeMillis(), false,5000) {
                             @Override

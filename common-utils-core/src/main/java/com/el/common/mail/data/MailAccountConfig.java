@@ -40,21 +40,21 @@ public class MailAccountConfig {
 
     public String getHostIfPresent() {
         if (Objects.isNull(this.host)) {
-            throw new RuntimeException("邮箱认证域名不能为空，请检查配置");
+            throw new IllegalArgumentException("邮箱认证域名不能为空，请检查配置");
         }
         return this.host;
     }
 
     public String getAccountIfPresent() {
         if (Objects.isNull(this.account)) {
-            throw new RuntimeException("邮箱账户不能为空，请检查配置");
+            throw new IllegalArgumentException("邮箱账户不能为空，请检查配置");
         }
         return this.account;
     }
 
     public String getPasswordIfPresent() {
         if (Objects.isNull(this.password)) {
-            throw new RuntimeException("邮箱密码不能为空，请检查配置");
+            throw new IllegalArgumentException("邮箱密码不能为空，请检查配置");
         }
         return this.password;
     }
