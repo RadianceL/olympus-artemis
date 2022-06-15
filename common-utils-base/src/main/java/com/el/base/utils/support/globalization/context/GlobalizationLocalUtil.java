@@ -1,6 +1,8 @@
 package com.el.base.utils.support.globalization.context;
 
 import com.el.base.utils.support.globalization.lang.Local;
+
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -25,6 +27,11 @@ public class GlobalizationLocalUtil {
             return Local.CN;
         }
         return LOCAL_LANGUAGE.get();
+    }
+
+    public static Date getCurrentLocalDate() {
+        return GlobalizationLocalUtil.getLocalLanguage()
+                .getCurrentLocalTime();
     }
 
     public static void clear() {

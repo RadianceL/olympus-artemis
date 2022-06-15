@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
+
 /**
  * 地区数据
  * since 2019/12/7
@@ -16,27 +21,92 @@ import org.apache.commons.lang3.StringUtils;
 @NoArgsConstructor
 @AllArgsConstructor
 public enum Local {
-
     /**
      * 中国
      */
-    CN(100L, "CN", Local.AREA_TYPE_COUNTRY),
+    CN(100L, "CN", Local.AREA_TYPE_COUNTRY) {
+        @Override
+        public Date getCurrentLocalTime() {
+            return new Date();
+        }
+    },
+    /**
+     * 德国
+     */
+    DE(101L, "DE", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+1");
+            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+    },
+    /**
+     * 泰国
+     */
+    TH(102L, "TH", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+7");
+            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+    },
+    /**
+     * 越南
+     */
+    VI(103L, "VI", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+7");
+            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+    },
     /**
      * 俄罗斯
      */
-    RU(101L, "RU", Local.AREA_TYPE_COUNTRY),
+    RU(104L, "RU", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+3");
+            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+    },
     /**
      * 法国
      */
-    FR(102L, "FR", Local.AREA_TYPE_COUNTRY),
+    FR(105L, "FR", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+1");
+            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+    },
     /**
      * 美国
      */
-    US(103L, "EN", Local.AREA_TYPE_COUNTRY),
+    US(106L, "US", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT-4");
+            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+    },
     /**
      * 日本
      */
-    JP(104L, "JP", Local.AREA_TYPE_COUNTRY);
+    JP(107L, "JP", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+9");
+            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+    };
 
     /**
      * 地区类型 国家
@@ -98,4 +168,18 @@ public enum Local {
         return Constant.EMPTY_STRING;
     }
 
+    public abstract Date getCurrentLocalTime();
+
+    /**
+     *
+     * @param time 需要转换的时间
+     * @param fromZone 需要转换的时间的时区，即time的时区
+     * @param toZone 需要转成的时区
+     * @return 转换时区之后的时间
+     */
+    public static LocalDateTime changeTimeZone(LocalDateTime time, String fromZone, String toZone) {
+        ZonedDateTime zonedTime = time.atZone(ZoneId.of(fromZone));
+        ZonedDateTime converted = zonedTime.withZoneSameInstant(ZoneId.of(toZone));
+        return converted.toLocalDateTime();
+    }
 }
