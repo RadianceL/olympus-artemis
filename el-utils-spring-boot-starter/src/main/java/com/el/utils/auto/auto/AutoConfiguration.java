@@ -1,5 +1,7 @@
 package com.el.utils.auto.auto;
 
+import com.el.base.utils.support.globalization.configuration.GlobalizationApplicationConfig;
+import com.el.base.utils.support.globalization.configuration.GlobalizationAutoConfiguration;
 import com.el.common.thread.core.ExecutorPool;
 import com.el.utils.auto.configuration.CommonUtilProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -40,5 +42,11 @@ public class AutoConfiguration {
         }
 
         return new ExecutorPool<>(coreThreadTotal, maxThreadLimit, poolName);
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "spring.application.globalization", name = "enableGlobalizationCenter")
+    public GlobalizationAutoConfiguration globalizationAutoConfiguration(GlobalizationApplicationConfig globalizationApplicationConfig) {
+        return new GlobalizationAutoConfiguration(globalizationApplicationConfig);
     }
 }

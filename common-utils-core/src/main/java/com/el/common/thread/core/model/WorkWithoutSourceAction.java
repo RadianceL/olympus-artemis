@@ -1,4 +1,4 @@
-package com.el.common.thread.model;
+package com.el.common.thread.core.model;
 
 /**
  * 无数据源线程

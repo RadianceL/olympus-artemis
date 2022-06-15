@@ -66,13 +66,6 @@ public class MailContext {
      */
     private Map<String, String> context;
 
-    public static final List<String> NON_NULL_FIELD_LOAD = Lists.newArrayList(
-            "bizChannel", "companyId", "mailType"
-    );
-    public static final List<String> NON_NULL_FIELD = Lists.newArrayList(
-            "bizChannel", "companyId", "subject"
-    );
-
     public Boolean getNeedZipFileIfPresent() {
         if (Objects.isNull(this.needZipFile)) {
             return Boolean.FALSE;

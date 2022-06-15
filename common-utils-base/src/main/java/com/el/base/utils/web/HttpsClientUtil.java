@@ -169,7 +169,7 @@ public class HttpsClientUtil {
             CloseableHttpResponse response = httpClient.execute(httpPost);
             resultSb = send(response);
         }
-        return resultSb == null ? null : resultSb.toString();
+        return resultSb.toString();
     }
 
     public static String singletonHttpsPost(String requestUrl, Map<String, ? extends Object> params, String charSet) throws Exception {
@@ -262,7 +262,7 @@ public class HttpsClientUtil {
      * 发送请求
      */
     private static StringBuilder send(CloseableHttpResponse response) throws IOException {
-        try {
+        try (response) {
             StringBuilder resultMsg = null;
             HttpEntity entity = response.getEntity();
             if (entity != null) {
@@ -274,13 +274,10 @@ public class HttpsClientUtil {
                 }
             }
             EntityUtils.consume(entity);
-
             if (resultMsg == null) {
                 throw new RuntimeException("network response error at HttpsClientUtil send()");
             }
             return resultMsg;
-        } finally {
-            response.close();
         }
     }
 

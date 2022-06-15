@@ -6,10 +6,11 @@ package com.el.excel.support;
  *
  * @author eddie.lys
  */
+@FunctionalInterface
 public interface MultilingualExtend {
 
     /**
-     * 哥怒声明列获取对应的多语言文案
+     * 列获取对应的多语言文案
      * @param declarationField      excel头名称
      * @return                      对应的多语言
      */

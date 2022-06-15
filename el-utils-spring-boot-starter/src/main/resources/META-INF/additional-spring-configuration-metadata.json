@@ -5,6 +5,12 @@
       "type": "com.el.utils.auto.configuration.CommonUtilProperties",
       "description": "自动装配数据源.",
       "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties"
+    },
+    {
+      "name": "spring.application.globalization",
+      "type": "com.el.base.utils.support.globalization.configuration.GlobalizationApplicationConfig",
+      "description": "自动装配数据源.",
+      "sourceType": "com.el.base.utils.support.globalization.configuration.GlobalizationApplicationConfig"
     }
   ],
   "properties": [
@@ -49,9 +55,17 @@
       "description": "线程名称.",
       "sourceType": "com.el.utils.auto.configuration.CommonUtilProperties$ThreadPoolConfig",
       "defaultValue": "application"
+    },
+    {
+      "name": "spring.application.globalization.enableGlobalizationCenter",
+      "type": "java.lang.String",
+      "sourceType": "com.el.base.utils.support.globalization.configuration.GlobalizationApplicationConfig"
+    },
+    {
+      "name": "spring.application.globalization.globalDocumentSystemUrl",
+      "type": "java.lang.String",
+      "sourceType": "com.el.base.utils.support.globalization.configuration.GlobalizationApplicationConfig"
     }
-
-
   ],
   "hints": [
     {

@@ -1,4 +1,4 @@
-package com.el.base.utils.support.exception.data;
+package com.el.base.utils.support.globalization.lang;
 
 import com.el.base.utils.support.Constant;
 import lombok.AllArgsConstructor;
@@ -32,15 +32,11 @@ public enum Local {
     /**
      * 美国
      */
-    US(103L, "US", Local.AREA_TYPE_COUNTRY),
-    /**
-     * 英国
-     */
-    UK(104L, "UK", Local.AREA_TYPE_COUNTRY),
+    US(103L, "EN", Local.AREA_TYPE_COUNTRY),
     /**
      * 日本
      */
-    JP(105L, "JP", Local.AREA_TYPE_COUNTRY);
+    JP(104L, "JP", Local.AREA_TYPE_COUNTRY);
 
     /**
      * 地区类型 国家
@@ -71,6 +67,19 @@ public enum Local {
      * 地址类型
      */
     private String areaType;
+
+    public static Local findLocal(String localCode) {
+        if (StringUtils.isBlank(localCode)) {
+            return null;
+        }
+        for (Local local : values()) {
+            String fileNameUpperCase = localCode.toUpperCase();
+            if (fileNameUpperCase.equals(local.getLocalName())) {
+                return local;
+            }
+        }
+        return null;
+    }
 
     public static String findLocalName(String fileName) {
         if (StringUtils.isBlank(fileName)) {

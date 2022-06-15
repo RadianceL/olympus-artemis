@@ -55,7 +55,7 @@ public abstract class AbstractCompletableFuturePool<T extends Comparable<T>> {
     @SuppressWarnings("rawtypes")
     public void doCompletableFutures(List<T> conditions) {
         final List<T> syncConditions = Collections.synchronizedList(conditions);
-        CompletableFuture<T>[] futures = syncConditions.stream()
+        CompletableFuture[] futures = syncConditions.stream()
                 .map(this::initCompletableFuture)
                 .toArray(CompletableFuture[]::new);
         //阻塞，直到所有任务结束。

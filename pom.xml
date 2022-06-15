@@ -7,26 +7,29 @@
     <groupId>com.el</groupId>
     <artifactId>el-common-utils</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1-SANPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <properties>
-        <common-utils.version>1.0.3</common-utils.version>
+        <common-utils.version>1.0.4-SNAPSHOT</common-utils.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <junit.version>4.13.1</junit.version>
         <guava.version>31.1-jre</guava.version>
-        <lombok.version>1.18.22</lombok.version>
+        <lombok.version>1.18.20</lombok.version>
         <fastcsv.version>2.0.0</fastcsv.version>
         <fastjson.version>1.2.80</fastjson.version>
         <easyexcel.version>3.0.5</easyexcel.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <commons-net.version>3.8.0</commons-net.version>
+        <commons-net.version>3.6</commons-net.version>
+        <mockito-core.version>4.0.0</mockito-core.version>
         <annotations.version>23.0.0</annotations.version>
-        <commons-lang3.version>3.12.0</commons-lang3.version>
-        <spring-boot-dependencies.version>2.6.5</spring-boot-dependencies.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
+        <velocity-engine-core.version>2.3</velocity-engine-core.version>
+        <spring-boot-cloud-getway.version>3.1.1</spring-boot-cloud-getway.version>
+        <spring-boot-dependencies.version>2.6.4</spring-boot-dependencies.version>
     </properties>
 
     <modules>
@@ -49,7 +52,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-gateway</artifactId>
-                <version>3.1.1</version>
+                <version>${spring-boot-cloud-getway.version}</version>
             </dependency>
 
             <dependency>
@@ -84,8 +87,8 @@
 
             <dependency>
                 <groupId>org.apache.velocity</groupId>
-                <artifactId>velocity</artifactId>
-                <version>1.7</version>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity-engine-core.version}</version>
             </dependency>
 
             <dependency>
@@ -112,7 +115,6 @@
                 <version>1.2</version>
             </dependency>
 
-
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
@@ -130,6 +132,12 @@
                 <artifactId>annotations</artifactId>
                 <version>${annotations.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito-core.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -145,11 +153,10 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

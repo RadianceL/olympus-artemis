@@ -1,4 +1,4 @@
-package com.el.common.mail;
+package com.el.common.mail.core;
 
 import javax.mail.URLName;
 

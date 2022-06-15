@@ -1,7 +1,6 @@
 package com.el.base.utils.support.exception;
 
-import com.el.base.utils.support.exception.data.ErrorMessage;
-import org.slf4j.Logger;
+import com.el.base.utils.support.globalization.ErrorMessage;
 
 import java.util.Objects;
 
