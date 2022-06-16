@@ -34,6 +34,11 @@ public class GlobalizationLocalUtil {
                 .getCurrentLocalTime();
     }
 
+    public static Long getCurrentLocalTimeMillis() {
+        return GlobalizationLocalUtil.getLocalLanguage()
+                .getCurrentLocalTime().getTime();
+    }
+
     public static void clear() {
         LOCAL_LANGUAGE.remove();
     }
