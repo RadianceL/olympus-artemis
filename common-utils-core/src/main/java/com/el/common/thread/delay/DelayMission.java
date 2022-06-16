@@ -1,5 +1,6 @@
 package com.el.common.thread.delay;
 
+import com.el.base.utils.support.globalization.context.GlobalizationLocalUtil;
 import com.google.common.primitives.Ints;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public abstract class DelayMission<D> implements Delayed {
 
     public DelayMission(D missionData, boolean isNeedRollBack,long delayInMilliseconds) {
         this.missionData = missionData;
-        this.startTime = System.currentTimeMillis() + delayInMilliseconds;
+        this.startTime = GlobalizationLocalUtil.getCurrentLocalTimeMillis() + delayInMilliseconds;
         this.isNeedRollBack = isNeedRollBack;
     }
 
@@ -72,7 +73,7 @@ public abstract class DelayMission<D> implements Delayed {
 
     @Override
     public long getDelay(@NotNull TimeUnit unit) {
-        long diff = this.startTime - System.currentTimeMillis();
+        long diff = this.startTime - GlobalizationLocalUtil.getCurrentLocalTimeMillis();
         return unit.convert(diff, TimeUnit.MILLISECONDS);
     }
 

@@ -1,5 +1,6 @@
 package com.el.common.time.sliding;
 
+import com.el.base.utils.support.globalization.context.GlobalizationLocalUtil;
 import com.el.common.time.sliding.data.TimeWindowSlidingDataSource;
 
 import java.util.Objects;
@@ -160,7 +161,7 @@ public class TimeWindowSliding {
     }
 
     private int locationIndex() {
-        long time = System.currentTimeMillis();
+        long time = GlobalizationLocalUtil.getCurrentLocalTimeMillis();
         return (int) ((time / timeMillisPerSlice) % timeSliceSize);
     }
 }

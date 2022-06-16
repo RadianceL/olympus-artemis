@@ -1,5 +1,6 @@
 package com.el.common.time;
 
+import com.el.base.utils.support.globalization.context.GlobalizationLocalUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
@@ -136,7 +137,7 @@ public class DataTimeUtils {
      */
     public static Date getFirstMonthOfDate() {
         Calendar para = Calendar.getInstance(java.util.Locale.CHINA);
-        para.setTime(new Date());
+        para.setTime(GlobalizationLocalUtil.getCurrentLocalDate());
         para.set(Calendar.DATE, para.getActualMinimum(Calendar.DAY_OF_MONTH));
         para.set(Calendar.HOUR_OF_DAY, 0);
         para.set(Calendar.MINUTE, 0);
@@ -146,7 +147,7 @@ public class DataTimeUtils {
 
     public static Date getLastDayOfMonth () {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
+        calendar.setTime(GlobalizationLocalUtil.getCurrentLocalDate());
         //获取本月最大天数
         int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
         calendar.set(Calendar.DATE, lastDay);
