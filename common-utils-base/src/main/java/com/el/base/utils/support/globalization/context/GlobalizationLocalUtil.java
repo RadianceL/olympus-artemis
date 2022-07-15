@@ -17,8 +17,16 @@ public class GlobalizationLocalUtil {
      * 本地语言
      */
     private static final ThreadLocal<Local> LOCAL_LANGUAGE = new ThreadLocal<>();
+    /**
+     * 本地时间
+     */
+    private static final ThreadLocal<Local> TIME_LOCAL = new ThreadLocal<>();
 
     public static void setLocalLanguage(Local local) {
+        LOCAL_LANGUAGE.set(local);
+    }
+
+    public static void setLocalTime(Local local) {
         LOCAL_LANGUAGE.set(local);
     }
 
@@ -29,17 +37,26 @@ public class GlobalizationLocalUtil {
         return LOCAL_LANGUAGE.get();
     }
 
+
+    public static Local getLocalTime() {
+        if (Objects.isNull(TIME_LOCAL.get())) {
+            return Local.CN;
+        }
+        return TIME_LOCAL.get();
+    }
+
     public static Date getCurrentLocalDate() {
-        return GlobalizationLocalUtil.getLocalLanguage()
+        return GlobalizationLocalUtil.getLocalTime()
                 .getCurrentLocalTime();
     }
 
     public static Long getCurrentLocalTimeMillis() {
-        return GlobalizationLocalUtil.getLocalLanguage()
+        return GlobalizationLocalUtil.getLocalTime()
                 .getCurrentLocalTime().getTime();
     }
 
     public static void clear() {
         LOCAL_LANGUAGE.remove();
+        TIME_LOCAL.remove();
     }
 }
