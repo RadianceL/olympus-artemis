@@ -27,7 +27,7 @@ public class GlobalizationLocalUtil {
     }
 
     public static void setLocalTime(Local local) {
-        LOCAL_LANGUAGE.set(local);
+        TIME_LOCAL.set(local);
     }
 
     public static Local getLocalLanguage() {
