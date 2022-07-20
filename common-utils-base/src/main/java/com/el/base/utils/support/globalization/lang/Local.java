@@ -88,7 +88,7 @@ public enum Local {
     /**
      * 美国
      */
-    US(106L, "US", Local.AREA_TYPE_COUNTRY){
+    EN(106L, "EN", Local.AREA_TYPE_COUNTRY){
         @Override
         public Date getCurrentLocalTime() {
             LocalDateTime now = LocalDateTime.now();
