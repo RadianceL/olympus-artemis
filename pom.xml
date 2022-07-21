@@ -32,10 +32,10 @@
     </properties>
 
     <modules>
-        <module>common-utils-core</module>
-        <module>common-utils-excel</module>
-        <module>common-utils-base</module>
-        <module>el-utils-spring-boot-starter</module>
+        <module>olympus-artemis-core</module>
+        <module>olympus-artemis-excel</module>
+        <module>olympus-artemis-base</module>
+        <module>olympus-artemis-starter</module>
     </modules>
 
     <dependencyManagement>
