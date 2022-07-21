@@ -9,13 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>common-utils-core</artifactId>
+    <artifactId>olympus-artemis-core</artifactId>
     <version>${common-utils.version}</version>
 
     <dependencies>
         <dependency>
             <groupId>com.el</groupId>
-            <artifactId>common-utils-base</artifactId>
+            <artifactId>olympus-artemis-base</artifactId>
             <version>${common-utils.version}</version>
         </dependency>
 

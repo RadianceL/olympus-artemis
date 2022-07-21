@@ -11,7 +11,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>common-utils-base</artifactId>
+    <artifactId>olympus-artemis-base</artifactId>
     <version>${common-utils.version}</version>
 
     <dependencies>
