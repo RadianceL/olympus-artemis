@@ -18,18 +18,17 @@
         <java.version>17</java.version>
         <junit.version>4.13.1</junit.version>
         <guava.version>31.1-jre</guava.version>
-        <lombok.version>1.18.20</lombok.version>
+        <lombok.version>1.18.24</lombok.version>
         <fastcsv.version>2.0.0</fastcsv.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <easyexcel.version>3.0.5</easyexcel.version>
+        <easyexcel.version>3.1.1</easyexcel.version>
         <httpclient.version>4.5.13</httpclient.version>
         <commons-net.version>3.6</commons-net.version>
-        <mockito-core.version>4.0.0</mockito-core.version>
         <annotations.version>23.0.0</annotations.version>
         <commons-lang3.version>3.9</commons-lang3.version>
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
         <spring-boot-cloud-getway.version>3.1.1</spring-boot-cloud-getway.version>
-        <spring-boot-dependencies.version>2.6.4</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.7.1</spring-boot-dependencies.version>
     </properties>
 
     <modules>
@@ -131,12 +130,6 @@
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
                 <version>${annotations.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito-core.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
