@@ -29,6 +29,11 @@ public enum Local {
         public Date getCurrentLocalTime() {
             return new Date();
         }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT+8";
+        }
     },
     /**
      * 德国
@@ -39,6 +44,11 @@ public enum Local {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+1");
             return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT+1";
         }
     },
     /**
@@ -51,6 +61,11 @@ public enum Local {
             LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+7");
             return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
         }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT+7";
+        }
     },
     /**
      * 越南
@@ -61,6 +76,11 @@ public enum Local {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+7");
             return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT+7";
         }
     },
     /**
@@ -73,6 +93,11 @@ public enum Local {
             LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+3");
             return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
         }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT+3";
+        }
     },
     /**
      * 法国
@@ -83,6 +108,11 @@ public enum Local {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+1");
             return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT+1";
         }
     },
     /**
@@ -95,6 +125,11 @@ public enum Local {
             LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT-4");
             return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
         }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT-4";
+        }
     },
     /**
      * 日本
@@ -105,6 +140,11 @@ public enum Local {
             LocalDateTime now = LocalDateTime.now();
             LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+9");
             return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+        }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT+9";
         }
     };
 
@@ -170,6 +210,8 @@ public enum Local {
 
     public abstract Date getCurrentLocalTime();
 
+    public abstract String getCurrentTimeZone();
+
     /**
      *
      * @param time 需要转换的时间
@@ -183,3 +225,4 @@ public enum Local {
         return converted.toLocalDateTime();
     }
 }
+
