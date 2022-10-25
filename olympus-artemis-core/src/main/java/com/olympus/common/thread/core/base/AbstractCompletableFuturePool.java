@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  *
  * @author eddielee
  */
-public abstract class AbstractCompletableFuturePool<T extends Comparable<T>> {
+public abstract class AbstractCompletableFuturePool<T> {
 
     /**
      * MAX线程因子
