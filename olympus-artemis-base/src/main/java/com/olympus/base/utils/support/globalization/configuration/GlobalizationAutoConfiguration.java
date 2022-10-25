@@ -3,7 +3,7 @@ package com.olympus.base.utils.support.globalization.configuration;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.olympus.base.utils.support.globalization.GlobalMessagePool;
-import com.olympus.base.utils.web.HttpsClientUtil;
+import com.olympus.base.utils.web.https.HttpsClientUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
