@@ -34,6 +34,12 @@ public class CollectionUtils {
         return !isEmpty(collection);
     }
 
+    /**
+     * array拆分
+     * @param sourceList        元数据
+     * @param len               拆分长度
+     * @return                  二维列表
+     */
     public static <T> List<List<T>> averageAssign(List<T> sourceList, int len) {
         if (isEmpty(sourceList)) {
             return new ArrayList<>();

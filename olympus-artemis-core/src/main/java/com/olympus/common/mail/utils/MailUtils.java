@@ -51,7 +51,6 @@ public class MailUtils {
             person = "";
         }
         String from = person + "<" + address.getAddress() + ">";
-
         return address.getAddress();
     }
 

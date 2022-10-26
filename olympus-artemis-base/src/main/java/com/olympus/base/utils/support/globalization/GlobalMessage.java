@@ -16,5 +16,4 @@ public class GlobalMessage {
     public static String of(@PropertyKey(resourceBundle = BUNDLE) String messageCode, Object... messageFill) {
         return GlobalMessagePool.getMessage(messageCode, GlobalizationLocalUtil.getLocalLanguage(), messageFill);
     }
-
 }

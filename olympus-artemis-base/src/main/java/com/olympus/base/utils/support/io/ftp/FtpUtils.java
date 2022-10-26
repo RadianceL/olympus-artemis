@@ -1,5 +1,6 @@
 package com.olympus.base.utils.support.io.ftp;
 
+import com.olympus.base.utils.collection.CollectionUtils;
 import com.olympus.base.utils.support.io.ftp.data.FtpInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTPClient;
@@ -63,6 +64,9 @@ public class FtpUtils {
             ftp.makeDirectory(f.getName());
             ftp.changeWorkingDirectory(f.getName());
             String[] files = f.list();
+            if (CollectionUtils.isEmpty(files)) {
+                return;
+            }
             for (String fStr : files) {
                 File file1 = new File(f.getPath() + File.separator + fStr);
                 if (file1.isDirectory()) {
