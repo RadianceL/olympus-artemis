@@ -46,12 +46,11 @@ public class DemoCompletableFuturePool extends AbstractCompletableFuturePool<Str
                     }
                     System.out.println(s);
                     return s;
-                })
-                .whenCompleteAsync(this::abstractCallback);
+                });
     }
 
     @Override
-    public void completableFuturesFinishCallback(CompletableFuture<String>[] futures) {
+    public void completableFuturesFinishCallback(CompletableFuture<String>[] futures, Throwable throwable) {
         for (CompletableFuture<String> future : futures) {
             try {
                 String s = future.get();

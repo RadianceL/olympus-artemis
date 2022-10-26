@@ -5,8 +5,6 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * 步骤执行线程池
@@ -59,8 +57,9 @@ public abstract class AbstractCompletableFuturePool<T> {
                 .map(this::initCompletableFuture)
                 .toArray(CompletableFuture[]::new);
         //阻塞，直到所有任务结束。
-        CompletableFuture.allOf(futures).join();
-        completableFuturesFinishCallback(futures);
+        CompletableFuture.allOf(futures)
+                .whenComplete((unused, throwable) ->
+                        completableFuturesFinishCallback(futures, throwable));
     }
 
     /**
@@ -76,7 +75,7 @@ public abstract class AbstractCompletableFuturePool<T> {
      *
      * @param futures
      */
-    public abstract void completableFuturesFinishCallback(CompletableFuture<T>[] futures);
+    public abstract void completableFuturesFinishCallback(CompletableFuture<T>[] futures, Throwable throwable);
 
     /**
      * 可选方法 手动覆写 <br/>
