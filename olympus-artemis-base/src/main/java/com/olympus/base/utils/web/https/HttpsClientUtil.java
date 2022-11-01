@@ -181,15 +181,9 @@ public class HttpsClientUtil extends HttpCustomClient {
             throw new RuntimeException(e);
         }
         Registry<ConnectionSocketFactory> registry = registryBuilder.build();
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout(5 * 1000) // 链接超时时间
-                .setSocketTimeout(2 * 1000)//读超时时间（等待数据超时时间）
-                .setConnectionRequestTimeout(500)//从池中获取连接超时时间
-                .build();
         //设置连接管理器
         PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(registry);
         return HttpClientBuilder.create()
-                .setDefaultRequestConfig(requestConfig)
                 .setConnectionManager(connManager)
                 .build();
     }
