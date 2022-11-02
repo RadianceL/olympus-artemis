@@ -169,16 +169,6 @@ public class BigDecimalComputeUtil {
     }
 
     /**
-     * 校验是否为金额
-     */
-    public static boolean checkIsNotMoney(String source) {
-        if (StringUtils.isBlank(source)) {
-            return true;
-        }
-        return !source.matches(MoneyConstant.CURRENCY_YUAN_REGEX);
-    }
-
-    /**
      * 大于0
      */
     public static boolean greaterThanZero(BigDecimal number) {
@@ -187,6 +177,17 @@ public class BigDecimalComputeUtil {
         }
 
         return number.compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    /**
+     * 大于0
+     */
+    public static boolean greaterEqualToZero(BigDecimal number) {
+        if (Objects.isNull(number)) {
+            return false;
+        }
+
+        return number.compareTo(BigDecimal.ZERO) >= 0;
     }
 
     /**
@@ -217,5 +218,15 @@ public class BigDecimalComputeUtil {
             return false;
         }
         return number.compareTo(BigDecimal.ZERO) < 0;
+    }
+
+    /**
+     * 校验是否为金额
+     */
+    public static boolean checkIsNotMoney(String source) {
+        if (StringUtils.isBlank(source)) {
+            return true;
+        }
+        return !source.matches(MoneyConstant.CURRENCY_YUAN_REGEX);
     }
 }

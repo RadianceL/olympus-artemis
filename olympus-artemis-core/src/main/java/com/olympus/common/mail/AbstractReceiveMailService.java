@@ -18,6 +18,8 @@ import java.util.Properties;
 @Slf4j
 public abstract class AbstractReceiveMailService implements ReceiveMailService, Runnable {
 
+//    private final URLName url = new URLName("imap", "mail service url", port, null, "account", "password");
+
     private static final Properties props = System.getProperties();
 
     static {

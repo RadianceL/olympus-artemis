@@ -46,6 +46,12 @@ public class ExcelUtils {
 
     private static final String[] DEFAULT_SHEET_NAME = { "sheet1" };
 
+    /**
+     * 读取excel文件
+     * @param excelFileData     文件对象
+     * @param clazz             excel对象
+     * @return                  数据列表
+     */
     public static <T> List<T> readExcel(MultipartFile excelFileData, Class<T> clazz) {
         if (Objects.isNull(excelFileData) || Objects.isNull(clazz)) {
             throw new IllegalArgumentException("args can not be null! please check again ~");
@@ -58,6 +64,31 @@ public class ExcelUtils {
         }
     }
 
+    /**
+     * 本地读取excel
+     * @param localPath     文件地址
+     * @param clazz         excel对象
+     * @return              数据列表
+     */
+    public static <T> List<T> readExcel(String localPath, Class<T> clazz) {
+        if (StringUtils.isNotBlank(localPath) || Objects.isNull(clazz)) {
+            throw new IllegalArgumentException("args can not be null! please check again ~");
+        }
+        try {
+            byte[] fileBytes = LocalFileUtil.readFileByBytes(localPath);
+            return readExcel(new ByteArrayInputStream(fileBytes), clazz);
+        }catch (IOException e) {
+            log.error("read excel exception!", e);
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * 本地读取excel
+     * @param excelFileData     excel文件
+     * @param clazz             excel对象
+     * @return                  数据列表
+     */
     public static <T> List<T> readExcel(InputStream excelFileData, Class<T> clazz) {
         if (Objects.isNull(excelFileData) || Objects.isNull(clazz)) {
             throw new IllegalArgumentException("args can not be null! please check again ~");
@@ -65,23 +96,23 @@ public class ExcelUtils {
         return EasyExcel.read(excelFileData).head(clazz).sheet().doReadSync();
     }
 
-    public static <T> List<T> readExcel(String localPath, Class<T> clazz) {
-        if (StringUtils.isNotBlank(localPath) || Objects.isNull(clazz)) {
-            throw new IllegalArgumentException("args can not be null! please check again ~");
-        }
-        try {
-            byte[] fileBytes = LocalFileUtil.readFileByBytes(localPath);
-            return EasyExcel.read(new ByteArrayInputStream(fileBytes)).head(clazz).sheet().doReadSync();
-        }catch (IOException e) {
-            log.error("read excel exception!", e);
-            return new ArrayList<>();
-        }
-    }
-
+    /**
+     * 导出excel
+     * @param httpServletResponse       http返回流
+     * @param clazz                     excel对象
+     * @param dataLists                 数据源
+     */
     public static <T> void exportExcel(HttpServletResponse httpServletResponse, Class<T> clazz, List<T> dataLists) {
         exportExcel(httpServletResponse, clazz, dataLists, declarationField -> declarationField);
     }
 
+    /**
+     * 导出excel（后置处理title）
+     * @param httpServletResponse       http返回流
+     * @param clazz                     excel对象
+     * @param dataLists                 数据源
+     * @param multilingualExtend        列title处理方案（多用于多语言）
+     */
     public static <T> void exportExcel(HttpServletResponse httpServletResponse, Class<T> clazz, List<T> dataLists, MultilingualExtend multilingualExtend) {
         if (Objects.isNull(clazz)) {
             throw new IllegalArgumentException("data class can not be null! please check again ~");
