@@ -8,6 +8,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 异常处理中心
+ * 继承自{@link AbstractDomainRuntimeException}的异常
+ * 可以根据Domain来决定处理方式
+ * 举例：
+ *  全系统内所有P1级别异常，发送邮件告警
+ *  全系统内所有P2级别异常，发送通知部分人员
  * since 2020/2/22
  *
  * @author eddie

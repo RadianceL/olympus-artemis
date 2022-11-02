@@ -99,7 +99,7 @@ public class LocalFileUtil {
         }
     }
 
-    private static void bufferedOutputStreamTest(String filepath, byte[] bytes) throws IOException {
+    public static void bufferedOutputStream(String filepath, byte[] bytes) throws IOException {
         try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(filepath))) {
             bufferedOutputStream.write(bytes);
         }
