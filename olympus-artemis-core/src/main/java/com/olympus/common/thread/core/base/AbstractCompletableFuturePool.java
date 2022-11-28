@@ -59,7 +59,8 @@ public abstract class AbstractCompletableFuturePool<T> {
         //阻塞，直到所有任务结束。
         CompletableFuture.allOf(futures)
                 .whenComplete((unused, throwable) ->
-                        completableFuturesFinishCallback(futures, throwable));
+                        completableFuturesFinishCallback(futures, throwable))
+                .join();
     }
 
     /**
