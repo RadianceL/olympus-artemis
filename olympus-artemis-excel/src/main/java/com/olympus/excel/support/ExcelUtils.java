@@ -147,16 +147,14 @@ public class ExcelUtils {
 
     private static List<List<String>> buildExcelExcelHead(Class<?> clazz, MultilingualExtend multilingualExtend) {
         List<List<String>> excelHeadList = new ArrayList<>();
-        if (clazz.getDeclaredFields().length > 0) {
-            for (Field declaredField : clazz.getDeclaredFields()) {
-                ExcelProperty annotation = declaredField.getAnnotation(ExcelProperty.class);
-                if (Objects.nonNull(annotation)) {
-                    List<String> header = new ArrayList<>();
-                    for (String excelHeadDescription : annotation.value()) {
-                        header.add(multilingualExtend.buildExcelHeadName(excelHeadDescription));
-                    }
-                    excelHeadList.add(header);
+        for (Field declaredField : clazz.getDeclaredFields()) {
+            ExcelProperty annotation = declaredField.getAnnotation(ExcelProperty.class);
+            if (Objects.nonNull(annotation)) {
+                List<String> header = new ArrayList<>();
+                for (String excelHeadDescription : annotation.value()) {
+                    header.add(multilingualExtend.buildExcelHeadName(excelHeadDescription));
                 }
+                excelHeadList.add(header);
             }
         }
         return excelHeadList;
