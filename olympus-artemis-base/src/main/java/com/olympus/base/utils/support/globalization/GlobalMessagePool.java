@@ -52,6 +52,29 @@ public class GlobalMessagePool {
         COUNTRY_ISO_MAP.put(countryIsoMap, countryDocument);
     }
 
+
+    /**
+     * 获取
+     *
+     * @param messageCode   错误码
+     * @param local         语言
+     * @return 错误信息
+     */
+    public static String getMessage(String messageCode, Local local) {
+        String messagePattern;
+        Map<String, String> countryIsoMap = COUNTRY_ISO_MAP.get(local.getLocalName());
+        if (Objects.nonNull(countryIsoMap)) {
+            messagePattern = countryIsoMap.get(messageCode);
+            if (StringUtils.isNotBlank(messagePattern)) {
+                return messagePattern;
+            }else {
+                return getDefaultMessage(messageCode, local);
+            }
+        }else {
+            return getDefaultMessage(messageCode, local);
+        }
+    }
+
     /**
      * 获取
      *
@@ -72,6 +95,21 @@ public class GlobalMessagePool {
             }
         }else {
             return getDefaultMessage(messageCode, local, args);
+        }
+    }
+
+
+    private static String getDefaultMessage(String messageCode, Local local) {
+        String messagePattern;
+        Map<String, String> properties = PROPERTIES.get(local.getLocalName());
+        if (Objects.isNull(properties)) {
+            return Constant.EMPTY_STRING;
+        }
+        messagePattern = properties.get(messageCode);
+        if (StringUtils.isNotBlank(messagePattern)) {
+            return messagePattern;
+        }else {
+            return Constant.EMPTY_STRING;
         }
     }
 

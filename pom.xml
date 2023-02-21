@@ -10,7 +10,7 @@
     <version>1.0.4</version>
 
     <properties>
-        <common-utils.version>1.0.7</common-utils.version>
+        <common-utils.version>1.0.9-SNAPSHOT</common-utils.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
