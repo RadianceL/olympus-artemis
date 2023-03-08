@@ -110,7 +110,7 @@ public class GlobalMessagePool {
             if (StringUtils.isNotBlank(messagePattern)) {
                 return messagePattern;
             } else {
-                return Constant.EMPTY_STRING;
+                return messageCode + "：无对应文言";
             }
         }else {
             String messagePattern = "unknown message";
@@ -120,7 +120,7 @@ public class GlobalMessagePool {
                 if (StringUtils.isNotBlank(messagePattern)) {
                     return messagePattern;
                 }else {
-                    return Constant.EMPTY_STRING;
+                    return messageCode + "：no message provide";
                 }
             }
             return messagePattern;
@@ -128,16 +128,30 @@ public class GlobalMessagePool {
     }
 
     private static String getDefaultMessage(String messageCode, Local local, Object[] args) {
-        String messagePattern;
-        Map<String, String> properties = PROPERTIES.get(local.getLocalName());
-        if (Objects.isNull(properties)) {
-            return Constant.EMPTY_STRING;
-        }
-        messagePattern = properties.get(messageCode);
-        if (StringUtils.isNotBlank(messagePattern)) {
-            return MessageFormatter.format(messagePattern, args).getMessage();
+        if (Local.CN.equals(local)) {
+            String messagePattern;
+            Map<String, String> properties = PROPERTIES.get(local.getLocalName());
+            if (Objects.isNull(properties)) {
+                return Constant.EMPTY_STRING;
+            }
+            messagePattern = properties.get(messageCode);
+            if (StringUtils.isNotBlank(messagePattern)) {
+                return MessageFormatter.format(messagePattern, args).getMessage();
+            } else {
+                return Constant.EMPTY_STRING;
+            }
         }else {
-            return Constant.EMPTY_STRING;
+            String messagePattern = "unknown message";
+            Map<String, String> countryIsoMap = COUNTRY_ISO_MAP.get(Local.EN.getLocalName());
+            if (Objects.nonNull(countryIsoMap)) {
+                messagePattern = countryIsoMap.get(messageCode);
+                if (StringUtils.isNotBlank(messagePattern)) {
+                    return MessageFormatter.format(messagePattern, args).getMessage();
+                }else {
+                    return messageCode + "：no message provide";
+                }
+            }
+            return messagePattern;
         }
     }
 }
