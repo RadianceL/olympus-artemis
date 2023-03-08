@@ -100,16 +100,30 @@ public class GlobalMessagePool {
 
 
     private static String getDefaultMessage(String messageCode, Local local) {
-        String messagePattern;
-        Map<String, String> properties = PROPERTIES.get(local.getLocalName());
-        if (Objects.isNull(properties)) {
-            return Constant.EMPTY_STRING;
-        }
-        messagePattern = properties.get(messageCode);
-        if (StringUtils.isNotBlank(messagePattern)) {
-            return messagePattern;
+        if (Local.CN.equals(local)) {
+            String messagePattern;
+            Map<String, String> properties = PROPERTIES.get(local.getLocalName());
+            if (Objects.isNull(properties)) {
+                return Constant.EMPTY_STRING;
+            }
+            messagePattern = properties.get(messageCode);
+            if (StringUtils.isNotBlank(messagePattern)) {
+                return messagePattern;
+            } else {
+                return Constant.EMPTY_STRING;
+            }
         }else {
-            return Constant.EMPTY_STRING;
+            String messagePattern = "unknown message";
+            Map<String, String> countryIsoMap = COUNTRY_ISO_MAP.get(Local.EN.getLocalName());
+            if (Objects.nonNull(countryIsoMap)) {
+                messagePattern = countryIsoMap.get(messageCode);
+                if (StringUtils.isNotBlank(messagePattern)) {
+                    return messagePattern;
+                }else {
+                    return Constant.EMPTY_STRING;
+                }
+            }
+            return messagePattern;
         }
     }
 

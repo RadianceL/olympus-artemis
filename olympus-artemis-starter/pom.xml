@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.el</groupId>
+        <groupId>com.olympus</groupId>
         <artifactId>olympus-artemis</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.6-SNAPSHOT</version>
     </parent>
 
     <artifactId>olympus-artemis-starter</artifactId>
@@ -16,14 +16,14 @@
     <dependencies>
         <!-- 内部工具包 -->
         <dependency>
-            <groupId>com.el</groupId>
+            <groupId>com.olympus</groupId>
             <artifactId>olympus-artemis-core</artifactId>
             <version>${common-utils.version}</version>
         </dependency>
 
         <!-- 内部工具包 -->
         <dependency>
-            <groupId>com.el</groupId>
+            <groupId>com.olympus</groupId>
             <artifactId>olympus-artemis-excel</artifactId>
             <version>${common-utils.version}</version>
         </dependency>

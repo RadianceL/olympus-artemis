@@ -102,7 +102,7 @@ spring:
 
 请求这个接口就会打印出：
 ```
-2020-02-22 00:20:58.924  INFO 2695 --- [nio-8085-exec-2] c.e.c.t.a.a.a.TimeCalculationProcess     : 控制器: com.el.security.controller.TestConfigController, 方法名: get, 方法描述:获取数据, 花费: [2]ms
+2020-02-22 00:20:58.924  INFO 2695 --- [nio-8085-exec-2] c.e.c.t.a.a.a.TimeCalculationProcess     : 控制器: com.olympus.security.controller.TestConfigController, 方法名: get, 方法描述:获取数据, 花费: [2]ms
 ```
 
 这个处理器后续还会有拓展的选项，也是利用自动装配来做，如果完成了会来更新
