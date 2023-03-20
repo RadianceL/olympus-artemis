@@ -7,10 +7,10 @@
     <groupId>com.olympus</groupId>
     <artifactId>olympus-artemis</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.6</version>
 
     <properties>
-        <common-utils.version>1.0.10-SNAPSHOT</common-utils.version>
+        <common-utils.version>1.0.11</common-utils.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -28,7 +28,7 @@
         <commons-lang3.version>3.9</commons-lang3.version>
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
         <spring-boot-cloud-getway.version>3.1.4</spring-boot-cloud-getway.version>
-        <spring-boot-dependencies.version>2.7.5</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.7.9</spring-boot-dependencies.version>
     </properties>
 
     <modules>
