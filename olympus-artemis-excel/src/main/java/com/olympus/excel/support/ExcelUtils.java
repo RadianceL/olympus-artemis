@@ -3,6 +3,7 @@ package com.olympus.excel.support;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.write.builder.ExcelWriterBuilder;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.olympus.base.utils.collection.CollectionUtils;
 import com.olympus.base.utils.support.io.local.LocalFileUtil;
 import com.olympus.excel.annotation.ExcelStatement;
@@ -139,7 +140,9 @@ public class ExcelUtils {
             ServletOutputStream outputStream = httpServletResponse.getOutputStream();
             ExcelWriterBuilder excelWriter = EasyExcel.write(outputStream, clazz);
             excelWriter.head(buildExcelExcelHead(clazz, multilingualExtend));
-            excelWriter.sheet(0, sheetNameArray[0]).doWrite(dataLists);
+            excelWriter.registerWriteHandler(new LongestMatchColumnWidthStyleStrategy());
+            excelWriter.sheet(0, sheetNameArray[0])
+                    .doWrite(dataLists);
         }catch (Throwable e) {
             log.error("export excel error happen on class [{}], fileName {}", clazz.getName(), fileName, e);
         }
