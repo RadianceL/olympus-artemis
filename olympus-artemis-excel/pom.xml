@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.olympus</groupId>
         <artifactId>olympus-artemis</artifactId>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -40,6 +40,11 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>ooxml-schemas</artifactId>
         </dependency>
 
         <dependency>
