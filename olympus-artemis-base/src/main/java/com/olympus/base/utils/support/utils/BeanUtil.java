@@ -86,7 +86,7 @@ public class BeanUtil {
         if (map == null) {
             return null;
         }
-        Object obj = beanClass.newInstance();
+        Object obj = beanClass.getDeclaredConstructor().newInstance();
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
             int mod = field.getModifiers();
