@@ -21,7 +21,7 @@ public class RedisDistributedLock {
     /**
      * REDIS操作管理器
      */
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     /**
      * REDIS锁
      */
@@ -34,21 +34,42 @@ public class RedisDistributedLock {
      * 成功的返回值
      */
     private static final Long RELEASE_SUCCESS = 1L;
+    /**
+     * 非成功的返回值
+     */
+    private static final Long RELEASE_UNSUCCESSFUL = 0L;
 
-    public RedisDistributedLock(RedisTemplate<String, String> redisTemplate) {
+    public RedisDistributedLock(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
-    public Boolean lock(String lockKey, Long timeout) {
-        return lock(lockKey, LOCK_VALUE, timeout);
+    public Boolean simpleLock(String lockKey, Long timeout) {
+        return commonLock(lockKey, LOCK_VALUE, timeout);
     }
 
-    public Boolean lock(String lockKey, String lockValue, Long timeout) {
+    /**
+     * 可重入锁
+     */
+    public boolean reentrantLock(String lockKey, String lockValue, long timeoutInSeconds) {
+        lockKey = getLockKey(lockKey);
+        Object oldLockValue = redisTemplate.opsForValue().get(lockKey);
+        if (Objects.nonNull(oldLockValue) && !"null".equals(oldLockValue.toString())) {
+            if (oldLockValue.toString().equals(lockValue)) {
+                return true;
+            }
+        }
+        return commonLock(lockKey, lockValue, timeoutInSeconds);
+    }
+
+    /**
+     * 通用锁
+     */
+    public Boolean commonLock(String lockKey, String lockValue, Long timeout) {
         if (StringUtils.isBlank(lockKey)) {
             return false;
         }
-        lockKey = LOCK_KEY.concat(lockKey);
-        if (Objects.isNull(timeout)) {
+        lockKey = getLockKey(lockKey);
+        if (Objects.isNull(timeout) || timeout == -1) {
             timeout = 20L;
         }
         Boolean lockIfSuccess = redisTemplate.opsForValue()
@@ -59,7 +80,28 @@ public class RedisDistributedLock {
         return lockIfSuccess;
     }
 
-    public Boolean releaseLock(String lockKey) {
+    /**
+     * 重试锁
+     */
+    public boolean retryLock(String lockKey, String lockValue, long timeoutInSeconds) {
+        String lockKeyFull = getLockKey(lockKey);
+
+        long startTimestamp = System.currentTimeMillis();
+        while ((System.currentTimeMillis() - startTimestamp) < timeoutInSeconds * 1000) {
+            Boolean lockAcquired = redisTemplate.opsForValue().setIfAbsent(lockKeyFull, lockValue, timeoutInSeconds, TimeUnit.SECONDS);
+            if (lockAcquired != null && lockAcquired) {
+                return true;
+            }
+            try {
+                TimeUnit.MILLISECONDS.sleep(100); // Wait before retrying
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        return false;
+    }
+
+    public Boolean simpleReleaseLock(String lockKey) {
         return releaseLock(lockKey, LOCK_VALUE);
     }
 
@@ -67,12 +109,24 @@ public class RedisDistributedLock {
         if (StringUtils.isBlank(lockKey)) {
             return false;
         }
-        lockKey = LOCK_KEY.concat(lockKey);
-
+        lockKey = getLockKey(lockKey);
         DefaultRedisScript<Long> defaultRedisScript = new DefaultRedisScript<>();
         defaultRedisScript.setResultType(Long.class);
         defaultRedisScript.setScriptText("if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end");
         Long result = redisTemplate.execute(defaultRedisScript, List.of(lockKey), lockValue);
-        return Objects.nonNull(result) && RELEASE_SUCCESS.equals(result);
+        if (Objects.nonNull(result) && RELEASE_SUCCESS.equals(result)) {
+            return true;
+        }
+        // 如果解锁未成功 且 key依然存在 返回解锁失败
+        if (Objects.nonNull(result) && RELEASE_UNSUCCESSFUL.equals(result)) {
+            Boolean isKeyExist = redisTemplate.hasKey(lockKey);
+            return !Objects.nonNull(isKeyExist) || !isKeyExist;
+        }
+        return true;
     }
+
+    private String getLockKey(String lockKey) {
+        return LOCK_KEY + lockKey;
+    }
+
 }
