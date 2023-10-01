@@ -29,7 +29,7 @@ public class BeanUtil {
                     return true;
                 }
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
         return false;
@@ -55,7 +55,7 @@ public class BeanUtil {
                     }
                 }
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
         return fields;
@@ -98,7 +98,7 @@ public class BeanUtil {
                 field.set(obj, map.get(field.getName()));
             }
         }
-        return (T) obj;
+        return UncheckCastUtil.castUncheckedObject(obj);
     }
 
 }

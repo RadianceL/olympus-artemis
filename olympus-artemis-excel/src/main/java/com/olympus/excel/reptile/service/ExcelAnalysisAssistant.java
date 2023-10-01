@@ -178,19 +178,16 @@ public class ExcelAnalysisAssistant {
     public void exportOrderTemplate(OutputStream outputStream, InputStream baseExcelHeader, ExcelExportData excelExportData) {
         CustomOutputScheme excelOutPutAssistant = findCustomOutputScheme(excelExportData);
         ExcelDefine excelDefine = excelOutPutAssistant.getExcelDefine(excelExportData.getCompanyId());
-        ExcelWriter excelWriter = EasyExcel.write(outputStream)
+        try (ExcelWriter excelWriter = EasyExcel.write(outputStream)
                 .withTemplate(baseExcelHeader)
                 .inMemory(true)
                 .relativeHeadRowIndex(excelDefine.getStartLine())
-                .build();
-        try {
+                .build()){
             Map<String, List<String>> dataMap = excelExportData.getDataMap();
             dataMap = excelOutPutAssistant.filterUselessField(excelDefine, dataMap, excelExportData.getIncludeColumnFiledNames());
             List<List<String>> bodyList = excelOutPutAssistant.getBodyList(excelDefine, dataMap);
             WriteSheet writeSheet = EasyExcel.writerSheet(0, excelExportData.getSheetName()).build();
             excelWriter.write(bodyList, writeSheet);
-        }finally {
-            excelWriter.finish();
         }
     }
 
@@ -203,11 +200,10 @@ public class ExcelAnalysisAssistant {
     private void exportExcel(OutputStream outputStream, List<ExcelExportData> excelExportDataList) {
         int size = excelExportDataList.size();
         HorizontalCellStyleStrategy horizontalCellStyleStrategy = getHorizontalCellStyleStrategy();
-        ExcelWriter excelWriter = EasyExcel.write(outputStream)
+        try (ExcelWriter excelWriter = EasyExcel.write(outputStream)
                 .registerWriteHandler(horizontalCellStyleStrategy)
                 .registerWriteHandler(new CustomWriteEventListener())
-                .build();
-        try {
+                .build()){
             for (int i = 0; i < size; i ++) {
                 ExcelExportData excelExportData = excelExportDataList.get(i);
                 CustomOutputScheme excelOutPutAssistant = findCustomOutputScheme(excelExportData);
@@ -221,8 +217,6 @@ public class ExcelAnalysisAssistant {
                 writeSheet.setHead(headers);
                 excelWriter.write(bodyList, writeSheet);
             }
-        }finally {
-            excelWriter.finish();
         }
     }
 

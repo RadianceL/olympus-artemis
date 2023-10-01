@@ -20,7 +20,7 @@ public class RandomUtil {
     /**
      * 随机字符串范围
      */
-    private static final String RANDOM_CHAR_SCOPE = "abcdefghijklmnopqrstuvwxyz1234567890";
+    private static final String RANDOM_CHAR_SCOPE = "abcdefghijklmnopqrstuvwxyz1234567890<>{}[]-+";
 
     /**
      * 获取随机数

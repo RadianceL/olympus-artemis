@@ -3,6 +3,7 @@ package com.olympus.common.web.access.interceptor;
 import com.olympus.common.web.annotation.NotRequirePermissions;
 import com.olympus.common.web.annotation.RequirePermissions;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,12 +22,11 @@ import java.util.Objects;
 public abstract class AbstractAuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) {
         // 如果不是映射到方法直接通过
-        if (!(handler instanceof HandlerMethod)) {
+        if (!(handler instanceof HandlerMethod handlerMethod)) {
             return true;
         }
-        HandlerMethod handlerMethod = (HandlerMethod) handler;
 
         if (BasicErrorController.class.equals(handlerMethod.getBean().getClass())) {
             return true;
@@ -50,7 +50,6 @@ public abstract class AbstractAuthenticationInterceptor implements HandlerInterc
 
             return onPreHandleRequest(request, response, handler);
         }
-
         // 方法 && 控制器 均不包含鉴权注解 则跳过
         return true;
     }
@@ -63,5 +62,4 @@ public abstract class AbstractAuthenticationInterceptor implements HandlerInterc
      * @return              是否通过
      */
     public abstract boolean onPreHandleRequest(HttpServletRequest request, HttpServletResponse response, Object handler);
-
 }

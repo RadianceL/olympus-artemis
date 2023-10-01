@@ -2,6 +2,7 @@ package com.olympus.common.executor;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -9,20 +10,23 @@ import java.util.concurrent.*;
  */
 public class GlobalExecutor {
 
-    /**
-     * 线程池
-     */
-    private static final ExecutorService EXECUTOR_SERVICE;
-
-    static {
+    public static void submitDistroNotifyTask(List<Runnable> runnableTasks, long timeout) {
         ThreadFactory factory = new ThreadFactoryBuilder().setNameFormat("GLOBAL_EXECUTOR".concat("-thread-%d")).build();
         int availableProcessors = Runtime.getRuntime().availableProcessors();
-        EXECUTOR_SERVICE = new ThreadPoolExecutor(availableProcessors, availableProcessors, 5L, TimeUnit.MILLISECONDS,
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(availableProcessors, availableProcessors, 5L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingDeque<>(16), factory, new ThreadPoolExecutor.AbortPolicy());
-    }
 
-    public static void submitDistroNotifyTask(Runnable runnable) {
-        EXECUTOR_SERVICE.submit(runnable);
+        runnableTasks.forEach(threadPoolExecutor::submit);
+        threadPoolExecutor.shutdown();
+        try {
+            if (!threadPoolExecutor.awaitTermination(timeout, TimeUnit.SECONDS)) {
+                threadPoolExecutor.shutdownNow();
+            }else {
+                threadPoolExecutor.shutdown();
+            }
+        } catch (InterruptedException e) {
+            threadPoolExecutor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
     }
-
 }

@@ -8,6 +8,7 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
 import java.io.*;
+import java.net.ConnectException;
 
 /**
  * ftp文件推送 <br/>
@@ -51,7 +52,7 @@ public class FtpUtils {
                 ftp.logout();
                 ftp.disconnect();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException("close ftp fail");
             }
         }
     }
@@ -107,15 +108,15 @@ public class FtpUtils {
                         try {
                             downloadFile(file, localBaseDir, remoteBaseDir);
                         } catch (Exception e) {
-                            log.error("startDown [{}]下载失败", file.getName(), e);
+                            throw new RuntimeException("startDown download file failed", e);
                         }
                     }
                 }
             } catch (Exception e) {
-                log.error("下载过程中出现异常", e);
+                throw new RuntimeException("download file failed", e);
             }
         } else {
-            log.error("链接失败！");
+            throw new ConnectException("connect ftp service failed");
         }
 
     }
@@ -140,14 +141,13 @@ public class FtpUtils {
                         outputStream.close();
                     }
                 } catch (Exception e) {
-                    log.error("下载FTP文件异常", e);
+                    throw new RuntimeException("下载FTP文件异常", e);
                 } finally {
                     try {
                         if (outputStream != null) {
                             outputStream.close();
                         }
-                    } catch (IOException e) {
-                        log.error("输出文件流异常", e);
+                    } catch (IOException ignored) {
                     }
                 }
             }
@@ -174,7 +174,7 @@ public class FtpUtils {
                     ftp.changeToParentDirectory();
                 }
             } catch (Exception e) {
-                log.error("下载异常", e);
+                throw new RuntimeException("download file error", e);
             }
         }
     }

@@ -2,8 +2,6 @@ package com.olympus.base.utils.support.utils;
 
 
 import com.olympus.base.utils.collection.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cglib.beans.BeanCopier;
 
 import java.lang.reflect.InvocationTargetException;
@@ -17,10 +15,6 @@ import java.util.List;
  * @author eddie.lys
  */
 public class BeanCopierUtil {
-    /**
-     * 日志配置
-     */
-    private static final Logger logger = LoggerFactory.getLogger(BeanCopierUtil.class);
 
     /**
      * BeanCopier的copy
@@ -63,11 +57,8 @@ public class BeanCopierUtil {
             T o = targetClass.getDeclaredConstructor().newInstance();
             beanCopier.copy(source, o, null);
             return o;
-        } catch (InstantiationException | IllegalAccessException e) {
-            logger.error("Bean拷贝异常", e);
-        } catch (InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 }

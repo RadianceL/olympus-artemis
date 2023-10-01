@@ -1,7 +1,7 @@
 package com.olympus.base.utils.support.globalization;
 
-import com.olympus.base.utils.support.Constant;
 import com.olympus.base.utils.support.globalization.lang.Local;
+import com.olympus.base.utils.support.Constant;
 import com.olympus.base.utils.support.io.local.LocalFileUtil;
 import com.olympus.base.utils.support.io.local.PropertiesReadUtil;
 import org.apache.commons.lang3.StringUtils;

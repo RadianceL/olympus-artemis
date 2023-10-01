@@ -32,14 +32,14 @@ public interface CustomOutputScheme {
      */
     default Map<String, List<String>> filterUselessField(ExcelDefine excelDefine, Map<String, List<String>> dataMap, List<String> includeColumnFiledNames){
         List<ExcelFieldDefine> excelFieldDefines = excelDefine.getExcelFieldDefines();
-        List<String> fieldHeaders = excelFieldDefines.stream().map(ExcelFieldDefine::getDataMap).collect(Collectors.toList());
+        List<String> fieldHeaders = excelFieldDefines.stream().map(ExcelFieldDefine::getDataMap).toList();
         Set<String> dataFieldHeaders = dataMap.keySet();
         List<String> differenceSet = dataFieldHeaders.stream()
                 .filter(item -> !fieldHeaders.contains(item))
                 .collect(Collectors.toList());
         differenceSet.addAll(dataFieldHeaders.stream()
                 .filter(item -> !includeColumnFiledNames.contains(item))
-                .collect(Collectors.toList()));
+                .toList());
         if (CollectionUtils.isNotEmpty(differenceSet)) {
             differenceSet.forEach(dataMap::remove);
         }
@@ -57,7 +57,7 @@ public interface CustomOutputScheme {
          Map<String, String> excelFieldMap = findExcelFieldMap(excelDefine, new ArrayList<>(originalHeaderCodes));
          List<String> sortedHeaderList = excelDefine.getExcelFieldDefines().stream()
                  .sorted(Comparator.comparingInt(ExcelFieldDefine::getFieldIndex))
-                 .map(ExcelFieldDefine::getDataMap).collect(Collectors.toList());
+                 .map(ExcelFieldDefine::getDataMap).toList();
          for (String key: sortedHeaderList) {
              String fieldName = excelFieldMap.get(key);
              if (StringUtils.isBlank(fieldName)) {
@@ -80,7 +80,7 @@ public interface CustomOutputScheme {
          List<String> originalHeaderCodes = new ArrayList<>(dataMap.keySet());
          List<String> sortedHeaderList = excelDefine.getExcelFieldDefines().stream()
                  .sorted(Comparator.comparingInt(ExcelFieldDefine::getFieldIndex))
-                 .map(ExcelFieldDefine::getDataMap).collect(Collectors.toList());
+                 .map(ExcelFieldDefine::getDataMap).toList();
          Map<String, String> excelFieldMap = findExcelFieldMap(excelDefine, originalHeaderCodes);
 
          List<String> headers = new ArrayList<>();
@@ -109,7 +109,7 @@ public interface CustomOutputScheme {
          }
          List<String> sortedHeaderList = excelDefine.getExcelFieldDefines().stream()
                  .sorted(Comparator.comparingInt(ExcelFieldDefine::getFieldIndex))
-                 .map(ExcelFieldDefine::getDataMap).collect(Collectors.toList());
+                 .map(ExcelFieldDefine::getDataMap).toList();
          for (int i = 0; i < max; i++) {
              List<String> line = new ArrayList<>();
              for (String key : sortedHeaderList) {
@@ -136,7 +136,7 @@ public interface CustomOutputScheme {
          Map<Integer, List<String>> tmpMap = new HashMap<>(16);
          List<String> sortedHeaderList = excelDefine.getExcelFieldDefines().stream()
                  .sorted(Comparator.comparingInt(ExcelFieldDefine::getFieldIndex))
-                 .map(ExcelFieldDefine::getDataMap).collect(Collectors.toList());
+                 .map(ExcelFieldDefine::getDataMap).toList();
 
          List<List<String>> tmpList = new ArrayList<>();
          for (String sortedHeader : sortedHeaderList) {

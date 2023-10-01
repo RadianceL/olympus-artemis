@@ -18,11 +18,10 @@ import java.util.Objects;
  */
 @Slf4j
 public class PropertiesReadUtil {
-
     public static Map<String, String> getProperties(String name) {
         URL resource = PropertiesReadUtil.class.getClassLoader().getResource(name);
         if (Objects.isNull(resource)) {
-            throw new RuntimeException("文件不存在");
+            throw new RuntimeException("file not exist");
         }
         Map<String, String> propertiesMap = new HashMap<>(16);
         String filePath = resource.getPath();
@@ -37,8 +36,7 @@ public class PropertiesReadUtil {
 
             return propertiesMap;
         } catch (IOException e) {
-            log.error("解析配置文件异常", e);
-            return null;
+            throw new RuntimeException("Parsing the configuration file failed. ");
         }
     }
 }
