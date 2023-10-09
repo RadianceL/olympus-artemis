@@ -7,10 +7,10 @@
     <groupId>com.olympus</groupId>
     <artifactId>olympus-artemis</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.9</version>
+    <version>1.1.1</version>
 
     <properties>
-        <common-utils.version>1.1.0</common-utils.version>
+        <common-utils.version>1.2.1</common-utils.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

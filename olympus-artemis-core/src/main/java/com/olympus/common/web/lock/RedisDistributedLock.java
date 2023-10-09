@@ -29,7 +29,7 @@ public class RedisDistributedLock {
     /**
      * 随机数
      */
-    private static final String LOCK_VALUE = UUID.randomUUID().toString();
+    private static final String LOCK_VALUE = "RedisDistributedLock.class";
     /**
      * 成功的返回值
      */
