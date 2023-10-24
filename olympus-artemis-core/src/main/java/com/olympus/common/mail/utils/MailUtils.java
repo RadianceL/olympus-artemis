@@ -1,13 +1,13 @@
 package com.olympus.common.mail.utils;
 
 import com.olympus.common.mail.data.MailAttachment;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.internet.MimeUtility;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -50,7 +50,7 @@ public class MailUtils {
         } else {
             person = "";
         }
-        String from = person + "<" + address.getAddress() + ">";
+//        String from = person + "<" + address.getAddress() + ">";
         return address.getAddress();
     }
 
@@ -94,7 +94,7 @@ public class MailUtils {
         if (receivedDate == null) {
             return "";
         }
-        if (pattern == null || "".equals(pattern)) {
+        if (StringUtils.isBlank(pattern)) {
             pattern = "yyyy年MM月dd日 E HH:mm ";
         }
         return new SimpleDateFormat(pattern).format(receivedDate);
@@ -249,7 +249,7 @@ public class MailUtils {
      * @return 解码后的文本
      */
     public static String decodeText(String encodeText) throws UnsupportedEncodingException {
-        if (encodeText == null || "".equals(encodeText)) {
+        if (StringUtils.isBlank(encodeText)) {
             return "";
         } else {
             return MimeUtility.decodeText(encodeText);

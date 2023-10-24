@@ -66,11 +66,11 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <optional>true</optional>
-        </dependency>
+         <dependency>
+             <groupId>com.alibaba.fastjson2</groupId>
+             <artifactId>fastjson2</artifactId>
+             <optional>true</optional>
+         </dependency>
 
         <dependency>
             <groupId>junit</groupId>

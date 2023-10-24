@@ -4,11 +4,11 @@ import com.olympus.common.constant.MailConfigConstants;
 import com.olympus.common.mail.core.ReceiveMailService;
 import com.olympus.common.mail.data.MailAttachment;
 import com.olympus.common.mail.utils.MailUtils;
+import jakarta.mail.*;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.search.FlagTerm;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.mail.*;
-import javax.mail.internet.MimeMessage;
-import javax.mail.search.FlagTerm;
 import java.util.Properties;
 
 /**

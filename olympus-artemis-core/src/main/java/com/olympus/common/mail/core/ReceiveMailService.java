@@ -1,6 +1,6 @@
 package com.olympus.common.mail.core;
 
-import javax.mail.URLName;
+import jakarta.mail.URLName;
 
 /**
  * 邮件接受服务

@@ -1,7 +1,7 @@
 package com.olympus.base.utils.support.globalization.configuration;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.olympus.base.utils.support.globalization.GlobalMessagePool;
 import com.olympus.base.utils.web.https.HttpsClientUtil;
 import lombok.RequiredArgsConstructor;

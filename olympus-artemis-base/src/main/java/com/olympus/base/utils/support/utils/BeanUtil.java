@@ -1,6 +1,6 @@
 package com.olympus.base.utils.support.utils;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
