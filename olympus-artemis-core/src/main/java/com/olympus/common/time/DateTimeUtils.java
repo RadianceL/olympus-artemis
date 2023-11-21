@@ -20,7 +20,7 @@ import java.util.Objects;
  *
  * @author eddie.lys
  */
-public class DataTimeUtils {
+public class DateTimeUtils {
 
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

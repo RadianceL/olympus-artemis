@@ -26,7 +26,7 @@ public class ExcelImportResult {
     private List<Map<String, String>> importFailureList;
 
     public boolean isSuccess() {
-        return Objects.nonNull(importFailureList) && importFailureList.size() == 0;
+        return Objects.nonNull(importFailureList) && importFailureList.isEmpty();
     }
 
     public static ExcelImportResult ofEmpty() {

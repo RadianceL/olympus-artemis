@@ -28,8 +28,6 @@ public interface TimeWindowSlidingDataSource {
      *
      * @param timeSlices 时间分片
      * @param recordKey  记录参数
-     * @return
-     * @throws TimeWindowSlidingDataSourceException
      */
     int getAllocAdoptRecordTimes(int timeSlices, String recordKey) throws TimeWindowSlidingDataSourceException;
 
@@ -47,7 +45,6 @@ public interface TimeWindowSlidingDataSource {
      * 将index时间片计数清零
      *
      * @param index 索引
-     * @throws TimeWindowSlidingDataSourceException
      */
     void clearSingle(int index) throws TimeWindowSlidingDataSourceException;
 
@@ -62,7 +59,7 @@ public interface TimeWindowSlidingDataSource {
     static TimeWindowSlidingDataSource defaultDataSource() {
         return new TimeWindowSlidingDataSource() {
 
-            private Map<String, Map<String, Integer>> timeWindowSlidingMap = new ConcurrentHashMap<>(16);
+            private final Map<String, Map<String, Integer>> timeWindowSlidingMap = new ConcurrentHashMap<>(16);
 
             @Override
             public void allocAdoptRecord(int timeSlices, String recordKey) throws TimeWindowSlidingDataSourceException {
@@ -94,7 +91,7 @@ public interface TimeWindowSlidingDataSource {
                 }
                 while (fromIndex <= toIndex) {
                     Map<String, Integer> timeWindowSlidingScopeMap = timeWindowSlidingMap.get(String.valueOf(fromIndex));
-                    if (!Objects.isNull(timeWindowSlidingScopeMap) && timeWindowSlidingScopeMap.size() > 0) {
+                    if (!Objects.isNull(timeWindowSlidingScopeMap) && !timeWindowSlidingScopeMap.isEmpty()) {
                         timeWindowSlidingScopeMap.clear();
                     }
                     fromIndex++;
@@ -104,7 +101,7 @@ public interface TimeWindowSlidingDataSource {
             @Override
             public void clearSingle(int index) throws TimeWindowSlidingDataSourceException {
                 Map<String, Integer> timeWindowSlidingScopeMap = timeWindowSlidingMap.get(String.valueOf(index));
-                if (!Objects.isNull(timeWindowSlidingScopeMap) && timeWindowSlidingScopeMap.size() > 0) {
+                if (!Objects.isNull(timeWindowSlidingScopeMap) && !timeWindowSlidingScopeMap.isEmpty()) {
                     timeWindowSlidingScopeMap.clear();
                 }
             }

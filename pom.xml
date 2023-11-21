@@ -28,9 +28,10 @@
         <annotations.version>24.0.1</annotations.version>
         <ooxml-schemas.version>1.4</ooxml-schemas.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
+        <commons-compress.version>1.21</commons-compress.version>
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
         <spring-boot-cloud-getway.version>4.0.6</spring-boot-cloud-getway.version>
-        <spring-boot-dependencies.version>3.1.4</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>3.1.5</spring-boot-dependencies.version>
     </properties>
 
     <modules>
@@ -138,6 +139,12 @@
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
                 <version>${annotations.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${commons-compress.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

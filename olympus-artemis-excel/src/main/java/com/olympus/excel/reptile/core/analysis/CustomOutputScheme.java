@@ -27,7 +27,6 @@ public interface CustomOutputScheme {
      * excel分析
      * @param excelDefine         excel定义
      * @param dataMap             excel行数据
-     * @param includeColumnFiledNames
      * @return                    过滤后的数据
      */
     default Map<String, List<String>> filterUselessField(ExcelDefine excelDefine, Map<String, List<String>> dataMap, List<String> includeColumnFiledNames){
@@ -72,7 +71,6 @@ public interface CustomOutputScheme {
      /**
       * 获取excel头信息
       * @param excelDefine   excel定义
-      * @param excelDefine
       * @param dataMap       excel数据
       * @return              头数据
       */
@@ -126,10 +124,6 @@ public interface CustomOutputScheme {
 
      /**
      * 获取csv数据体
-     *
-      * @param excelDefine
-      * @param dataMap       excel数据
-      * @return              excel数据体
      */
      default List<List<String>> getBodyListCrosswise(ExcelDefine excelDefine, Map<String, List<String>> dataMap) {
          List<List<String>> list = new ArrayList<>();

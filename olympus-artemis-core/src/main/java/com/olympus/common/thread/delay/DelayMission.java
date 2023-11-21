@@ -19,9 +19,8 @@ import java.util.concurrent.TimeUnit;
 public abstract class DelayMission<D> implements Delayed {
 
     private final Long startTime;
-    /**
-     * 任务清单
-     */
+
+    @Getter
     private final D missionData;
 
     @Getter
@@ -31,14 +30,6 @@ public abstract class DelayMission<D> implements Delayed {
         this.missionData = missionData;
         this.startTime = GlobalizationLocalUtil.getCurrentLocalTimeMillis() + delayInMilliseconds;
         this.isNeedRollBack = isNeedRollBack;
-    }
-
-    /**
-     * 获取任务列表
-     * @return      任务列表
-     */
-    public D getMissionData() {
-        return this.missionData;
     }
 
     /**

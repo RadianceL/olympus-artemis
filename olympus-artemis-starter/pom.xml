@@ -14,6 +14,13 @@
     <version>${common-utils.version}</version>
 
     <dependencies>
+        <!-- spring boot 依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- 内部工具包 -->
         <dependency>
             <groupId>com.olympus</groupId>
@@ -26,13 +33,6 @@
             <groupId>com.olympus</groupId>
             <artifactId>olympus-artemis-excel</artifactId>
             <version>${common-utils.version}</version>
-        </dependency>
-
-        <!-- spring boot 依赖-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <dependency>
