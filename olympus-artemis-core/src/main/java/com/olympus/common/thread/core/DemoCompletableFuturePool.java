@@ -31,7 +31,7 @@ public class DemoCompletableFuturePool extends AbstractCompletableFuturePool<Str
                             try {
                                 TimeUnit.SECONDS.sleep(2);
                             } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                throw new RuntimeException(e);
                             }
                             return source;
                         })
@@ -42,7 +42,7 @@ public class DemoCompletableFuturePool extends AbstractCompletableFuturePool<Str
                     try {
                         TimeUnit.SECONDS.sleep(2);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        throw new RuntimeException(e);
                     }
                     System.out.println(s);
                     return s;
@@ -56,7 +56,7 @@ public class DemoCompletableFuturePool extends AbstractCompletableFuturePool<Str
                 String s = future.get();
                 System.out.println("最终完成:" + s);
             } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
     }

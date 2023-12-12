@@ -17,22 +17,18 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("spring.el-util")
 public class CommonUtilProperties {
-
     /**
      * 是否开启
      */
     private Boolean enableAutoConfig;
-
     /**
      * 是否开启接口执行时间统计
      */
     private Boolean enableTimeCalculation;
-
     /**
      * 是否开启线程池
      */
     private Boolean enableThreadPool;
-
     /**
      * 线程池配置
      */
