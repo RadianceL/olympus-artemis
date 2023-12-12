@@ -31,9 +31,10 @@ public class PropertiesReadUtil {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] propertiesInfo = line.split("=");
-                propertiesMap.put(propertiesInfo[0], propertiesInfo[1]);
+                if (propertiesInfo.length == 2) {
+                    propertiesMap.put(propertiesInfo[0], propertiesInfo[1]);
+                }
             }
-
             return propertiesMap;
         } catch (IOException e) {
             throw new RuntimeException("Parsing the configuration file failed. ");

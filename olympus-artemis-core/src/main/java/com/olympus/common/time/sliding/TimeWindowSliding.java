@@ -4,6 +4,7 @@ import com.olympus.base.utils.support.globalization.context.GlobalizationLocalUt
 import com.olympus.common.time.sliding.data.TimeWindowSlidingDataSource;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -72,12 +73,17 @@ public class TimeWindowSliding {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //0.2秒一个时间片，窗口共5个
-        TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 5, 200, 5);
+        TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 60, 3000, 1);
+        int turetime = 0;
         for (int i = 0; i < 1000; i++) {
-            boolean allow = window.allowLimitTimes("a1");
+            boolean allow = window.allowLimitTimes("i");
+            if (allow) {
+                System.out.println(++turetime);
+            }
             System.out.println(allow);
+            TimeUnit.SECONDS.sleep(1);
         }
     }
 
