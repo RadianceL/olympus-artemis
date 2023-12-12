@@ -7,7 +7,10 @@ import org.apache.hc.client5.http.cookie.CookieStore;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpException;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 
@@ -35,17 +38,18 @@ public class StoreCookiesClient {
             StringEntity stringEntity = new StringEntity(param, StandardCharsets.UTF_8);
             httpPost.setEntity(stringEntity);
         }
-        CloseableHttpResponse closeableHttpResponse = httpclient.execute(httpPost);
-        HttpEntity entity = closeableHttpResponse.getEntity();
+        return httpclient.execute(httpPost, classicHttpResponse -> {
+            HttpEntity entity = classicHttpResponse.getEntity();
 
-        StringBuilder resultMsg = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(), StandardCharsets.UTF_8));
-        String text;
-        while ((text = bufferedReader.readLine()) != null) {
-            resultMsg.append(text);
-        }
-        EntityUtils.consume(entity);
-        return resultMsg.toString();
+            StringBuilder resultMsg = new StringBuilder();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(), StandardCharsets.UTF_8));
+            String text;
+            while ((text = bufferedReader.readLine()) != null) {
+                resultMsg.append(text);
+            }
+            EntityUtils.consume(entity);
+            return resultMsg.toString();
+        });
     }
 
 }

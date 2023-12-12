@@ -3,7 +3,10 @@ package com.olympus.common.executor;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 全局任务提交执行器
@@ -15,13 +18,12 @@ public class GlobalExecutor {
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(availableProcessors, availableProcessors, 5L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingDeque<>(16), factory, new ThreadPoolExecutor.AbortPolicy());
-
-        runnableTasks.forEach(threadPoolExecutor::submit);
-        threadPoolExecutor.shutdown();
         try {
+            runnableTasks.forEach(threadPoolExecutor::submit);
+            threadPoolExecutor.shutdown();
             if (!threadPoolExecutor.awaitTermination(timeout, TimeUnit.SECONDS)) {
                 threadPoolExecutor.shutdownNow();
-            }else {
+            } else {
                 threadPoolExecutor.shutdown();
             }
         } finally {

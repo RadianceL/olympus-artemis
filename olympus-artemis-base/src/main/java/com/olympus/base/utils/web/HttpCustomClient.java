@@ -5,11 +5,10 @@ import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Objects;
@@ -21,30 +20,6 @@ import java.util.Objects;
  * @author eddie
  */
 public class HttpCustomClient {
-
-    /**
-     * 发送请求
-     */
-    protected static StringBuilder send(CloseableHttpResponse response) throws IOException {
-        try (response) {
-            StringBuilder resultMsg = null;
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                resultMsg = new StringBuilder();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(), StandardCharsets.UTF_8));
-                String text;
-                while ((text = bufferedReader.readLine()) != null) {
-                    resultMsg.append(text);
-                }
-            }
-            EntityUtils.consume(entity);
-            if (resultMsg == null) {
-                throw new RuntimeException("network response error at HttpsClientUtil send()");
-            }
-            return resultMsg;
-        }
-    }
-
 
     /**
      * 获取Http Get请求体
@@ -80,4 +55,41 @@ public class HttpCustomClient {
         }
         return httpPost;
     }
+
+    public static HttpClientResponseHandler<StringBuilder> HTTP_CLIENT_RESPONSE_HANDLER = classicHttpResponse -> {
+        try (classicHttpResponse) {
+            StringBuilder resultMsg = null;
+            HttpEntity entity = classicHttpResponse.getEntity();
+            if (entity != null) {
+                resultMsg = new StringBuilder();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(), StandardCharsets.UTF_8));
+                String text;
+                while ((text = bufferedReader.readLine()) != null) {
+                    resultMsg.append(text);
+                }
+            }
+            if (resultMsg == null) {
+                throw new RuntimeException("network response error at HttpsClientUtil send()");
+            }
+            return resultMsg;
+        }
+    };
+
+    public static HttpClientResponseHandler<byte[]> HTTP_CLIENT_RESPONSE_BYTE_HANDLER = classicHttpResponse -> {
+        try (classicHttpResponse) {
+            HttpEntity entity = classicHttpResponse.getEntity();
+            if (entity != null) {
+                InputStream bufferedReader = entity.getContent();
+                byte[] buffer = new byte[1024];
+                int len;
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                while ((len = bufferedReader.read(buffer)) != -1) {
+                    bos.write(buffer, 0, len);
+                }
+                bos.close();
+                return bos.toByteArray();
+            }
+        }
+        throw new RuntimeException("下载文件异常");
+    };
 }

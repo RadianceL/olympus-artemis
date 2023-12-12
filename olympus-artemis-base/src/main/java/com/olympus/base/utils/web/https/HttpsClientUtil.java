@@ -63,8 +63,7 @@ public class HttpsClientUtil extends HttpCustomClient {
         StringBuilder resultSb;
         try (CloseableHttpClient httpClient = getSingletonHttpsClient()) {
             HttpGet httpGet = getHttpGet(requestUrl, headerMap, paramMap);
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            resultSb = send(response);
+            resultSb = httpClient.execute(httpGet, HttpCustomClient.HTTP_CLIENT_RESPONSE_HANDLER);
         }
         return resultSb.toString();
     }
@@ -76,8 +75,7 @@ public class HttpsClientUtil extends HttpCustomClient {
         byte[] resultSb;
         try (CloseableHttpClient httpClient = getSingletonHttpsClient()) {
             HttpGet httpGet = getHttpGet(requestUrl, headerMap, paramMap);
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            resultSb = sendForByte(response);
+            resultSb = httpClient.execute(httpGet, HttpCustomClient.HTTP_CLIENT_RESPONSE_BYTE_HANDLER);
         }
         return resultSb;
     }
@@ -90,9 +88,7 @@ public class HttpsClientUtil extends HttpCustomClient {
         try (CloseableHttpClient httpClient = getSingletonHttpsClient()) {
             HttpGet httpGet = new HttpGet(requestUrl);
             httpGet.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
-            CloseableHttpResponse response = httpClient.execute(httpGet);
-            InputStream content = response.getEntity().getContent();
-            resultSb = InputStreamUtils.toByteArray(content);
+            resultSb = httpClient.execute(httpGet, HttpCustomClient.HTTP_CLIENT_RESPONSE_BYTE_HANDLER);
         }
         return resultSb;
     }
@@ -107,8 +103,7 @@ public class HttpsClientUtil extends HttpCustomClient {
 
             StringEntity stringEntity = new StringEntity(param, StandardCharsets.UTF_8);
             httpPost.setEntity(stringEntity);
-            CloseableHttpResponse response = httpClient.execute(httpPost);
-            resultSb = send(response);
+            resultSb = httpClient.execute(httpPost, HttpCustomClient.HTTP_CLIENT_RESPONSE_HANDLER);
         }
         return resultSb.toString();
     }
@@ -137,30 +132,9 @@ public class HttpsClientUtil extends HttpCustomClient {
             httpPost.setConfig(requestConfig);
 
             httpPost.setEntity(new UrlEncodedFormEntity(paris, charSet));
-            CloseableHttpResponse response = httpClient.execute(httpPost);
-            resultSb = send(response);
+            resultSb = httpClient.execute(httpPost, HttpCustomClient.HTTP_CLIENT_RESPONSE_HANDLER);
         }
         return resultSb.toString();
-    }
-
-
-    private static byte[] sendForByte(CloseableHttpResponse response) throws IOException {
-        try (response) {
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                InputStream bufferedReader = entity.getContent();
-                byte[] buffer = new byte[1024];
-                int len;
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                while ((len = bufferedReader.read(buffer)) != -1) {
-                    bos.write(buffer, 0, len);
-                }
-                bos.close();
-                EntityUtils.consume(entity);
-                return bos.toByteArray();
-            }
-        }
-        throw new RuntimeException("下载文件异常");
     }
 
     /**

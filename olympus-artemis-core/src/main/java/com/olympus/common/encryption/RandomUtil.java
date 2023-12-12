@@ -83,6 +83,4 @@ public class RandomUtil {
     public static String getRandomAlphanumeric(int min, int max) {
         return RandomStringUtils.randomAlphanumeric(min, max);
     }
-
-
 }
