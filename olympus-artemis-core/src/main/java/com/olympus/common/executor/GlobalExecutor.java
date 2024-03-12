@@ -14,10 +14,10 @@ import java.util.concurrent.TimeUnit;
 public class GlobalExecutor {
 
     public static void submitDistroNotifyTask(List<Runnable> runnableTasks, long timeout) throws InterruptedException {
-        ThreadFactory factory = new ThreadFactoryBuilder().setNameFormat("GLOBAL_EXECUTOR".concat("-thread-%d")).build();
+        ThreadFactory threadFactory = new ThreadFactoryBuilder().setNameFormat("GLOBAL_EXECUTOR".concat("-thread-%d")).build();
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(availableProcessors, availableProcessors, 5L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingDeque<>(16), factory, new ThreadPoolExecutor.AbortPolicy());
+                new LinkedBlockingDeque<>(16), threadFactory, new ThreadPoolExecutor.AbortPolicy());
         try {
             runnableTasks.forEach(threadPoolExecutor::submit);
             threadPoolExecutor.shutdown();
@@ -27,7 +27,7 @@ public class GlobalExecutor {
                 threadPoolExecutor.shutdown();
             }
         } finally {
-            threadPoolExecutor.shutdownNow();
+            threadPoolExecutor.shutdown();
             Thread.currentThread().interrupt();
         }
     }

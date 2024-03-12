@@ -11,8 +11,6 @@ public interface WorkAction<T> {
 
     /**
      * 执行工作
-     *
-     * @param source
      */
     void execute(T source);
 }

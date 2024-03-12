@@ -74,7 +74,7 @@ public class TimeWindowSliding {
 
 
     public static void main(String[] args) throws InterruptedException {
-        //0.2秒一个时间片，窗口共5个
+        // 3秒1个通过
         TimeWindowSliding window = new TimeWindowSliding(TimeWindowSlidingDataSource.defaultDataSource(), 60, 3000, 1);
         int turetime = 0;
         for (int i = 0; i < 1000; i++) {

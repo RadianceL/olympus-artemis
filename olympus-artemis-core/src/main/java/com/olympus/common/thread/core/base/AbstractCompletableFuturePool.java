@@ -1,6 +1,7 @@
 package com.olympus.common.thread.core.base;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.Getter;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.concurrent.*;
  *
  * @author eddielee
  */
+@Getter
 public abstract class AbstractCompletableFuturePool<T> {
 
     /**
@@ -68,14 +70,11 @@ public abstract class AbstractCompletableFuturePool<T> {
      * 初始化线程池
      *
      * @param data 需要处理的数据
-     * @return
      */
     public abstract CompletableFuture<T> initCompletableFuture(T data);
 
     /**
      * 执行完毕后回调
-     *
-     * @param futures
      */
     public abstract void completableFuturesFinishCallback(CompletableFuture<T>[] futures, Throwable throwable);
 
@@ -95,16 +94,9 @@ public abstract class AbstractCompletableFuturePool<T> {
     /**
      * 关停线程池 注意关闭会等待线程执行完毕
      */
-    public void shutdown() {
-        try {
-            executorService.shutdown();
-            executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.MINUTES);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public boolean shutdown() throws InterruptedException {
+        executorService.shutdown();
+        return executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.MINUTES);
     }
 
-    public ExecutorService getExecutorService() {
-        return this.executorService;
-    }
 }
