@@ -7,10 +7,10 @@
     <groupId>com.olympus</groupId>
     <artifactId>olympus-artemis</artifactId>
     <packaging>pom</packaging>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 
     <properties>
-        <common-utils.version>1.2.1</common-utils.version>
+        <common-utils.version>1.2.2</common-utils.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -19,9 +19,9 @@
         <junit.version>4.13.2</junit.version>
         <lombok.version>1.18.30</lombok.version>
         <fastcsv.version>2.2.1</fastcsv.version>
-        <guava.version>32.1.2-jre</guava.version>
+        <guava.version>33.3.0-jre</guava.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <easyexcel.version>3.3.2</easyexcel.version>
+        <easyexcel.version>3.3.4</easyexcel.version>
         <httpclient.version>4.5.14</httpclient.version>
         <commons-io.version>2.14.0</commons-io.version>
         <commons-net.version>3.9.0</commons-net.version>
@@ -30,7 +30,7 @@
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <velocity-engine-core.version>2.3</velocity-engine-core.version>
         <spring-boot-cloud-getway.version>3.1.4</spring-boot-cloud-getway.version>
-        <spring-boot-dependencies.version>2.7.14</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>2.7.18</spring-boot-dependencies.version>
     </properties>
 
     <modules>
