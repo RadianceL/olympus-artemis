@@ -2,6 +2,7 @@ package com.olympus.base.utils.support.globalization.context;
 
 import com.olympus.base.utils.support.globalization.lang.Local;
 
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
 
@@ -21,6 +22,16 @@ public class GlobalizationLocalUtil {
      * 本地时间
      */
     private static final ThreadLocal<Local> TIME_LOCAL = new ThreadLocal<>();
+    /**
+     * 本地时间
+     */
+    private static final ThreadLocal<ZoneId> TIMEZONE = new ThreadLocal<>();
+
+    private static final ZoneId DEFAULT_USA_TIMEZONE = ZoneId.of("America/Chicago");
+
+    public static void setTimezone(String timezone) {
+        TIMEZONE.set(ZoneId.of(timezone));
+    }
 
     public static void setLocalLanguage(Local local) {
         LOCAL_LANGUAGE.set(local);
@@ -37,6 +48,12 @@ public class GlobalizationLocalUtil {
         return LOCAL_LANGUAGE.get();
     }
 
+    public static ZoneId getTimezone() {
+        if (Objects.isNull(TIMEZONE.get())) {
+            return DEFAULT_USA_TIMEZONE;
+        }
+        return TIMEZONE.get();
+    }
 
     public static Local getLocalTime() {
         if (Objects.isNull(TIME_LOCAL.get())) {
@@ -58,5 +75,6 @@ public class GlobalizationLocalUtil {
     public static void clear() {
         LOCAL_LANGUAGE.remove();
         TIME_LOCAL.remove();
+        TIMEZONE.remove();
     }
 }

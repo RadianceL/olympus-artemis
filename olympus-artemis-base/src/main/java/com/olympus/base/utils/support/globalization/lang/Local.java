@@ -36,22 +36,6 @@ public enum Local {
         }
     },
     /**
-     * 德国
-     */
-    DE(101L, "DE", Local.AREA_TYPE_COUNTRY){
-        @Override
-        public Date getCurrentLocalTime() {
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+1");
-            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
-        }
-
-        @Override
-        public String getCurrentTimeZone() {
-            return "GMT+1";
-        }
-    },
-    /**
      * 泰国
      */
     TH(102L, "TH", Local.AREA_TYPE_COUNTRY){
@@ -65,54 +49,6 @@ public enum Local {
         @Override
         public String getCurrentTimeZone() {
             return "GMT+7";
-        }
-    },
-    /**
-     * 越南
-     */
-    VI(103L, "VI", Local.AREA_TYPE_COUNTRY){
-        @Override
-        public Date getCurrentLocalTime() {
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+7");
-            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
-        }
-
-        @Override
-        public String getCurrentTimeZone() {
-            return "GMT+7";
-        }
-    },
-    /**
-     * 俄罗斯
-     */
-    RU(104L, "RU", Local.AREA_TYPE_COUNTRY){
-        @Override
-        public Date getCurrentLocalTime() {
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+3");
-            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
-        }
-
-        @Override
-        public String getCurrentTimeZone() {
-            return "GMT+3";
-        }
-    },
-    /**
-     * 法国
-     */
-    FR(105L, "FR", Local.AREA_TYPE_COUNTRY){
-        @Override
-        public Date getCurrentLocalTime() {
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT+1");
-            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
-        }
-
-        @Override
-        public String getCurrentTimeZone() {
-            return "GMT+1";
         }
     },
     /**
