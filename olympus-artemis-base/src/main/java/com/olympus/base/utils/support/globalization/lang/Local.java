@@ -58,13 +58,13 @@ public enum Local {
         @Override
         public Date getCurrentLocalTime() {
             LocalDateTime now = LocalDateTime.now();
-            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT-4");
+            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT");
             return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
         }
 
         @Override
         public String getCurrentTimeZone() {
-            return "GMT-4";
+            return "GMT";
         }
     },
     /**
