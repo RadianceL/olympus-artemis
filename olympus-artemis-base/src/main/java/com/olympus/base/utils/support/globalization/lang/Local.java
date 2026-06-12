@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
@@ -52,14 +53,19 @@ public enum Local {
         }
     },
     /**
-     * 美国
+     * 美国_东部
      */
-    EN(106L, "EN", Local.AREA_TYPE_COUNTRY){
+    EN_ET(106L, "EN", Local.AREA_TYPE_COUNTRY){
         @Override
         public Date getCurrentLocalTime() {
-            LocalDateTime now = LocalDateTime.now();
-            LocalDateTime localDateTime = changeTimeZone(now, "GMT+8", "GMT");
-            return Date.from(localDateTime.atZone(ZoneId.of("GMT+8")).toInstant());
+            // 1. 获取目标时区的规则 ID
+            ZoneId usZone = ZoneId.of("America/New_York");
+            // 2. 直接获取美国当地的“墙上时间” (例如美国此刻是 08:00，这里就是 08:00)
+            // 这一步 Java 会自动计算当前的夏令时规则！
+            LocalDateTime usLocalTime = LocalDateTime.now(usZone);
+            // 3. 将这个美国时间，伪装成本地(中国服务器)的时间，转成 Date 对象。
+            // 这样在中国服务器上打印或者存入没有时区概念的 DB 时，显示的数字才是美国的时钟数字。
+            return Date.from(usLocalTime.toInstant(ZoneOffset.UTC));
         }
 
         @Override
@@ -67,6 +73,74 @@ public enum Local {
             return "GMT";
         }
     },
+
+    /**
+     * 美国_中部
+     */
+    EN_CT(106L, "EN", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            // 1. 获取目标时区的规则 ID
+            ZoneId usZone = ZoneId.of("America/Chicago");
+            // 2. 直接获取美国当地的“墙上时间” (例如美国此刻是 08:00，这里就是 08:00)
+            // 这一步 Java 会自动计算当前的夏令时规则！
+            LocalDateTime usLocalTime = LocalDateTime.now(usZone);
+            System.out.println(usLocalTime);
+            // 3. 将这个美国时间，伪装成本地(中国服务器)的时间，转成 Date 对象。
+            // 这样在中国服务器上打印或者存入没有时区概念的 DB 时，显示的数字才是美国的时钟数字。
+            return Date.from(usLocalTime.toInstant(ZoneOffset.UTC));
+        }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT-4";
+        }
+    },
+
+    /**
+     * 美国_山部
+     */
+    EN_MT(106L, "EN", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            // 1. 获取目标时区的规则 ID
+            ZoneId usZone = ZoneId.of("America/Denver");
+            // 2. 直接获取美国当地的“墙上时间” (例如美国此刻是 08:00，这里就是 08:00)
+            // 这一步 Java 会自动计算当前的夏令时规则！
+            LocalDateTime usLocalTime = LocalDateTime.now(usZone);
+            // 3. 将这个美国时间，伪装成本地(中国服务器)的时间，转成 Date 对象。
+            // 这样在中国服务器上打印或者存入没有时区概念的 DB 时，显示的数字才是美国的时钟数字。
+            return Date.from(usLocalTime.toInstant(ZoneOffset.UTC));
+        }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT";
+        }
+    },
+
+    /**
+     * 美国_西部
+     */
+    EN_PT(106L, "EN", Local.AREA_TYPE_COUNTRY){
+        @Override
+        public Date getCurrentLocalTime() {
+            // 1. 获取目标时区的规则 ID
+            ZoneId usZone = ZoneId.of("America/Los_Angelesr");
+            // 2. 直接获取美国当地的“墙上时间” (例如美国此刻是 08:00，这里就是 08:00)
+            // 这一步 Java 会自动计算当前的夏令时规则！
+            LocalDateTime usLocalTime = LocalDateTime.now(usZone);
+            // 3. 将这个美国时间，伪装成本地(中国服务器)的时间，转成 Date 对象。
+            // 这样在中国服务器上打印或者存入没有时区概念的 DB 时，显示的数字才是美国的时钟数字。
+            return Date.from(usLocalTime.toInstant(ZoneOffset.UTC));
+        }
+
+        @Override
+        public String getCurrentTimeZone() {
+            return "GMT";
+        }
+    },
+
     /**
      * 日本
      */

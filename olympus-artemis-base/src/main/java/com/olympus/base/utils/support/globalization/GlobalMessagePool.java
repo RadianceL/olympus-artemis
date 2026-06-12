@@ -5,6 +5,7 @@ import com.olympus.base.utils.support.Constant;
 import com.olympus.base.utils.support.io.local.LocalFileUtil;
 import com.olympus.base.utils.support.io.local.PropertiesReadUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.utils.DateUtils;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.stereotype.Component;
 
@@ -114,7 +115,7 @@ public class GlobalMessagePool {
             }
         }else {
             String messagePattern = "unknown message";
-            Map<String, String> countryIsoMap = COUNTRY_ISO_MAP.get(Local.EN.getLocalName());
+            Map<String, String> countryIsoMap = COUNTRY_ISO_MAP.get(Local.EN_CT.getLocalName());
             if (Objects.nonNull(countryIsoMap)) {
                 messagePattern = countryIsoMap.get(messageCode);
                 if (StringUtils.isNotBlank(messagePattern)) {
@@ -142,7 +143,7 @@ public class GlobalMessagePool {
             }
         }else {
             String messagePattern = "unknown message";
-            Map<String, String> countryIsoMap = COUNTRY_ISO_MAP.get(Local.EN.getLocalName());
+            Map<String, String> countryIsoMap = COUNTRY_ISO_MAP.get(Local.EN_CT.getLocalName());
             if (Objects.nonNull(countryIsoMap)) {
                 messagePattern = countryIsoMap.get(messageCode);
                 if (StringUtils.isNotBlank(messagePattern)) {
@@ -153,5 +154,9 @@ public class GlobalMessagePool {
             }
             return messagePattern;
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(DateUtils.formatDate(Local.EN_CT.getCurrentLocalTime(), "yyyy-MM-dd HH:mm:ss"));
     }
 }

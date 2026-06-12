@@ -1,7 +1,6 @@
 package com.olympus.common.time;
 
 import com.olympus.base.utils.support.globalization.context.GlobalizationLocalUtil;
-import com.olympus.base.utils.support.globalization.lang.Local;
 import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
@@ -156,9 +155,5 @@ public class DataTimeUtils {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         return calendar.getTime();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(Local.EN.getCurrentLocalTime());
     }
 }
