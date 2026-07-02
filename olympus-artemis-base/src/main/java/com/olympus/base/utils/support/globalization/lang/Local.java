@@ -59,9 +59,9 @@ public enum Local {
         @Override
         public Date getCurrentLocalTime() {
             return Date.from(
-                    LocalDateTime.now(ZoneId.of("America/New_York"))  // 取芝加哥墙上钟点 04:16:59
-                            .atZone(ZoneId.of("Asia/Shanghai"))          // 把这个钟点"贴上"上海标签
-                            .toInstant());                               // → 2026-07-01 20:16:59Z
+                    LocalDateTime.now(ZoneId.of("America/New_York"))
+                            .atZone(ZoneId.of("Asia/Shanghai"))
+                            .toInstant());
         }
 
         @Override
@@ -77,9 +77,9 @@ public enum Local {
         @Override
         public Date getCurrentLocalTime() {
             return Date.from(
-                    LocalDateTime.now(ZoneId.of("America/Chicago"))  // 取芝加哥墙上钟点 04:16:59
-                            .atZone(ZoneId.of("Asia/Shanghai"))          // 把这个钟点"贴上"上海标签
-                            .toInstant());                               // → 2026-07-01 20:16:59Z
+                    LocalDateTime.now(ZoneId.of("America/Chicago"))
+                            .atZone(ZoneId.of("Asia/Shanghai"))
+                            .toInstant());
         }
 
         @Override
@@ -95,9 +95,9 @@ public enum Local {
         @Override
         public Date getCurrentLocalTime() {
             return Date.from(
-                    LocalDateTime.now(ZoneId.of("America/Denver"))  // 取芝加哥墙上钟点 04:16:59
-                            .atZone(ZoneId.of("Asia/Shanghai"))          // 把这个钟点"贴上"上海标签
-                            .toInstant());                               // → 2026-07-01 20:16:59Z
+                    LocalDateTime.now(ZoneId.of("America/Denver"))
+                            .atZone(ZoneId.of("Asia/Shanghai"))
+                            .toInstant());
         }
 
         @Override
@@ -113,9 +113,9 @@ public enum Local {
         @Override
         public Date getCurrentLocalTime() {
             return Date.from(
-                    LocalDateTime.now(ZoneId.of("America/Los_Angelesr"))  // 取芝加哥墙上钟点 04:16:59
-                            .atZone(ZoneId.of("Asia/Shanghai"))          // 把这个钟点"贴上"上海标签
-                            .toInstant());                               // → 2026-07-01 20:16:59Z
+                    LocalDateTime.now(ZoneId.of("America/Los_Angelesr"))
+                            .atZone(ZoneId.of("Asia/Shanghai"))
+                            .toInstant());
         }
 
         @Override
