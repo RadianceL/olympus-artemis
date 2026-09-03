@@ -42,6 +42,7 @@ public class GlobalizationAutoConfiguration implements ApplicationListener<Appli
         if (StringUtils.isNotBlank(globalDocumentSystemUrl)) {
             try {
                 globalDocumentSync(globalDocumentSystemUrl, "pass-saas-basics");
+                globalDocumentSync(globalDocumentSystemUrl, "application-module");
                 globalDocumentSync(globalDocumentSystemUrl, applicationName);
             } catch (Exception e) {
                 log.error("init global document message pool error", e);
@@ -70,6 +71,9 @@ public class GlobalizationAutoConfiguration implements ApplicationListener<Appli
             }
         }else {
             log.error("init global document message pool error, server result error : {}", result);
+            if ("application-module".equalsIgnoreCase(applicationName)) {
+                return;
+            }
             throw new RuntimeException("init global document message pool error, server result error : " + result);
         }
     }
